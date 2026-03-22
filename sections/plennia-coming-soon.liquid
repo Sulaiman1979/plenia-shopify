@@ -1,0 +1,819 @@
+{% liquid
+  assign default_locale = section.settings.default_locale | default: 'es'
+  assign fetch_priority = 'auto'
+
+  if section.index == 1
+    assign fetch_priority = 'high'
+  endif
+
+  assign mobile_background = section.settings.background_gif_mobile
+  if mobile_background == blank
+    assign mobile_background = section.settings.background_gif_desktop
+  endif
+%}
+
+<section
+  class="plennia-coming-soon color-{{ section.settings.color_scheme }}"
+  data-section-id="{{ section.id }}"
+  data-default-locale="{{ default_locale }}"
+>
+  <div class="plennia-coming-soon__background">
+    {% if section.settings.background_gif_desktop != blank %}
+      {{
+        section.settings.background_gif_desktop
+        | image_url: width: 2400
+        | image_tag:
+          widths: '1200, 1600, 2000, 2400',
+          sizes: '100vw',
+          class: 'plennia-coming-soon__bg-image plennia-coming-soon__bg-image--desktop',
+          alt: section.settings.logo_text,
+          loading: 'eager',
+          fetchpriority: fetch_priority
+      }}
+    {% endif %}
+
+    {% if mobile_background != blank %}
+      {{
+        mobile_background
+        | image_url: width: 1400
+        | image_tag:
+          widths: '640, 960, 1200, 1400',
+          sizes: '100vw',
+          class: 'plennia-coming-soon__bg-image plennia-coming-soon__bg-image--mobile',
+          alt: section.settings.logo_text,
+          loading: 'eager',
+          fetchpriority: fetch_priority
+      }}
+    {% endif %}
+
+    <div class="plennia-coming-soon__backdrop"></div>
+  </div>
+
+  <div class="plennia-coming-soon__shell">
+    <header class="plennia-coming-soon__header">
+      <a
+        class="plennia-coming-soon__brand"
+        href="{{ routes.root_url }}"
+        aria-label="{{ section.settings.logo_text | escape }}"
+      >
+        {% if section.settings.logo_image != blank %}
+          {{
+            section.settings.logo_image
+            | image_url: width: 600
+            | image_tag:
+              widths: '160, 240, 320, 480, 600',
+              sizes: '(max-width: 749px) 120px, 180px',
+              class: 'plennia-coming-soon__logo-image',
+              alt: section.settings.logo_text
+          }}
+        {% else %}
+          <span class="plennia-coming-soon__logo-text">{{ section.settings.logo_text }}</span>
+        {% endif %}
+      </a>
+
+      <div
+        class="plennia-coming-soon__locale-switcher"
+        role="group"
+        aria-label="Language switcher"
+      >
+        <button
+          type="button"
+          class="plennia-coming-soon__locale-button"
+          data-locale-button="es"
+          aria-pressed="false"
+        >
+          ES
+        </button>
+        <button
+          type="button"
+          class="plennia-coming-soon__locale-button"
+          data-locale-button="en"
+          aria-pressed="false"
+        >
+          EN
+        </button>
+      </div>
+    </header>
+
+    <main class="plennia-coming-soon__main">
+      <div class="plennia-coming-soon__content">
+        <p
+          class="plennia-coming-soon__kicker"
+          data-i18n-key="kicker"
+        >
+          {{ section.settings.kicker_es }}
+        </p>
+
+        <h1
+          class="plennia-coming-soon__heading"
+          data-i18n-key="heading"
+        >
+          {{ section.settings.heading_es | newline_to_br }}
+        </h1>
+
+        <div
+          class="plennia-coming-soon__body"
+          data-i18n-key="body"
+        >
+          {{ section.settings.body_es | newline_to_br }}
+        </div>
+
+        <div class="plennia-coming-soon__signup">
+          {% assign form_id = 'contact_form' %}
+          {%- form 'contact', id: form_id, class: 'plennia-coming-soon__form' -%}
+            <input
+              type="hidden"
+              name="contact[body]"
+              value="{{ section.settings.body_note_es }}"
+              data-plennia-body-note
+            >
+
+            <label
+              class="visually-hidden"
+              for="PlenniaEmail-{{ section.id }}"
+              data-i18n-key="emailLabel"
+            >
+              {{ section.settings.email_label_es }}
+            </label>
+
+            <div class="plennia-coming-soon__form-row">
+              <input
+                id="PlenniaEmail-{{ section.id }}"
+                class="plennia-coming-soon__input"
+                type="email"
+                name="contact[email]"
+                value="{% if form.email %}{{ form.email }}{% elsif customer %}{{ customer.email }}{% endif %}"
+                placeholder="{{ section.settings.email_placeholder_es }}"
+                spellcheck="false"
+                autocapitalize="off"
+                autocomplete="email"
+                aria-required="true"
+                required
+                data-i18n-placeholder="emailPlaceholder"
+              >
+
+              <button
+                class="plennia-coming-soon__submit"
+                type="submit"
+                data-i18n-key="submitLabel"
+              >
+                {{ section.settings.submit_label_es }}
+              </button>
+            </div>
+
+            {%- if form.posted_successfully? -%}
+              <p
+                class="plennia-coming-soon__message plennia-coming-soon__message--success"
+                tabindex="-1"
+                autofocus
+                data-i18n-key="success"
+              >
+                {{ section.settings.success_message_es }}
+              </p>
+            {%- endif -%}
+
+            {%- if form.errors -%}
+              <p
+                class="plennia-coming-soon__message plennia-coming-soon__message--error"
+                tabindex="-1"
+                autofocus
+                data-i18n-key="error"
+              >
+                {{ section.settings.error_message_es }}
+              </p>
+            {%- endif -%}
+          {%- endform -%}
+
+          <p
+            class="plennia-coming-soon__footer-note"
+            data-i18n-key="footer"
+          >
+            {{ section.settings.footer_note_es }}
+          </p>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script
+    type="application/json"
+    data-plennia-translations
+  >
+    {
+      "es": {
+        "metaTitle": {{ section.settings.meta_title_es | json }},
+        "metaDescription": {{ section.settings.meta_description_es | json }},
+        "kicker": {{ section.settings.kicker_es | json }},
+        "heading": {{ section.settings.heading_es | json }},
+        "body": {{ section.settings.body_es | json }},
+        "emailLabel": {{ section.settings.email_label_es | json }},
+        "emailPlaceholder": {{ section.settings.email_placeholder_es | json }},
+        "submitLabel": {{ section.settings.submit_label_es | json }},
+        "success": {{ section.settings.success_message_es | json }},
+        "error": {{ section.settings.error_message_es | json }},
+        "footer": {{ section.settings.footer_note_es | json }},
+        "bodyNote": {{ section.settings.body_note_es | json }}
+      },
+      "en": {
+        "metaTitle": {{ section.settings.meta_title_en | json }},
+        "metaDescription": {{ section.settings.meta_description_en | json }},
+        "kicker": {{ section.settings.kicker_en | json }},
+        "heading": {{ section.settings.heading_en | json }},
+        "body": {{ section.settings.body_en | json }},
+        "emailLabel": {{ section.settings.email_label_en | json }},
+        "emailPlaceholder": {{ section.settings.email_placeholder_en | json }},
+        "submitLabel": {{ section.settings.submit_label_en | json }},
+        "success": {{ section.settings.success_message_en | json }},
+        "error": {{ section.settings.error_message_en | json }},
+        "footer": {{ section.settings.footer_note_en | json }},
+        "bodyNote": {{ section.settings.body_note_en | json }}
+      }
+    }
+  </script>
+</section>
+
+{% stylesheet %}
+  .plennia-coming-soon {
+    --plennia-shell-padding: clamp(1.25rem, 3vw, 2.5rem);
+    --plennia-content-width: min(42rem, 100%);
+    --plennia-panel-background: rgb(10 16 17 / 0.38);
+    --plennia-panel-border: rgb(255 255 255 / 0.18);
+    --plennia-panel-shadow: 0 1.25rem 5rem rgb(0 0 0 / 0.25);
+    --plennia-backdrop-start: rgb(5 9 10 / 0.3);
+    --plennia-backdrop-end: rgb(5 9 10 / 0.78);
+
+    position: relative;
+    min-height: 100svh;
+    overflow: clip;
+    isolation: isolate;
+  }
+
+  .plennia-coming-soon__background,
+  .plennia-coming-soon__backdrop {
+    position: absolute;
+    inset: 0;
+  }
+
+  .plennia-coming-soon__bg-image {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .plennia-coming-soon__bg-image--mobile {
+    display: none;
+  }
+
+  .plennia-coming-soon__backdrop {
+    background:
+      radial-gradient(circle at top, rgb(255 255 255 / 0.14), transparent 35%),
+      linear-gradient(180deg, var(--plennia-backdrop-start), var(--plennia-backdrop-end));
+  }
+
+  .plennia-coming-soon__shell {
+    position: relative;
+    z-index: 1;
+    min-height: 100svh;
+    display: flex;
+    flex-direction: column;
+    padding: var(--plennia-shell-padding);
+  }
+
+  .plennia-coming-soon__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+
+  .plennia-coming-soon__brand {
+    display: inline-flex;
+    align-items: center;
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .plennia-coming-soon__logo-image {
+    width: min(11.25rem, 42vw);
+    height: auto;
+  }
+
+  .plennia-coming-soon__logo-text {
+    font-size: clamp(1.15rem, 1rem + 0.8vw, 1.75rem);
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+  }
+
+  .plennia-coming-soon__locale-switcher {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.3rem;
+    border: 1px solid rgb(255 255 255 / 0.16);
+    border-radius: 999px;
+    background: rgb(0 0 0 / 0.22);
+    backdrop-filter: blur(16px);
+  }
+
+  .plennia-coming-soon__locale-button {
+    appearance: none;
+    border: 0;
+    border-radius: 999px;
+    background: transparent;
+    color: rgb(255 255 255 / 0.72);
+    cursor: pointer;
+    font: inherit;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    padding: 0.6rem 0.9rem;
+    text-transform: uppercase;
+    transition:
+      background-color 160ms ease,
+      color 160ms ease,
+      transform 160ms ease;
+  }
+
+  .plennia-coming-soon__locale-button[aria-pressed='true'] {
+    background: rgb(255 255 255 / 0.96);
+    color: rgb(9 15 17);
+    transform: translateY(-1px);
+  }
+
+  .plennia-coming-soon__main {
+    flex: 1;
+    display: grid;
+    place-items: center;
+    padding-block: clamp(2rem, 8vw, 5rem);
+  }
+
+  .plennia-coming-soon__content {
+    width: var(--plennia-content-width);
+    padding: clamp(1.5rem, 4vw, 3rem);
+    border: 1px solid var(--plennia-panel-border);
+    border-radius: 2rem;
+    background:
+      linear-gradient(180deg, rgb(255 255 255 / 0.14), rgb(255 255 255 / 0.04)),
+      var(--plennia-panel-background);
+    box-shadow: var(--plennia-panel-shadow);
+    backdrop-filter: blur(24px);
+  }
+
+  .plennia-coming-soon__kicker {
+    margin: 0 0 1rem;
+    color: rgb(255 255 255 / 0.72);
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+  }
+
+  .plennia-coming-soon__heading {
+    margin: 0;
+    color: rgb(255 255 255);
+    font-size: clamp(2.75rem, 8vw, 5.5rem);
+    line-height: 0.92;
+    letter-spacing: -0.05em;
+    text-wrap: balance;
+  }
+
+  .plennia-coming-soon__body,
+  .plennia-coming-soon__footer-note,
+  .plennia-coming-soon__message {
+    color: rgb(255 255 255 / 0.82);
+  }
+
+  .plennia-coming-soon__body {
+    max-width: 36rem;
+    margin: 1.25rem 0 0;
+    font-size: clamp(1rem, 0.92rem + 0.3vw, 1.125rem);
+    line-height: 1.6;
+    text-wrap: pretty;
+  }
+
+  .plennia-coming-soon__signup {
+    margin-top: clamp(1.75rem, 4vw, 2.5rem);
+  }
+
+  .plennia-coming-soon__form {
+    margin: 0;
+  }
+
+  .plennia-coming-soon__form-row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 0.75rem;
+    align-items: center;
+  }
+
+  .plennia-coming-soon__input {
+    width: 100%;
+    min-height: 3.75rem;
+    padding: 0 1.2rem;
+    border: 1px solid rgb(255 255 255 / 0.22);
+    border-radius: 999px;
+    background: rgb(255 255 255 / 0.12);
+    color: rgb(255 255 255);
+    font: inherit;
+  }
+
+  .plennia-coming-soon__input::placeholder {
+    color: rgb(255 255 255 / 0.56);
+  }
+
+  .plennia-coming-soon__input:focus-visible {
+    outline: 2px solid rgb(255 255 255 / 0.84);
+    outline-offset: 2px;
+  }
+
+  .plennia-coming-soon__submit {
+    min-height: 3.75rem;
+    padding: 0 1.4rem;
+    border: 0;
+    border-radius: 999px;
+    background: rgb(239 241 234);
+    color: rgb(7 14 15);
+    cursor: pointer;
+    font: inherit;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    transition:
+      transform 160ms ease,
+      box-shadow 160ms ease,
+      background-color 160ms ease;
+  }
+
+  .plennia-coming-soon__submit:hover,
+  .plennia-coming-soon__submit:focus-visible {
+    background: rgb(255 255 255);
+    box-shadow: 0 0.75rem 2rem rgb(0 0 0 / 0.2);
+    transform: translateY(-1px);
+  }
+
+  .plennia-coming-soon__message {
+    margin: 0.9rem 0 0;
+    font-size: 0.95rem;
+  }
+
+  .plennia-coming-soon__message--success {
+    color: rgb(214 255 234);
+  }
+
+  .plennia-coming-soon__message--error {
+    color: rgb(255 224 220);
+  }
+
+  .plennia-coming-soon__footer-note {
+    margin: 1rem 0 0;
+    font-size: 0.9rem;
+    line-height: 1.5;
+  }
+
+  @media screen and (max-width: 749px) {
+    .plennia-coming-soon__bg-image--desktop {
+      display: none;
+    }
+
+    .plennia-coming-soon__bg-image--mobile {
+      display: block;
+    }
+
+    .plennia-coming-soon__header {
+      align-items: flex-start;
+      flex-direction: column;
+    }
+
+    .plennia-coming-soon__content {
+      border-radius: 1.5rem;
+    }
+
+    .plennia-coming-soon__form-row {
+      grid-template-columns: 1fr;
+    }
+
+    .plennia-coming-soon__submit {
+      width: 100%;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .plennia-coming-soon__locale-button,
+    .plennia-coming-soon__submit {
+      transition: none;
+    }
+  }
+{% endstylesheet %}
+
+{% javascript %}
+  (() => {
+    const script = document.currentScript;
+    const section = script ? script.closest('.plennia-coming-soon') : null;
+    if (!section) return;
+
+    const translationsElement = section.querySelector('[data-plennia-translations]');
+    if (!translationsElement) return;
+
+    let translations;
+
+    try {
+      translations = JSON.parse(translationsElement.textContent);
+    } catch (error) {
+      return;
+    }
+
+    const storageKey = 'plennia-coming-soon-locale';
+    const buttons = section.querySelectorAll('[data-locale-button]');
+    const textTargets = section.querySelectorAll('[data-i18n-key]');
+    const placeholderTargets = section.querySelectorAll('[data-i18n-placeholder]');
+    const bodyNoteInput = section.querySelector('[data-plennia-body-note]');
+    const defaultLocale = section.dataset.defaultLocale === 'en' ? 'en' : 'es';
+
+    const setMetaDescription = (value) => {
+      let meta = document.querySelector('meta[name="description"]');
+
+      if (!meta) {
+        meta = document.createElement('meta');
+        meta.name = 'description';
+        document.head.appendChild(meta);
+      }
+
+      meta.setAttribute('content', value || '');
+    };
+
+    const applyLocale = (locale) => {
+      const copy = translations[locale] || translations[defaultLocale];
+      if (!copy) return;
+
+      textTargets.forEach((element) => {
+        const key = element.dataset.i18nKey;
+        if (!key || copy[key] == null) return;
+
+        if (key === 'heading' || key === 'body') {
+          element.innerHTML = String(copy[key]).replace(/\n/g, '<br>');
+        } else {
+          element.textContent = copy[key];
+        }
+      });
+
+      placeholderTargets.forEach((element) => {
+        const key = element.dataset.i18nPlaceholder;
+        if (!key || copy[key] == null) return;
+
+        element.setAttribute('placeholder', copy[key]);
+      });
+
+      if (bodyNoteInput && copy.bodyNote) {
+        bodyNoteInput.value = copy.bodyNote;
+      }
+
+      document.title = copy.metaTitle || document.title;
+      setMetaDescription(copy.metaDescription || '');
+      document.documentElement.lang = locale;
+
+      buttons.forEach((button) => {
+        button.setAttribute('aria-pressed', String(button.dataset.localeButton === locale));
+      });
+
+      try {
+        window.localStorage.setItem(storageKey, locale);
+      } catch (error) {
+        /* no-op */
+      }
+    };
+
+    let initialLocale = defaultLocale;
+
+    try {
+      const storedLocale = window.localStorage.getItem(storageKey);
+      if (storedLocale === 'es' || storedLocale === 'en') {
+        initialLocale = storedLocale;
+      }
+    } catch (error) {
+      /* no-op */
+    }
+
+    buttons.forEach((button) => {
+      button.addEventListener('click', () => {
+        const locale = button.dataset.localeButton;
+        if (locale === 'es' || locale === 'en') {
+          applyLocale(locale);
+        }
+      });
+    });
+
+    applyLocale(initialLocale);
+  })();
+{% endjavascript %}
+
+{% schema %}
+{
+  "name": "Plennia coming soon",
+  "tag": "section",
+  "class": "section-wrapper section-wrapper--plennia-coming-soon",
+  "settings": [
+    {
+      "type": "text",
+      "id": "logo_text",
+      "label": "Logo text",
+      "default": "Plennia"
+    },
+    {
+      "type": "image_picker",
+      "id": "logo_image",
+      "label": "Logo image"
+    },
+    {
+      "type": "select",
+      "id": "default_locale",
+      "label": "Default locale",
+      "options": [
+        {
+          "value": "es",
+          "label": "Spanish"
+        },
+        {
+          "value": "en",
+          "label": "English"
+        }
+      ],
+      "default": "es"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-6"
+    },
+    {
+      "type": "image_picker",
+      "id": "background_gif_desktop",
+      "label": "Background GIF or image"
+    },
+    {
+      "type": "image_picker",
+      "id": "background_gif_mobile",
+      "label": "Mobile background GIF or image"
+    },
+    {
+      "type": "header",
+      "content": "Spanish copy"
+    },
+    {
+      "type": "text",
+      "id": "meta_title_es",
+      "label": "Meta title",
+      "default": "Plennia llega pronto"
+    },
+    {
+      "type": "textarea",
+      "id": "meta_description_es",
+      "label": "Meta description",
+      "default": "Suscribete para enterarte antes que nadie cuando Plennia abra oficialmente."
+    },
+    {
+      "type": "text",
+      "id": "kicker_es",
+      "label": "Kicker",
+      "default": "Muy pronto"
+    },
+    {
+      "type": "textarea",
+      "id": "heading_es",
+      "label": "Heading",
+      "default": "Una nueva forma de descubrir\nPlennia"
+    },
+    {
+      "type": "textarea",
+      "id": "body_es",
+      "label": "Body copy",
+      "default": "Estamos construyendo una experiencia de compra mas cuidada, sensorial y exclusiva. Dejanos tu email y te avisamos apenas abramos."
+    },
+    {
+      "type": "text",
+      "id": "email_label_es",
+      "label": "Email label",
+      "default": "Correo electronico"
+    },
+    {
+      "type": "text",
+      "id": "email_placeholder_es",
+      "label": "Email placeholder",
+      "default": "Tu correo electronico"
+    },
+    {
+      "type": "text",
+      "id": "submit_label_es",
+      "label": "Submit label",
+      "default": "Avisame"
+    },
+    {
+      "type": "text",
+      "id": "success_message_es",
+      "label": "Success message",
+      "default": "Gracias. Te avisaremos cuando Plennia este lista."
+    },
+    {
+      "type": "text",
+      "id": "error_message_es",
+      "label": "Error message",
+      "default": "Ingresa un correo valido para unirte a la lista."
+    },
+    {
+      "type": "textarea",
+      "id": "footer_note_es",
+      "label": "Footer note",
+      "default": "Sin spam. Solo novedades de lanzamiento, acceso anticipado y noticias importantes."
+    },
+    {
+      "type": "text",
+      "id": "body_note_es",
+      "label": "Hidden form note",
+      "default": "Registro coming soon (ES)"
+    },
+    {
+      "type": "header",
+      "content": "English copy"
+    },
+    {
+      "type": "text",
+      "id": "meta_title_en",
+      "label": "Meta title",
+      "default": "Plennia is coming soon"
+    },
+    {
+      "type": "textarea",
+      "id": "meta_description_en",
+      "label": "Meta description",
+      "default": "Join the list to hear first when Plennia officially launches."
+    },
+    {
+      "type": "text",
+      "id": "kicker_en",
+      "label": "Kicker",
+      "default": "Coming soon"
+    },
+    {
+      "type": "textarea",
+      "id": "heading_en",
+      "label": "Heading",
+      "default": "A new way to discover\nPlennia"
+    },
+    {
+      "type": "textarea",
+      "id": "body_en",
+      "label": "Body copy",
+      "default": "We are building a more refined, sensory and exclusive storefront. Leave your email and we will let you know the moment we open."
+    },
+    {
+      "type": "text",
+      "id": "email_label_en",
+      "label": "Email label",
+      "default": "Email address"
+    },
+    {
+      "type": "text",
+      "id": "email_placeholder_en",
+      "label": "Email placeholder",
+      "default": "Your email address"
+    },
+    {
+      "type": "text",
+      "id": "submit_label_en",
+      "label": "Submit label",
+      "default": "Notify me"
+    },
+    {
+      "type": "text",
+      "id": "success_message_en",
+      "label": "Success message",
+      "default": "Thanks. We will email you when Plennia is ready."
+    },
+    {
+      "type": "text",
+      "id": "error_message_en",
+      "label": "Error message",
+      "default": "Enter a valid email address to join the list."
+    },
+    {
+      "type": "textarea",
+      "id": "footer_note_en",
+      "label": "Footer note",
+      "default": "No spam. Only launch updates, early access and important news."
+    },
+    {
+      "type": "text",
+      "id": "body_note_en",
+      "label": "Hidden form note",
+      "default": "Coming soon signup (EN)"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Plennia coming soon"
+    }
+  ]
+}
+{% endschema %}

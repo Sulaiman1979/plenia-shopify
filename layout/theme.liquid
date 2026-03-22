@@ -1,4 +1,12 @@
 <!doctype html>
+{% liquid
+  assign hide_theme_chrome = false
+  if template.name == 'index'
+    assign hide_theme_chrome = true
+  elsif template.name == 'page' and template.suffix == 'plennia-coming-soon'
+    assign hide_theme_chrome = true
+  endif
+%}
 <html
   {% if request.design_mode %}
     class="shopify-design-mode"
@@ -40,9 +48,11 @@
 
   <body class="page-width-{{ settings.page_width }} card-hover-effect-{{ settings.card_hover_effect }}">
     {% render 'skip-to-content-link', href: '#MainContent', text: 'accessibility.skip_to_text' %}
-    <div id="header-group">
-      {% sections 'header-group' %}
-    </div>
+    {% unless hide_theme_chrome %}
+      <div id="header-group">
+        {% sections 'header-group' %}
+      </div>
+    {% endunless %}
 
     <script>
       // Inline header height and menu style calculations to prevent layout shift
@@ -123,14 +133,16 @@
       {{ content_for_layout }}
     </main>
 
-    <footer>
-      {% sections 'footer-group' %}
-    </footer>
+    {% unless hide_theme_chrome %}
+      <footer>
+        {% sections 'footer-group' %}
+      </footer>
 
-    {% render 'search-modal' %}
+      {% render 'search-modal' %}
 
-    {% if settings.quick_add or settings.mobile_quick_add %}
-      {% render 'quick-add-modal' %}
-    {% endif %}
+      {% if settings.quick_add or settings.mobile_quick_add %}
+        {% render 'quick-add-modal' %}
+      {% endif %}
+    {% endunless %}
   </body>
 </html>
