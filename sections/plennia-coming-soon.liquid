@@ -353,12 +353,17 @@
   .plennia-coming-soon {
     --plennia-background: #f6f1e8;
     --plennia-surface: #fcfaf6;
-    --plennia-text: #1f1a16;
-    --plennia-muted: #746c63;
-    --plennia-border: #d9d1c7;
-    --plennia-border-strong: #26211d;
-    --plennia-button-bg: #221d19;
-    --plennia-button-hover: #15110e;
+    --plennia-text: #2b241f;
+    --plennia-text-soft: #3a312b;
+    --plennia-muted: #7b7268;
+    --plennia-border: #ddd5cb;
+    --plennia-border-strong: #b9aea2;
+    --plennia-border-focus: #a59688;
+    --plennia-control-surface: #f1ebe2;
+    --plennia-control-active: #e3dbcf;
+    --plennia-control-hover: #f6f1e8;
+    --plennia-button-bg: #2c241e;
+    --plennia-button-hover: #241d18;
     --plennia-button-text: #f8f3eb;
     --plennia-success: #2f5c45;
     --plennia-error: #8a3e32;
@@ -544,11 +549,11 @@
   }
 
   .plennia-coming-soon__label {
-    color: var(--plennia-text);
+    color: var(--plennia-muted);
     font-family: var(--font-body--family);
-    font-size: 0.68rem;
-    font-weight: 600;
-    letter-spacing: 0.18em;
+    font-size: 0.66rem;
+    font-weight: 500;
+    letter-spacing: 0.22em;
     text-transform: uppercase;
   }
 
@@ -556,6 +561,10 @@
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 0.65rem;
+    border: 1px solid var(--plennia-border);
+    border-radius: 8px;
+    background: var(--plennia-control-surface);
+    box-shadow: none;
   }
 
   .plennia-coming-soon__method-button,
@@ -566,58 +575,82 @@
 
   .plennia-coming-soon__method-button {
     appearance: none;
-    border: 1px solid var(--plennia-border);
+    border: 1px solid transparent;
+    border-radius: 6px;
     background: rgb(252 250 246 / 0.55);
     color: var(--plennia-muted);
     cursor: pointer;
     font-family: var(--font-body--family);
-    font-size: 0.74rem;
+    font-size: 0.73rem;
     font-weight: 600;
-    letter-spacing: 0.12em;
+    letter-spacing: 0.14em;
     padding: 0.95rem 1rem;
     text-transform: uppercase;
     transition:
-      border-color 160ms ease,
-      color 160ms ease,
-      background-color 160ms ease;
+      border-color 150ms ease-in-out,
+      color 150ms ease-in-out,
+      background-color 150ms ease-in-out,
+      transform 150ms ease-in-out;
   }
 
   .plennia-coming-soon__method-button[aria-pressed='true'] {
     border-color: var(--plennia-border-strong);
-    background: var(--plennia-surface);
-    box-shadow: inset 0 0 0 1px var(--plennia-border-strong);
+    background: var(--plennia-control-active);
+    box-shadow: none;
     color: var(--plennia-text);
+  }
+
+  .plennia-coming-soon__method-button[aria-pressed='false'] {
+    background: transparent;
+    color: var(--plennia-muted);
+  }
+
+  .plennia-coming-soon__method-button:hover {
+    background: var(--plennia-control-hover);
+  }
+
+  .plennia-coming-soon__method-button[aria-pressed='true']:hover {
+    background: var(--plennia-control-active);
+  }
+
+  .plennia-coming-soon__method-button:active {
+    transform: scale(0.98);
   }
 
   .plennia-coming-soon__input {
     width: 100%;
     border: 1px solid var(--plennia-border);
-    border-radius: 0;
+    border-radius: 8px;
     background: rgb(252 250 246 / 0.52);
-    color: var(--plennia-text);
+    color: var(--plennia-text-soft);
     font-family: var(--font-body--family);
     font-size: 0.95rem;
+    font-weight: 400;
     line-height: 1.45;
     padding: 0.95rem 1rem;
     transition:
-      border-color 160ms ease,
-      background-color 160ms ease;
+      border-color 150ms ease-in-out,
+      background-color 150ms ease-in-out;
   }
 
   .plennia-coming-soon__input:focus-visible {
+    border-color: var(--plennia-border-focus);
     background: var(--plennia-surface);
   }
 
   .plennia-coming-soon__input::placeholder {
-    color: rgb(116 108 99 / 0.8);
+    color: rgb(123 114 104 / 0.82);
   }
 
-  .plennia-coming-soon__input:focus-visible,
   .plennia-coming-soon__method-button:focus-visible,
   .plennia-coming-soon__locale-button:focus-visible,
   .plennia-coming-soon__submit:focus-visible {
-    outline: 2px solid var(--plennia-border-strong);
-    outline-offset: 2px;
+    outline: 1px solid var(--plennia-border-focus);
+    outline-offset: 1px;
+  }
+
+  .plennia-coming-soon__input:focus-visible {
+    outline: none;
   }
 
   .plennia-coming-soon__checkbox {
@@ -658,7 +691,8 @@
   .plennia-coming-soon__checkbox-text {
     color: var(--plennia-muted);
     font-family: var(--font-body--family);
-    font-size: 0.91rem;
+    font-size: 0.9rem;
+    font-weight: 400;
     line-height: 1.65;
   }
 
@@ -666,21 +700,21 @@
     appearance: none;
     width: 100%;
     border: 1px solid var(--plennia-button-bg);
-    border-radius: 0;
+    border-radius: 8px;
     background: var(--plennia-button-bg);
     color: var(--plennia-button-text);
     cursor: pointer;
     font-family: var(--font-body--family);
     font-size: 0.78rem;
-    font-weight: 600;
-    letter-spacing: 0.2em;
+    font-weight: 500;
+    letter-spacing: 0.22em;
     padding: 1rem 1.25rem;
     text-transform: uppercase;
     transition:
-      background-color 160ms ease,
-      border-color 160ms ease,
-      transform 120ms ease,
-      opacity 160ms ease;
+      background-color 150ms ease-in-out,
+      border-color 150ms ease-in-out,
+      transform 150ms ease-in-out,
+      opacity 150ms ease-in-out;
   }
 
   .plennia-coming-soon__submit:hover {
@@ -702,6 +736,7 @@
     color: var(--plennia-error);
     font-family: var(--font-body--family);
     font-size: 0.82rem;
+    font-weight: 400;
     line-height: 1.55;
   }
 
