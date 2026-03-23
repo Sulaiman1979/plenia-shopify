@@ -30,6 +30,8 @@
         notifyByLabel: 'NOTIFICARME POR *',
         consentPhoneSms: 'Notifícame por SMS',
         consentPhoneWhatsapp: 'Notifícame por WhatsApp',
+        successTitle: 'Estas en la lista',
+        successBody: 'Estamos deseando que formes parte de nuestra comunidad.',
         validation: {
           phoneUnavailable:
             'La inscripcion por SMS o WhatsApp requiere una integracion adicional de Shopify. Usa correo electronico por ahora.',
@@ -40,11 +42,18 @@
         notifyByLabel: 'NOTIFY ME BY *',
         consentPhoneSms: 'Notify me by SMS',
         consentPhoneWhatsapp: 'Notify me by WhatsApp',
+        successTitle: "You're on the list",
+        successBody: "We can't wait for you to be part of our community.",
         validation: {
           phoneUnavailable:
             'SMS or WhatsApp waitlist signup needs an additional Shopify app or backend. Please use email for now.',
         },
       },
+    };
+
+    const legacySuccessBody = {
+      es: 'Te avisaremos cuando lancemos.',
+      en: "We'll let you know when we launch.",
     };
 
     copy = ['es', 'en'].reduce((accumulator, locale) => {
@@ -58,6 +67,10 @@
           ...(localeCopy.validation || {}),
         },
       };
+
+      if (!localeCopy.successBody || localeCopy.successBody === legacySuccessBody[locale]) {
+        accumulator[locale].successBody = fallbackCopy[locale].successBody;
+      }
 
       return accumulator;
     }, {});
@@ -319,7 +332,7 @@
         if (!element) return;
 
         element.textContent = '';
-        element.hidden = true;
+        setHidden(element, true);
       });
     };
 
@@ -327,7 +340,15 @@
       if (!element) return;
 
       element.textContent = message;
-      element.hidden = false;
+      setHidden(element, false);
+    };
+
+    const setHidden = (element, hidden) => {
+      if (!element) return;
+
+      element.hidden = hidden;
+      element.style.display = hidden ? 'none' : '';
+      element.setAttribute('aria-hidden', String(hidden));
     };
 
     const syncLocaleUrl = () => {
@@ -366,18 +387,18 @@
       }
 
       if (countryCodeWrap) {
-        countryCodeWrap.hidden = !isPhone;
+        setHidden(countryCodeWrap, !isPhone);
       }
 
       if (countryCodeSelect) {
-        countryCodeSelect.disabled = !isPhone;
+        countryCodeSelect.disabled = !isPhone || state.submitted;
         if (localeCopy.countryCodeLabel) {
           countryCodeSelect.setAttribute('aria-label', localeCopy.countryCodeLabel);
         }
       }
 
       if (phoneChannelGroup) {
-        phoneChannelGroup.hidden = !isPhone;
+        setHidden(phoneChannelGroup, !isPhone);
       }
 
       if (consentText) {
@@ -395,6 +416,8 @@
 
       phoneChannelButtons.forEach((button) => {
         button.setAttribute('aria-pressed', String(button.dataset.phoneChannelButton === state.phoneChannel));
+        button.disabled = !isPhone || state.submitted;
+        button.tabIndex = !isPhone || state.submitted ? -1 : 0;
       });
     };
 
@@ -508,9 +531,10 @@
     const markSuccess = () => {
       state.submitted = true;
       setPending(false);
+      clearErrors();
 
       if (successState) {
-        successState.hidden = false;
+        setHidden(successState, false);
       }
 
       [nameInput, contactInput, consentInput].forEach((element) => {
@@ -532,8 +556,19 @@
       submitButton.disabled = true;
 
       if (statusLive) {
-        statusLive.textContent = `${currentCopy().successTitle}. ${currentCopy().successBody}`;
+        statusLive.textContent = [currentCopy().successTitle, currentCopy().successBody].filter(Boolean).join('. ');
       }
+    };
+
+    const hasSubmissionErrors = (documentResponse) => {
+      if (!documentResponse) return false;
+
+      return Boolean(
+        documentResponse.querySelector('[data-customer-transport-state][data-state="error"]') ||
+          documentResponse.querySelector('.errors') ||
+          documentResponse.querySelector('.form-status-list') ||
+          documentResponse.querySelector('[aria-invalid="true"]')
+      );
     };
 
     const submitCustomerForm = async () => {
@@ -546,6 +581,10 @@
         },
       });
 
+      if (!response.ok) {
+        throw new Error('Customer form submission failed');
+      }
+
       const responseText = await response.text();
       const parser = new DOMParser();
       const documentResponse = parser.parseFromString(responseText, 'text/html');
@@ -557,7 +596,9 @@
         return;
       }
 
-      throw new Error('Customer form submission failed');
+      if (hasSubmissionErrors(documentResponse)) {
+        throw new Error('Customer form submission failed');
+      }
     };
 
     const validate = () => {
