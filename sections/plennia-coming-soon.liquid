@@ -69,6 +69,44 @@
   data-section-id="{{ section.id }}"
   data-default-locale="{{ default_locale }}"
 >
+  <div class="plennia-coming-soon__animation-layer" aria-hidden="true">
+    <div
+      class="plennia-coming-soon__animation-item plennia-coming-soon__animation-item--1"
+      data-animation-item
+      data-animation-index="1"
+      data-animation-src="{{ 'plennia-animation-1.webp' | asset_url }}"
+      hidden
+    ></div>
+    <div
+      class="plennia-coming-soon__animation-item plennia-coming-soon__animation-item--2"
+      data-animation-item
+      data-animation-index="2"
+      data-animation-src="{{ 'plennia-animation-2.webp' | asset_url }}"
+      hidden
+    ></div>
+    <div
+      class="plennia-coming-soon__animation-item plennia-coming-soon__animation-item--3"
+      data-animation-item
+      data-animation-index="3"
+      data-animation-src="{{ 'plennia-animation-3.webp' | asset_url }}"
+      hidden
+    ></div>
+    <div
+      class="plennia-coming-soon__animation-item plennia-coming-soon__animation-item--4"
+      data-animation-item
+      data-animation-index="4"
+      data-animation-src="{{ 'plennia-animation-4.webp' | asset_url }}"
+      hidden
+    ></div>
+    <div
+      class="plennia-coming-soon__animation-item plennia-coming-soon__animation-item--5"
+      data-animation-item
+      data-animation-index="5"
+      data-animation-src="{{ 'plennia-animation-5.webp' | asset_url }}"
+      hidden
+    ></div>
+  </div>
+
   <div class="plennia-coming-soon__shell">
     <header class="plennia-coming-soon__header">
       <div class="plennia-coming-soon__header-empty"></div>
@@ -568,8 +606,70 @@
     --plennia-error: #8a3e32;
 
     min-height: 100svh;
+    position: relative;
     background: var(--plennia-background);
     color: var(--plennia-text);
+  }
+
+  .plennia-coming-soon__animation-layer {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 80;
+  }
+
+  .plennia-coming-soon__animation-item {
+    position: fixed;
+    display: block;
+  }
+
+  .plennia-coming-soon__animation-item[hidden] {
+    display: none !important;
+  }
+
+  .plennia-coming-soon__animation-frame {
+    display: block;
+    width: auto;
+    height: auto;
+    max-width: 100vw;
+    max-height: 100svh;
+  }
+
+  .plennia-coming-soon__animation-item--1 {
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  .plennia-coming-soon__animation-item--2 {
+    left: 0;
+    right: 0;
+    bottom: 0;
+  }
+
+  .plennia-coming-soon__animation-item--2 .plennia-coming-soon__animation-frame {
+    width: 100vw;
+    height: auto;
+    max-width: none;
+    max-height: none;
+  }
+
+  .plennia-coming-soon__animation-item--3 {
+    top: 50%;
+    left: 0;
+    transform: translateY(-50%);
+  }
+
+  .plennia-coming-soon__animation-item--4 {
+    top: 50%;
+    right: 0;
+    transform: translateY(-50%);
+  }
+
+  .plennia-coming-soon__animation-item--5 {
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
   }
 
   .plennia-coming-soon__shell {
