@@ -1,70 +1,44 @@
 {% liquid
   assign default_locale = section.settings.default_locale | default: 'es'
-  assign fetch_priority = 'auto'
+  assign theme_logo = settings.logo
+  assign logo_height = settings.logo_height | default: 36
+  assign logo_height_mobile = settings.logo_height_mobile | default: 28
+  assign logo_width = blank
+  assign logo_width_mobile = blank
 
-  if section.index == 1
-    assign fetch_priority = 'high'
+  if theme_logo != blank
+    assign logo_width = logo_height | times: theme_logo.aspect_ratio | round
+    assign logo_width_mobile = logo_height_mobile | times: theme_logo.aspect_ratio | round
   endif
 
-  assign mobile_background = section.settings.background_gif_mobile
-  if mobile_background == blank
-    assign mobile_background = section.settings.background_gif_desktop
-  endif
+  assign customer_form_id = 'PlenniaCustomerForm-' | append: section.id
 %}
 
 <section
-  class="plennia-coming-soon color-{{ section.settings.color_scheme }}"
+  class="plennia-coming-soon"
   data-section-id="{{ section.id }}"
   data-default-locale="{{ default_locale }}"
 >
-  <div class="plennia-coming-soon__background">
-    {% if section.settings.background_gif_desktop != blank %}
-      {{
-        section.settings.background_gif_desktop
-        | image_url: width: 2400
-        | image_tag:
-          widths: '1200, 1600, 2000, 2400',
-          sizes: '100vw',
-          class: 'plennia-coming-soon__bg-image plennia-coming-soon__bg-image--desktop',
-          alt: section.settings.logo_text,
-          loading: 'eager',
-          fetchpriority: fetch_priority
-      }}
-    {% endif %}
-
-    {% if mobile_background != blank %}
-      {{
-        mobile_background
-        | image_url: width: 1400
-        | image_tag:
-          widths: '640, 960, 1200, 1400',
-          sizes: '100vw',
-          class: 'plennia-coming-soon__bg-image plennia-coming-soon__bg-image--mobile',
-          alt: section.settings.logo_text,
-          loading: 'eager',
-          fetchpriority: fetch_priority
-      }}
-    {% endif %}
-
-    <div class="plennia-coming-soon__backdrop"></div>
-  </div>
-
   <div class="plennia-coming-soon__shell">
     <header class="plennia-coming-soon__header">
+      <div class="plennia-coming-soon__header-empty"></div>
+
       <a
         class="plennia-coming-soon__brand"
         href="{{ routes.root_url }}"
-        aria-label="{{ section.settings.logo_text | escape }}"
+        aria-label="{{ shop.name | escape }}"
       >
-        {% if section.settings.logo_image != blank %}
+        {% if theme_logo != blank %}
           {{
-            section.settings.logo_image
-            | image_url: width: 600
+            theme_logo
+            | image_url: width: 720
             | image_tag:
-              widths: '160, 240, 320, 480, 600',
-              sizes: '(max-width: 749px) 120px, 180px',
+              widths: '180, 240, 360, 540, 720',
+              width: logo_width,
+              height: logo_height,
               class: 'plennia-coming-soon__logo-image',
-              alt: section.settings.logo_text
+              sizes: '(max-width: 749px) ' | append: logo_width_mobile | append: 'px, ' | append: logo_width | append: 'px',
+              alt: shop.name
           }}
         {% else %}
           <span class="plennia-coming-soon__logo-text">{{ section.settings.logo_text }}</span>
@@ -95,138 +69,282 @@
       </div>
     </header>
 
+    <div class="plennia-coming-soon__divider" aria-hidden="true"></div>
+
     <main class="plennia-coming-soon__main">
       <div class="plennia-coming-soon__content">
-        <p
-          class="plennia-coming-soon__kicker"
-          data-i18n-key="kicker"
-        >
-          {{ section.settings.kicker_es }}
-        </p>
+        <div class="plennia-coming-soon__hero">
+          <p
+            class="plennia-coming-soon__eyebrow"
+            data-i18n-key="eyebrow"
+          >
+            {{ section.settings.eyebrow_es }}
+          </p>
 
-        <h1
-          class="plennia-coming-soon__heading"
-          data-i18n-key="heading"
-        >
-          {{ section.settings.heading_es | newline_to_br }}
-        </h1>
+          <h1
+            class="plennia-coming-soon__heading"
+            data-i18n-key="heading"
+          >
+            {{ section.settings.heading_es | newline_to_br }}
+          </h1>
 
-        <div
-          class="plennia-coming-soon__body"
-          data-i18n-key="body"
-        >
-          {{ section.settings.body_es | newline_to_br }}
+          <p
+            class="plennia-coming-soon__tagline"
+            data-i18n-key="tagline"
+          >
+            {{ section.settings.tagline_es }}
+          </p>
+
+          <p
+            class="plennia-coming-soon__body"
+            data-i18n-key="body"
+          >
+            {{ section.settings.body_es }}
+          </p>
         </div>
 
-        <div class="plennia-coming-soon__signup">
-          {% assign form_id = 'contact_form' %}
-          {%- form 'contact', id: form_id, class: 'plennia-coming-soon__form' -%}
-            <input
-              type="hidden"
-              name="contact[body]"
-              value="{{ section.settings.body_note_es }}"
-              data-plennia-body-note
-            >
+        <div class="plennia-coming-soon__form-shell">
+          <form
+            class="plennia-coming-soon__ui-form"
+            data-ui-form
+            novalidate
+          >
+            <div class="plennia-coming-soon__fields">
+              <div class="plennia-coming-soon__field-group">
+                <label
+                  class="plennia-coming-soon__label"
+                  for="PlenniaName-{{ section.id }}"
+                  data-i18n-key="fullNameLabel"
+                >
+                  {{ section.settings.full_name_label_es }}
+                </label>
+                <input
+                  id="PlenniaName-{{ section.id }}"
+                  class="plennia-coming-soon__input"
+                  type="text"
+                  name="full_name"
+                  autocomplete="name"
+                  placeholder="{{ section.settings.full_name_placeholder_es }}"
+                  data-name-input
+                  data-i18n-placeholder="fullNamePlaceholder"
+                >
+              </div>
 
-            <label
-              class="visually-hidden"
-              for="PlenniaEmail-{{ section.id }}"
-              data-i18n-key="emailLabel"
-            >
-              {{ section.settings.email_label_es }}
-            </label>
+              <div class="plennia-coming-soon__field-group">
+                <span
+                  class="plennia-coming-soon__label"
+                  data-i18n-key="contactLabel"
+                >
+                  {{ section.settings.contact_label_es }}
+                </span>
 
-            <div class="plennia-coming-soon__form-row">
-              <input
-                id="PlenniaEmail-{{ section.id }}"
-                class="plennia-coming-soon__input"
-                type="email"
-                name="contact[email]"
-                value="{% if form.email %}{{ form.email }}{% elsif customer %}{{ customer.email }}{% endif %}"
-                placeholder="{{ section.settings.email_placeholder_es }}"
-                spellcheck="false"
-                autocapitalize="off"
-                autocomplete="email"
-                aria-required="true"
-                required
-                data-i18n-placeholder="emailPlaceholder"
-              >
+                <div
+                  class="plennia-coming-soon__method-toggle"
+                  role="tablist"
+                  aria-label="Contact method"
+                >
+                  <button
+                    type="button"
+                    class="plennia-coming-soon__method-button"
+                    data-method-button="email"
+                    data-i18n-key="emailTab"
+                    aria-pressed="false"
+                  >
+                    {{ section.settings.email_tab_es }}
+                  </button>
+                  <button
+                    type="button"
+                    class="plennia-coming-soon__method-button"
+                    data-method-button="phone"
+                    data-i18n-key="phoneTab"
+                    aria-pressed="false"
+                  >
+                    {{ section.settings.phone_tab_es }}
+                  </button>
+                </div>
+              </div>
+
+              <div class="plennia-coming-soon__field-group">
+                <input
+                  id="PlenniaContact-{{ section.id }}"
+                  class="plennia-coming-soon__input"
+                  type="email"
+                  name="contact_value"
+                  autocomplete="email"
+                  inputmode="email"
+                  placeholder="{{ section.settings.email_placeholder_es }}"
+                  data-contact-input
+                >
+                <p
+                  class="plennia-coming-soon__field-error"
+                  data-contact-error
+                  hidden
+                ></p>
+              </div>
+
+              <div class="plennia-coming-soon__field-group plennia-coming-soon__field-group--checkbox">
+                <label class="plennia-coming-soon__checkbox">
+                  <input
+                    type="checkbox"
+                    name="consent"
+                    value="true"
+                    data-consent-input
+                  >
+                  <span class="plennia-coming-soon__checkbox-box" aria-hidden="true"></span>
+                  <span
+                    class="plennia-coming-soon__checkbox-text"
+                    data-consent-text
+                  >
+                    {{ section.settings.consent_email_es }}
+                  </span>
+                </label>
+                <p
+                  class="plennia-coming-soon__field-error"
+                  data-consent-error
+                  hidden
+                ></p>
+              </div>
 
               <button
                 class="plennia-coming-soon__submit"
                 type="submit"
-                data-i18n-key="submitLabel"
+                data-submit-button
               >
-                {{ section.settings.submit_label_es }}
+                <span data-i18n-key="submitLabel">{{ section.settings.submit_label_es }}</span>
               </button>
+
+              <p
+                class="plennia-coming-soon__field-error plennia-coming-soon__field-error--general"
+                data-general-error
+                hidden
+              ></p>
             </div>
 
-            {%- if form.posted_successfully? -%}
+            <div
+              class="plennia-coming-soon__success"
+              data-success-state
+              hidden
+            >
               <p
-                class="plennia-coming-soon__message plennia-coming-soon__message--success"
-                tabindex="-1"
-                autofocus
-                data-i18n-key="success"
+                class="plennia-coming-soon__success-title"
+                data-i18n-key="successTitle"
               >
-                {{ section.settings.success_message_es }}
+                {{ section.settings.success_title_es }}
               </p>
-            {%- endif -%}
-
-            {%- if form.errors -%}
               <p
-                class="plennia-coming-soon__message plennia-coming-soon__message--error"
-                tabindex="-1"
-                autofocus
-                data-i18n-key="error"
+                class="plennia-coming-soon__success-body"
+                data-i18n-key="successBody"
               >
-                {{ section.settings.error_message_es }}
+                {{ section.settings.success_body_es }}
               </p>
-            {%- endif -%}
-          {%- endform -%}
+            </div>
 
-          <p
-            class="plennia-coming-soon__footer-note"
-            data-i18n-key="footer"
-          >
-            {{ section.settings.footer_note_es }}
-          </p>
+            <div
+              class="visually-hidden"
+              aria-live="polite"
+              data-status-live
+            ></div>
+          </form>
         </div>
       </div>
     </main>
   </div>
 
+  {% comment %}
+    Email waitlist uses Shopify's theme-native customer form so submissions write
+    to Shopify's newsletter/customer flow and allow tags via contact[tags].
+    Phone/SMS marketing writes aren't supported securely from theme code alone.
+  {% endcomment %}
+  {%- form 'customer', id: customer_form_id, class: 'plennia-coming-soon__transport-form' -%}
+    <input
+      type="hidden"
+      name="contact[email]"
+      value=""
+      data-customer-email
+    >
+    <input
+      type="hidden"
+      name="contact[tags]"
+      value=""
+      data-customer-tags
+    >
+    <input
+      type="hidden"
+      name="contact[first_name]"
+      value=""
+      data-customer-first-name
+    >
+    <input
+      type="hidden"
+      name="contact[last_name]"
+      value=""
+      data-customer-last-name
+    >
+    <div
+      hidden
+      data-customer-transport-state="{{ section.id }}"
+      data-state="{% if form.posted_successfully? %}success{% elsif form.errors %}error{% else %}idle{% endif %}"
+    ></div>
+  {%- endform -%}
+
   <script
     type="application/json"
-    data-plennia-translations
+    data-plennia-copy
   >
     {
       "es": {
         "metaTitle": {{ section.settings.meta_title_es | json }},
         "metaDescription": {{ section.settings.meta_description_es | json }},
-        "kicker": {{ section.settings.kicker_es | json }},
+        "eyebrow": {{ section.settings.eyebrow_es | json }},
         "heading": {{ section.settings.heading_es | json }},
+        "tagline": {{ section.settings.tagline_es | json }},
         "body": {{ section.settings.body_es | json }},
-        "emailLabel": {{ section.settings.email_label_es | json }},
+        "fullNameLabel": {{ section.settings.full_name_label_es | json }},
+        "fullNamePlaceholder": {{ section.settings.full_name_placeholder_es | json }},
+        "contactLabel": {{ section.settings.contact_label_es | json }},
+        "emailTab": {{ section.settings.email_tab_es | json }},
+        "phoneTab": {{ section.settings.phone_tab_es | json }},
         "emailPlaceholder": {{ section.settings.email_placeholder_es | json }},
+        "phonePlaceholder": {{ section.settings.phone_placeholder_es | json }},
+        "consentEmail": {{ section.settings.consent_email_es | json }},
+        "consentPhone": {{ section.settings.consent_phone_es | json }},
         "submitLabel": {{ section.settings.submit_label_es | json }},
-        "success": {{ section.settings.success_message_es | json }},
-        "error": {{ section.settings.error_message_es | json }},
-        "footer": {{ section.settings.footer_note_es | json }},
-        "bodyNote": {{ section.settings.body_note_es | json }}
+        "successTitle": {{ section.settings.success_title_es | json }},
+        "successBody": {{ section.settings.success_body_es | json }},
+        "validation": {
+          "email": {{ section.settings.invalid_email_es | json }},
+          "phone": {{ section.settings.invalid_phone_es | json }},
+          "consent": {{ section.settings.consent_required_es | json }},
+          "submit": {{ section.settings.submit_error_es | json }},
+          "phoneUnavailable": {{ section.settings.phone_unavailable_es | json }}
+        }
       },
       "en": {
         "metaTitle": {{ section.settings.meta_title_en | json }},
         "metaDescription": {{ section.settings.meta_description_en | json }},
-        "kicker": {{ section.settings.kicker_en | json }},
+        "eyebrow": {{ section.settings.eyebrow_en | json }},
         "heading": {{ section.settings.heading_en | json }},
+        "tagline": {{ section.settings.tagline_en | json }},
         "body": {{ section.settings.body_en | json }},
-        "emailLabel": {{ section.settings.email_label_en | json }},
+        "fullNameLabel": {{ section.settings.full_name_label_en | json }},
+        "fullNamePlaceholder": {{ section.settings.full_name_placeholder_en | json }},
+        "contactLabel": {{ section.settings.contact_label_en | json }},
+        "emailTab": {{ section.settings.email_tab_en | json }},
+        "phoneTab": {{ section.settings.phone_tab_en | json }},
         "emailPlaceholder": {{ section.settings.email_placeholder_en | json }},
+        "phonePlaceholder": {{ section.settings.phone_placeholder_en | json }},
+        "consentEmail": {{ section.settings.consent_email_en | json }},
+        "consentPhone": {{ section.settings.consent_phone_en | json }},
         "submitLabel": {{ section.settings.submit_label_en | json }},
-        "success": {{ section.settings.success_message_en | json }},
-        "error": {{ section.settings.error_message_en | json }},
-        "footer": {{ section.settings.footer_note_en | json }},
-        "bodyNote": {{ section.settings.body_note_en | json }}
+        "successTitle": {{ section.settings.success_title_en | json }},
+        "successBody": {{ section.settings.success_body_en | json }},
+        "validation": {
+          "email": {{ section.settings.invalid_email_en | json }},
+          "phone": {{ section.settings.invalid_phone_en | json }},
+          "consent": {{ section.settings.consent_required_en | json }},
+          "submit": {{ section.settings.submit_error_en | json }},
+          "phoneUnavailable": {{ section.settings.phone_unavailable_en | json }}
+        }
       }
     }
   </script>
@@ -234,274 +352,409 @@
 
 {% stylesheet %}
   .plennia-coming-soon {
-    --plennia-shell-padding: clamp(1.25rem, 3vw, 2.5rem);
-    --plennia-content-width: min(42rem, 100%);
-    --plennia-panel-background: rgb(10 16 17 / 0.38);
-    --plennia-panel-border: rgb(255 255 255 / 0.18);
-    --plennia-panel-shadow: 0 1.25rem 5rem rgb(0 0 0 / 0.25);
-    --plennia-backdrop-start: rgb(5 9 10 / 0.3);
-    --plennia-backdrop-end: rgb(5 9 10 / 0.78);
+    --plennia-background: #f6f1e8;
+    --plennia-surface: #fcfaf6;
+    --plennia-text: #1f1a16;
+    --plennia-muted: #746c63;
+    --plennia-border: #d9d1c7;
+    --plennia-border-strong: #26211d;
+    --plennia-button-bg: #221d19;
+    --plennia-button-hover: #15110e;
+    --plennia-button-text: #f8f3eb;
+    --plennia-success: #2f5c45;
+    --plennia-error: #8a3e32;
 
-    position: relative;
     min-height: 100svh;
-    overflow: clip;
-    isolation: isolate;
-  }
-
-  .plennia-coming-soon__background,
-  .plennia-coming-soon__backdrop {
-    position: absolute;
-    inset: 0;
-  }
-
-  .plennia-coming-soon__bg-image {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-
-  .plennia-coming-soon__bg-image--mobile {
-    display: none;
-  }
-
-  .plennia-coming-soon__backdrop {
-    background:
-      radial-gradient(circle at top, rgb(255 255 255 / 0.14), transparent 35%),
-      linear-gradient(180deg, var(--plennia-backdrop-start), var(--plennia-backdrop-end));
+    background: var(--plennia-background);
+    color: var(--plennia-text);
   }
 
   .plennia-coming-soon__shell {
-    position: relative;
-    z-index: 1;
     min-height: 100svh;
     display: flex;
     flex-direction: column;
-    padding: var(--plennia-shell-padding);
+    padding: clamp(1.25rem, 2.5vw, 2rem) clamp(1.25rem, 3vw, 2.75rem);
   }
 
   .plennia-coming-soon__header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: start;
     gap: 1rem;
   }
 
+  .plennia-coming-soon__header-empty {
+    min-height: 1px;
+  }
+
   .plennia-coming-soon__brand {
+    justify-self: center;
     display: inline-flex;
     align-items: center;
-    color: inherit;
     text-decoration: none;
+    color: inherit;
   }
 
   .plennia-coming-soon__logo-image {
-    width: min(11.25rem, 42vw);
+    display: block;
+    width: auto;
+    max-height: {{ logo_height }}px;
     height: auto;
   }
 
   .plennia-coming-soon__logo-text {
-    font-size: clamp(1.15rem, 1rem + 0.8vw, 1.75rem);
-    font-weight: 700;
+    font-family: var(--font-heading--family);
+    font-size: clamp(1.1rem, 1rem + 0.7vw, 1.5rem);
+    font-weight: var(--font-heading--weight);
     letter-spacing: 0.18em;
     text-transform: uppercase;
   }
 
   .plennia-coming-soon__locale-switcher {
+    justify-self: end;
     display: inline-flex;
     align-items: center;
-    gap: 0.35rem;
-    padding: 0.3rem;
-    border: 1px solid rgb(255 255 255 / 0.16);
-    border-radius: 999px;
-    background: rgb(0 0 0 / 0.22);
-    backdrop-filter: blur(16px);
+    gap: 0.25rem;
   }
 
   .plennia-coming-soon__locale-button {
     appearance: none;
-    border: 0;
-    border-radius: 999px;
+    border: 1px solid transparent;
     background: transparent;
-    color: rgb(255 255 255 / 0.72);
+    color: var(--plennia-muted);
     cursor: pointer;
-    font: inherit;
-    font-size: 0.8rem;
-    font-weight: 700;
+    font-family: var(--font-body--family);
+    font-size: 0.72rem;
+    font-weight: 600;
     letter-spacing: 0.14em;
-    padding: 0.6rem 0.9rem;
+    padding: 0.35rem 0.5rem;
     text-transform: uppercase;
     transition:
-      background-color 160ms ease,
       color 160ms ease,
-      transform 160ms ease;
+      border-color 160ms ease,
+      background-color 160ms ease;
   }
 
   .plennia-coming-soon__locale-button[aria-pressed='true'] {
-    background: rgb(255 255 255 / 0.96);
-    color: rgb(9 15 17);
-    transform: translateY(-1px);
+    color: var(--plennia-text);
+    border-color: var(--plennia-border);
+    background: rgb(255 255 255 / 0.45);
+  }
+
+  .plennia-coming-soon__divider {
+    margin-top: 1.1rem;
+    border-top: 1px solid var(--plennia-border);
   }
 
   .plennia-coming-soon__main {
     flex: 1;
-    display: grid;
-    place-items: center;
-    padding-block: clamp(2rem, 8vw, 5rem);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-block: clamp(2.5rem, 8vw, 7rem);
   }
 
   .plennia-coming-soon__content {
-    width: var(--plennia-content-width);
-    padding: clamp(1.5rem, 4vw, 3rem);
-    border: 1px solid var(--plennia-panel-border);
-    border-radius: 2rem;
-    background:
-      linear-gradient(180deg, rgb(255 255 255 / 0.14), rgb(255 255 255 / 0.04)),
-      var(--plennia-panel-background);
-    box-shadow: var(--plennia-panel-shadow);
-    backdrop-filter: blur(24px);
+    width: min(100%, 64rem);
+    display: grid;
+    gap: clamp(2.5rem, 5vw, 4.5rem);
+    justify-items: center;
   }
 
-  .plennia-coming-soon__kicker {
-    margin: 0 0 1rem;
-    color: rgb(255 255 255 / 0.72);
-    font-size: 0.8rem;
-    font-weight: 700;
-    letter-spacing: 0.22em;
+  .plennia-coming-soon__hero {
+    width: min(100%, 48rem);
+    text-align: center;
+  }
+
+  .plennia-coming-soon__eyebrow {
+    margin: 0 0 1.1rem;
+    color: var(--plennia-muted);
+    font-family: var(--font-body--family);
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.2em;
     text-transform: uppercase;
   }
 
   .plennia-coming-soon__heading {
     margin: 0;
-    color: rgb(255 255 255);
-    font-size: clamp(2.75rem, 8vw, 5.5rem);
-    line-height: 0.92;
+    font-family: var(--font-heading--family);
+    font-size: clamp(2.8rem, 7vw, 5.7rem);
+    font-weight: var(--font-heading--weight);
+    line-height: 0.95;
     letter-spacing: -0.05em;
     text-wrap: balance;
   }
 
-  .plennia-coming-soon__body,
-  .plennia-coming-soon__footer-note,
-  .plennia-coming-soon__message {
-    color: rgb(255 255 255 / 0.82);
+  .plennia-coming-soon__tagline {
+    margin: 1.2rem 0 0;
+    color: var(--plennia-muted);
+    font-family: var(--font-body--family);
+    font-size: clamp(1rem, 0.96rem + 0.18vw, 1.1rem);
+    font-style: italic;
+    line-height: 1.6;
   }
 
   .plennia-coming-soon__body {
-    max-width: 36rem;
-    margin: 1.25rem 0 0;
-    font-size: clamp(1rem, 0.92rem + 0.3vw, 1.125rem);
-    line-height: 1.6;
+    width: min(100%, 34rem);
+    margin: 1rem auto 0;
+    color: var(--plennia-muted);
+    font-family: var(--font-body--family);
+    font-size: clamp(0.98rem, 0.93rem + 0.15vw, 1.05rem);
+    line-height: 1.75;
     text-wrap: pretty;
   }
 
-  .plennia-coming-soon__signup {
-    margin-top: clamp(1.75rem, 4vw, 2.5rem);
+  .plennia-coming-soon__form-shell {
+    width: min(100%, 30rem);
   }
 
-  .plennia-coming-soon__form {
-    margin: 0;
+  .plennia-coming-soon__ui-form {
+    width: 100%;
   }
 
-  .plennia-coming-soon__form-row {
+  .plennia-coming-soon__fields {
     display: grid;
-    grid-template-columns: minmax(0, 1fr) auto;
-    gap: 0.75rem;
-    align-items: center;
+    gap: 1.1rem;
+  }
+
+  .plennia-coming-soon__field-group {
+    display: grid;
+    gap: 0.55rem;
+  }
+
+  .plennia-coming-soon__field-group--checkbox {
+    gap: 0.45rem;
+  }
+
+  .plennia-coming-soon__label {
+    color: var(--plennia-text);
+    font-family: var(--font-body--family);
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+  }
+
+  .plennia-coming-soon__method-toggle {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.55rem;
+  }
+
+  .plennia-coming-soon__method-button,
+  .plennia-coming-soon__input,
+  .plennia-coming-soon__submit {
+    min-height: 3.4rem;
+  }
+
+  .plennia-coming-soon__method-button {
+    appearance: none;
+    border: 1px solid var(--plennia-border);
+    background: transparent;
+    color: var(--plennia-muted);
+    cursor: pointer;
+    font-family: var(--font-body--family);
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    padding: 0.9rem 1rem;
+    text-transform: uppercase;
+    transition:
+      border-color 160ms ease,
+      color 160ms ease,
+      background-color 160ms ease;
+  }
+
+  .plennia-coming-soon__method-button[aria-pressed='true'] {
+    border-color: var(--plennia-border-strong);
+    background: rgb(255 255 255 / 0.56);
+    color: var(--plennia-text);
   }
 
   .plennia-coming-soon__input {
     width: 100%;
-    min-height: 3.75rem;
-    padding: 0 1.2rem;
-    border: 1px solid rgb(255 255 255 / 0.22);
-    border-radius: 999px;
-    background: rgb(255 255 255 / 0.12);
-    color: rgb(255 255 255);
-    font: inherit;
-  }
-
-  .plennia-coming-soon__input::placeholder {
-    color: rgb(255 255 255 / 0.56);
-  }
-
-  .plennia-coming-soon__input:focus-visible {
-    outline: 2px solid rgb(255 255 255 / 0.84);
-    outline-offset: 2px;
-  }
-
-  .plennia-coming-soon__submit {
-    min-height: 3.75rem;
-    padding: 0 1.4rem;
-    border: 0;
-    border-radius: 999px;
-    background: rgb(239 241 234);
-    color: rgb(7 14 15);
-    cursor: pointer;
-    font: inherit;
-    font-weight: 700;
-    letter-spacing: 0.02em;
+    border: 1px solid var(--plennia-border);
+    border-radius: 0;
+    background: transparent;
+    color: var(--plennia-text);
+    font-family: var(--font-body--family);
+    font-size: 0.98rem;
+    line-height: 1.4;
+    padding: 0.85rem 1rem;
     transition:
-      transform 160ms ease,
-      box-shadow 160ms ease,
+      border-color 160ms ease,
       background-color 160ms ease;
   }
 
-  .plennia-coming-soon__submit:hover,
+  .plennia-coming-soon__input::placeholder {
+    color: rgb(116 108 99 / 0.8);
+  }
+
+  .plennia-coming-soon__input:focus-visible,
+  .plennia-coming-soon__method-button:focus-visible,
+  .plennia-coming-soon__locale-button:focus-visible,
   .plennia-coming-soon__submit:focus-visible {
-    background: rgb(255 255 255);
-    box-shadow: 0 0.75rem 2rem rgb(0 0 0 / 0.2);
-    transform: translateY(-1px);
+    outline: 2px solid var(--plennia-border-strong);
+    outline-offset: 2px;
   }
 
-  .plennia-coming-soon__message {
-    margin: 0.9rem 0 0;
-    font-size: 0.95rem;
+  .plennia-coming-soon__checkbox {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 0.75rem;
+    align-items: start;
+    cursor: pointer;
   }
 
-  .plennia-coming-soon__message--success {
-    color: rgb(214 255 234);
+  .plennia-coming-soon__checkbox input {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
   }
 
-  .plennia-coming-soon__message--error {
-    color: rgb(255 224 220);
+  .plennia-coming-soon__checkbox-box {
+    width: 1rem;
+    height: 1rem;
+    margin-top: 0.2rem;
+    border: 1px solid var(--plennia-border);
+    background: transparent;
+    transition:
+      border-color 160ms ease,
+      background-color 160ms ease;
   }
 
-  .plennia-coming-soon__footer-note {
-    margin: 1rem 0 0;
-    font-size: 0.9rem;
+  .plennia-coming-soon__checkbox input:checked + .plennia-coming-soon__checkbox-box {
+    border-color: var(--plennia-border-strong);
+    background:
+      linear-gradient(135deg, transparent 35%, var(--plennia-border-strong) 35%, var(--plennia-border-strong) 65%, transparent 65%),
+      linear-gradient(45deg, transparent 45%, var(--plennia-border-strong) 45%, var(--plennia-border-strong) 55%, transparent 55%);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 0.7rem 0.7rem;
+  }
+
+  .plennia-coming-soon__checkbox-text {
+    color: var(--plennia-muted);
+    font-family: var(--font-body--family);
+    font-size: 0.93rem;
+    line-height: 1.6;
+  }
+
+  .plennia-coming-soon__submit {
+    appearance: none;
+    width: 100%;
+    border: 1px solid var(--plennia-button-bg);
+    border-radius: 0;
+    background: var(--plennia-button-bg);
+    color: var(--plennia-button-text);
+    cursor: pointer;
+    font-family: var(--font-body--family);
+    font-size: 0.82rem;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    padding: 0.95rem 1.25rem;
+    text-transform: uppercase;
+    transition:
+      background-color 160ms ease,
+      border-color 160ms ease,
+      transform 120ms ease,
+      opacity 160ms ease;
+  }
+
+  .plennia-coming-soon__submit:hover {
+    background: var(--plennia-button-hover);
+    border-color: var(--plennia-button-hover);
+  }
+
+  .plennia-coming-soon__submit:active {
+    transform: translateY(1px);
+  }
+
+  .plennia-coming-soon__submit[disabled] {
+    cursor: wait;
+    opacity: 0.7;
+  }
+
+  .plennia-coming-soon__field-error {
+    margin: 0;
+    color: var(--plennia-error);
+    font-family: var(--font-body--family);
+    font-size: 0.88rem;
     line-height: 1.5;
   }
 
-  @media screen and (max-width: 749px) {
-    .plennia-coming-soon__bg-image--desktop {
-      display: none;
-    }
+  .plennia-coming-soon__field-error--general {
+    text-align: center;
+  }
 
-    .plennia-coming-soon__bg-image--mobile {
-      display: block;
+  .plennia-coming-soon__success {
+    padding-top: 0.45rem;
+    text-align: center;
+  }
+
+  .plennia-coming-soon__success-title {
+    margin: 0;
+    color: var(--plennia-success);
+    font-family: var(--font-heading--family);
+    font-size: clamp(1.35rem, 1.15rem + 0.7vw, 1.8rem);
+    font-weight: var(--font-heading--weight);
+    line-height: 1.2;
+  }
+
+  .plennia-coming-soon__success-body {
+    margin: 0.45rem 0 0;
+    color: var(--plennia-muted);
+    font-family: var(--font-body--family);
+    font-size: 0.96rem;
+    line-height: 1.65;
+  }
+
+  .plennia-coming-soon__transport-form {
+    display: none;
+  }
+
+  @media screen and (max-width: 749px) {
+    .plennia-coming-soon__shell {
+      padding: 1rem 1rem 1.5rem;
     }
 
     .plennia-coming-soon__header {
-      align-items: flex-start;
-      flex-direction: column;
+      grid-template-columns: 1fr auto 1fr;
+      align-items: start;
+    }
+
+    .plennia-coming-soon__logo-image {
+      max-height: {{ logo_height_mobile }}px;
+    }
+
+    .plennia-coming-soon__main {
+      padding-block: 2.75rem 3rem;
     }
 
     .plennia-coming-soon__content {
-      border-radius: 1.5rem;
+      gap: 2.25rem;
     }
 
-    .plennia-coming-soon__form-row {
-      grid-template-columns: 1fr;
+    .plennia-coming-soon__heading {
+      font-size: clamp(2.35rem, 12vw, 3.4rem);
     }
 
-    .plennia-coming-soon__submit {
+    .plennia-coming-soon__body {
       width: 100%;
+    }
+
+    .plennia-coming-soon__method-toggle {
+      grid-template-columns: 1fr;
     }
   }
 
   @media (prefers-reduced-motion: reduce) {
     .plennia-coming-soon__locale-button,
-    .plennia-coming-soon__submit {
+    .plennia-coming-soon__method-button,
+    .plennia-coming-soon__input,
+    .plennia-coming-soon__submit,
+    .plennia-coming-soon__checkbox-box {
       transition: none;
     }
   }
@@ -513,23 +766,51 @@
     const section = script ? script.closest('.plennia-coming-soon') : null;
     if (!section) return;
 
-    const translationsElement = section.querySelector('[data-plennia-translations]');
-    if (!translationsElement) return;
+    const copyElement = section.querySelector('[data-plennia-copy]');
+    if (!copyElement) return;
 
-    let translations;
+    let copy;
 
     try {
-      translations = JSON.parse(translationsElement.textContent);
+      copy = JSON.parse(copyElement.textContent);
     } catch (error) {
       return;
     }
 
     const storageKey = 'plennia-coming-soon-locale';
-    const buttons = section.querySelectorAll('[data-locale-button]');
+    const defaultLocale = section.dataset.defaultLocale === 'en' ? 'en' : 'es';
+    const uiForm = section.querySelector('[data-ui-form]');
+    const nameInput = section.querySelector('[data-name-input]');
+    const contactInput = section.querySelector('[data-contact-input]');
+    const consentInput = section.querySelector('[data-consent-input]');
+    const submitButton = section.querySelector('[data-submit-button]');
+    const successState = section.querySelector('[data-success-state]');
+    const statusLive = section.querySelector('[data-status-live]');
+    const customerForm = section.querySelector(`#PlenniaCustomerForm-${section.dataset.sectionId}`);
+    const customerEmail = section.querySelector('[data-customer-email]');
+    const customerTags = section.querySelector('[data-customer-tags]');
+    const customerFirstName = section.querySelector('[data-customer-first-name]');
+    const customerLastName = section.querySelector('[data-customer-last-name]');
+    const contactError = section.querySelector('[data-contact-error]');
+    const consentError = section.querySelector('[data-consent-error]');
+    const generalError = section.querySelector('[data-general-error]');
+    const localeButtons = section.querySelectorAll('[data-locale-button]');
+    const methodButtons = section.querySelectorAll('[data-method-button]');
     const textTargets = section.querySelectorAll('[data-i18n-key]');
     const placeholderTargets = section.querySelectorAll('[data-i18n-placeholder]');
-    const bodyNoteInput = section.querySelector('[data-plennia-body-note]');
-    const defaultLocale = section.dataset.defaultLocale === 'en' ? 'en' : 'es';
+    const consentText = section.querySelector('[data-consent-text]');
+
+    if (!uiForm || !contactInput || !consentInput || !submitButton || !customerForm) return;
+
+    const state = {
+      locale: defaultLocale,
+      method: 'email',
+      submitted: false,
+      pending: false,
+    };
+
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const phonePattern = /^\+?[0-9\s().-]{7,}$/;
 
     const setMetaDescription = (value) => {
       let meta = document.querySelector('meta[name="description"]');
@@ -543,44 +824,211 @@
       meta.setAttribute('content', value || '');
     };
 
+    const splitName = (value) => {
+      const trimmed = value.trim().replace(/\s+/g, ' ');
+
+      if (!trimmed) {
+        return { firstName: '', lastName: '' };
+      }
+
+      const parts = trimmed.split(' ');
+
+      if (parts.length === 1) {
+        return { firstName: parts[0], lastName: '' };
+      }
+
+      return {
+        firstName: parts.shift() || '',
+        lastName: parts.join(' '),
+      };
+    };
+
+    const currentCopy = () => copy[state.locale] || copy[defaultLocale];
+
+    const clearErrors = () => {
+      [contactError, consentError, generalError].forEach((element) => {
+        if (!element) return;
+
+        element.textContent = '';
+        element.hidden = true;
+      });
+    };
+
+    const setError = (element, message) => {
+      if (!element) return;
+
+      element.textContent = message;
+      element.hidden = false;
+    };
+
+    const syncMethodCopy = () => {
+      const localeCopy = currentCopy();
+
+      contactInput.type = state.method === 'email' ? 'email' : 'tel';
+      contactInput.inputMode = state.method === 'email' ? 'email' : 'tel';
+      contactInput.autocomplete = state.method === 'email' ? 'email' : 'tel';
+      contactInput.placeholder =
+        state.method === 'email' ? localeCopy.emailPlaceholder : localeCopy.phonePlaceholder;
+      contactInput.setAttribute(
+        'aria-label',
+        `${localeCopy.contactLabel} ${state.method === 'email' ? localeCopy.emailTab : localeCopy.phoneTab}`
+      );
+
+      if (consentText) {
+        consentText.textContent =
+          state.method === 'email' ? localeCopy.consentEmail : localeCopy.consentPhone;
+      }
+
+      methodButtons.forEach((button) => {
+        button.setAttribute('aria-pressed', String(button.dataset.methodButton === state.method));
+      });
+    };
+
     const applyLocale = (locale) => {
-      const copy = translations[locale] || translations[defaultLocale];
-      if (!copy) return;
+      state.locale = locale === 'en' ? 'en' : 'es';
+      const localeCopy = currentCopy();
 
       textTargets.forEach((element) => {
         const key = element.dataset.i18nKey;
-        if (!key || copy[key] == null) return;
+        if (!key || localeCopy[key] == null) return;
 
-        if (key === 'heading' || key === 'body') {
-          element.innerHTML = String(copy[key]).replace(/\n/g, '<br>');
+        if (key === 'heading') {
+          element.innerHTML = String(localeCopy[key]).replace(/\n/g, '<br>');
         } else {
-          element.textContent = copy[key];
+          element.textContent = localeCopy[key];
         }
       });
 
       placeholderTargets.forEach((element) => {
         const key = element.dataset.i18nPlaceholder;
-        if (!key || copy[key] == null) return;
+        if (!key || localeCopy[key] == null) return;
 
-        element.setAttribute('placeholder', copy[key]);
+        element.setAttribute('placeholder', localeCopy[key]);
       });
 
-      if (bodyNoteInput && copy.bodyNote) {
-        bodyNoteInput.value = copy.bodyNote;
-      }
+      document.title = localeCopy.metaTitle || document.title;
+      setMetaDescription(localeCopy.metaDescription || '');
+      document.documentElement.lang = state.locale;
 
-      document.title = copy.metaTitle || document.title;
-      setMetaDescription(copy.metaDescription || '');
-      document.documentElement.lang = locale;
-
-      buttons.forEach((button) => {
-        button.setAttribute('aria-pressed', String(button.dataset.localeButton === locale));
+      localeButtons.forEach((button) => {
+        button.setAttribute('aria-pressed', String(button.dataset.localeButton === state.locale));
       });
+
+      syncMethodCopy();
 
       try {
-        window.localStorage.setItem(storageKey, locale);
+        window.localStorage.setItem(storageKey, state.locale);
       } catch (error) {
         /* no-op */
+      }
+    };
+
+    const setPending = (pending) => {
+      state.pending = pending;
+      submitButton.disabled = pending || state.submitted;
+      uiForm.setAttribute('aria-busy', String(pending));
+    };
+
+    const markSuccess = () => {
+      state.submitted = true;
+      setPending(false);
+
+      if (successState) {
+        successState.hidden = false;
+      }
+
+      [nameInput, contactInput, consentInput].forEach((element) => {
+        if (element) element.disabled = true;
+      });
+
+      methodButtons.forEach((button) => {
+        button.disabled = true;
+      });
+
+      submitButton.disabled = true;
+
+      if (statusLive) {
+        statusLive.textContent = `${currentCopy().successTitle}. ${currentCopy().successBody}`;
+      }
+    };
+
+    const submitCustomerForm = async () => {
+      const response = await fetch(customerForm.action, {
+        method: 'POST',
+        body: new FormData(customerForm),
+        credentials: 'same-origin',
+        headers: {
+          Accept: 'text/html',
+        },
+      });
+
+      const responseText = await response.text();
+      const parser = new DOMParser();
+      const documentResponse = parser.parseFromString(responseText, 'text/html');
+      const marker = documentResponse.querySelector(
+        `[data-customer-transport-state="${section.dataset.sectionId}"]`
+      );
+
+      if (marker && marker.dataset.state === 'success') {
+        return;
+      }
+
+      throw new Error('Customer form submission failed');
+    };
+
+    const validate = () => {
+      clearErrors();
+      const localeCopy = currentCopy();
+      const contactValue = contactInput.value.trim();
+
+      if (state.method === 'email') {
+        if (!emailPattern.test(contactValue)) {
+          setError(contactError, localeCopy.validation.email);
+          return false;
+        }
+      } else {
+        if (!phonePattern.test(contactValue)) {
+          setError(contactError, localeCopy.validation.phone);
+          return false;
+        }
+      }
+
+      if (!consentInput.checked) {
+        setError(consentError, localeCopy.validation.consent);
+        return false;
+      }
+
+      return true;
+    };
+
+    const prepareCustomerForm = () => {
+      const { firstName, lastName } = splitName(nameInput ? nameInput.value : '');
+
+      customerEmail.value = contactInput.value.trim();
+      customerTags.value = `coming-soon,waitlist,language_${state.locale}`;
+      customerFirstName.value = firstName;
+      customerLastName.value = lastName;
+    };
+
+    const handleSubmit = async (event) => {
+      event.preventDefault();
+
+      if (state.pending || state.submitted) return;
+      if (!validate()) return;
+
+      if (state.method === 'phone') {
+        setError(contactError, currentCopy().validation.phoneUnavailable);
+        return;
+      }
+
+      try {
+        setPending(true);
+        prepareCustomerForm();
+        await submitCustomerForm();
+        markSuccess();
+      } catch (error) {
+        setPending(false);
+        setError(generalError, currentCopy().validation.submit);
       }
     };
 
@@ -595,7 +1043,7 @@
       /* no-op */
     }
 
-    buttons.forEach((button) => {
+    localeButtons.forEach((button) => {
       button.addEventListener('click', () => {
         const locale = button.dataset.localeButton;
         if (locale === 'es' || locale === 'en') {
@@ -604,6 +1052,35 @@
       });
     });
 
+    methodButtons.forEach((button) => {
+      button.addEventListener('click', () => {
+        const method = button.dataset.methodButton;
+        if (method !== 'email' && method !== 'phone') return;
+
+        state.method = method;
+        clearErrors();
+        syncMethodCopy();
+      });
+    });
+
+    [nameInput, contactInput].forEach((element) => {
+      if (!element) return;
+
+      element.addEventListener('input', () => {
+        clearErrors();
+      });
+    });
+
+    consentInput.addEventListener('change', () => {
+      if (!consentError) return;
+
+      if (consentInput.checked) {
+        consentError.textContent = '';
+        consentError.hidden = true;
+      }
+    });
+
+    uiForm.addEventListener('submit', handleSubmit);
     applyLocale(initialLocale);
   })();
 {% endjavascript %}
@@ -617,13 +1094,8 @@
     {
       "type": "text",
       "id": "logo_text",
-      "label": "Logo text",
+      "label": "Fallback logo text",
       "default": "Plennia"
-    },
-    {
-      "type": "image_picker",
-      "id": "logo_image",
-      "label": "Logo image"
     },
     {
       "type": "select",
@@ -642,22 +1114,6 @@
       "default": "es"
     },
     {
-      "type": "color_scheme",
-      "id": "color_scheme",
-      "label": "Color scheme",
-      "default": "scheme-6"
-    },
-    {
-      "type": "image_picker",
-      "id": "background_gif_desktop",
-      "label": "Background GIF or image"
-    },
-    {
-      "type": "image_picker",
-      "id": "background_gif_mobile",
-      "label": "Mobile background GIF or image"
-    },
-    {
       "type": "header",
       "content": "Spanish copy"
     },
@@ -665,73 +1121,139 @@
       "type": "text",
       "id": "meta_title_es",
       "label": "Meta title",
-      "default": "Plennia llega pronto"
+      "default": "Plennia | Próximamente"
     },
     {
       "type": "textarea",
       "id": "meta_description_es",
       "label": "Meta description",
-      "default": "Suscribete para enterarte antes que nadie cuando Plennia abra oficialmente."
+      "default": "Estamos trabajando para ofrecerte una experiencia nutritiva. Muy pronto estará disponible."
     },
     {
       "type": "text",
-      "id": "kicker_es",
-      "label": "Kicker",
-      "default": "Muy pronto"
+      "id": "eyebrow_es",
+      "label": "Eyebrow",
+      "default": "PRÓXIMAMENTE"
     },
     {
       "type": "textarea",
       "id": "heading_es",
-      "label": "Heading",
-      "default": "Una nueva forma de descubrir\nPlennia"
+      "label": "Headline",
+      "default": "Algo hermoso\nestá por llegar"
+    },
+    {
+      "type": "text",
+      "id": "tagline_es",
+      "label": "Tagline",
+      "default": "La comida adecuada para el amor correcto."
     },
     {
       "type": "textarea",
       "id": "body_es",
-      "label": "Body copy",
-      "default": "Estamos construyendo una experiencia de compra mas cuidada, sensorial y exclusiva. Dejanos tu email y te avisamos apenas abramos."
+      "label": "Supporting copy",
+      "default": "Estamos trabajando para ofrecerte una experiencia nutritiva. Muy pronto estará disponible."
     },
     {
       "type": "text",
-      "id": "email_label_es",
-      "label": "Email label",
-      "default": "Correo electronico"
+      "id": "full_name_label_es",
+      "label": "Full name label",
+      "default": "NOMBRE COMPLETO"
+    },
+    {
+      "type": "text",
+      "id": "full_name_placeholder_es",
+      "label": "Full name placeholder",
+      "default": "Tu nombre (opcional)"
+    },
+    {
+      "type": "text",
+      "id": "contact_label_es",
+      "label": "Contact label",
+      "default": "CONTACTO *"
+    },
+    {
+      "type": "text",
+      "id": "email_tab_es",
+      "label": "Email tab label",
+      "default": "CORREO ELECTRÓNICO"
+    },
+    {
+      "type": "text",
+      "id": "phone_tab_es",
+      "label": "Phone tab label",
+      "default": "TELÉFONO"
     },
     {
       "type": "text",
       "id": "email_placeholder_es",
       "label": "Email placeholder",
-      "default": "Tu correo electronico"
+      "default": "Tu correo electrónico"
+    },
+    {
+      "type": "text",
+      "id": "phone_placeholder_es",
+      "label": "Phone placeholder",
+      "default": "Tu número de teléfono"
+    },
+    {
+      "type": "text",
+      "id": "consent_email_es",
+      "label": "Email consent label",
+      "default": "Notifícame por correo electrónico"
+    },
+    {
+      "type": "text",
+      "id": "consent_phone_es",
+      "label": "Phone consent label",
+      "default": "Notifícame por SMS"
     },
     {
       "type": "text",
       "id": "submit_label_es",
-      "label": "Submit label",
-      "default": "Avisame"
+      "label": "Submit button label",
+      "default": "AVÍSAME"
     },
     {
       "type": "text",
-      "id": "success_message_es",
-      "label": "Success message",
-      "default": "Gracias. Te avisaremos cuando Plennia este lista."
+      "id": "success_title_es",
+      "label": "Success title",
+      "default": "Estás en la lista"
     },
     {
       "type": "text",
-      "id": "error_message_es",
-      "label": "Error message",
-      "default": "Ingresa un correo valido para unirte a la lista."
+      "id": "success_body_es",
+      "label": "Success helper",
+      "default": "Te avisaremos cuando lancemos."
+    },
+    {
+      "type": "text",
+      "id": "invalid_email_es",
+      "label": "Invalid email message",
+      "default": "Ingresa un correo electrónico válido."
+    },
+    {
+      "type": "text",
+      "id": "invalid_phone_es",
+      "label": "Invalid phone message",
+      "default": "Ingresa un número de teléfono válido."
+    },
+    {
+      "type": "text",
+      "id": "consent_required_es",
+      "label": "Consent required message",
+      "default": "Debes aceptar cómo quieres que te notifiquemos."
+    },
+    {
+      "type": "text",
+      "id": "submit_error_es",
+      "label": "Submit error message",
+      "default": "No pudimos guardar tu registro. Inténtalo de nuevo."
     },
     {
       "type": "textarea",
-      "id": "footer_note_es",
-      "label": "Footer note",
-      "default": "Sin spam. Solo novedades de lanzamiento, acceso anticipado y noticias importantes."
-    },
-    {
-      "type": "text",
-      "id": "body_note_es",
-      "label": "Hidden form note",
-      "default": "Registro coming soon (ES)"
+      "id": "phone_unavailable_es",
+      "label": "Phone unavailable message",
+      "default": "La inscripción por SMS requiere una integración adicional de Shopify. Usa correo electrónico por ahora."
     },
     {
       "type": "header",
@@ -741,37 +1263,67 @@
       "type": "text",
       "id": "meta_title_en",
       "label": "Meta title",
-      "default": "Plennia is coming soon"
+      "default": "Plennia | Coming soon"
     },
     {
       "type": "textarea",
       "id": "meta_description_en",
       "label": "Meta description",
-      "default": "Join the list to hear first when Plennia officially launches."
+      "default": "We're working hard to bring you a nourishing experience. Stay tuned."
     },
     {
       "type": "text",
-      "id": "kicker_en",
-      "label": "Kicker",
-      "default": "Coming soon"
+      "id": "eyebrow_en",
+      "label": "Eyebrow",
+      "default": "COMING SOON"
     },
     {
       "type": "textarea",
       "id": "heading_en",
-      "label": "Heading",
-      "default": "A new way to discover\nPlennia"
+      "label": "Headline",
+      "default": "Something beautiful\nis coming"
+    },
+    {
+      "type": "text",
+      "id": "tagline_en",
+      "label": "Tagline",
+      "default": "The right food for the right love."
     },
     {
       "type": "textarea",
       "id": "body_en",
-      "label": "Body copy",
-      "default": "We are building a more refined, sensory and exclusive storefront. Leave your email and we will let you know the moment we open."
+      "label": "Supporting copy",
+      "default": "We're working hard to bring you a nourishing experience. Stay tuned."
     },
     {
       "type": "text",
-      "id": "email_label_en",
-      "label": "Email label",
-      "default": "Email address"
+      "id": "full_name_label_en",
+      "label": "Full name label",
+      "default": "FULL NAME"
+    },
+    {
+      "type": "text",
+      "id": "full_name_placeholder_en",
+      "label": "Full name placeholder",
+      "default": "Your name (optional)"
+    },
+    {
+      "type": "text",
+      "id": "contact_label_en",
+      "label": "Contact label",
+      "default": "CONTACT *"
+    },
+    {
+      "type": "text",
+      "id": "email_tab_en",
+      "label": "Email tab label",
+      "default": "EMAIL"
+    },
+    {
+      "type": "text",
+      "id": "phone_tab_en",
+      "label": "Phone tab label",
+      "default": "PHONE"
     },
     {
       "type": "text",
@@ -781,33 +1333,69 @@
     },
     {
       "type": "text",
+      "id": "phone_placeholder_en",
+      "label": "Phone placeholder",
+      "default": "Your phone number"
+    },
+    {
+      "type": "text",
+      "id": "consent_email_en",
+      "label": "Email consent label",
+      "default": "Notify me by email"
+    },
+    {
+      "type": "text",
+      "id": "consent_phone_en",
+      "label": "Phone consent label",
+      "default": "Notify me by SMS"
+    },
+    {
+      "type": "text",
       "id": "submit_label_en",
-      "label": "Submit label",
-      "default": "Notify me"
+      "label": "Submit button label",
+      "default": "JOIN THE WAITLIST"
     },
     {
       "type": "text",
-      "id": "success_message_en",
-      "label": "Success message",
-      "default": "Thanks. We will email you when Plennia is ready."
+      "id": "success_title_en",
+      "label": "Success title",
+      "default": "You're on the list"
     },
     {
       "type": "text",
-      "id": "error_message_en",
-      "label": "Error message",
-      "default": "Enter a valid email address to join the list."
+      "id": "success_body_en",
+      "label": "Success helper",
+      "default": "We'll let you know when we launch."
+    },
+    {
+      "type": "text",
+      "id": "invalid_email_en",
+      "label": "Invalid email message",
+      "default": "Enter a valid email address."
+    },
+    {
+      "type": "text",
+      "id": "invalid_phone_en",
+      "label": "Invalid phone message",
+      "default": "Enter a valid phone number."
+    },
+    {
+      "type": "text",
+      "id": "consent_required_en",
+      "label": "Consent required message",
+      "default": "You must confirm how you want us to notify you."
+    },
+    {
+      "type": "text",
+      "id": "submit_error_en",
+      "label": "Submit error message",
+      "default": "We couldn't save your signup. Please try again."
     },
     {
       "type": "textarea",
-      "id": "footer_note_en",
-      "label": "Footer note",
-      "default": "No spam. Only launch updates, early access and important news."
-    },
-    {
-      "type": "text",
-      "id": "body_note_en",
-      "label": "Hidden form note",
-      "default": "Coming soon signup (EN)"
+      "id": "phone_unavailable_en",
+      "label": "Phone unavailable message",
+      "default": "SMS waitlist signup needs an additional Shopify app or backend. Please use email for now."
     }
   ],
   "presets": [
