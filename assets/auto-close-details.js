@@ -264,7 +264,7 @@
           color: var(--plennia-text-soft);
           cursor: pointer;
           font-family: var(--font-body--family);
-          font-size: 0.95rem;
+          font-size: 1.14rem;
           font-weight: 400;
           line-height: 1.45;
           padding: 0.95rem 2rem 0.95rem 1rem;
