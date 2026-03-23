@@ -104,7 +104,6 @@
     let countryCodeSelect = section.querySelector('[data-country-code-select]');
     let phoneChannelGroup = section.querySelector('[data-phone-channel-group]');
     let phoneChannelButtons = section.querySelectorAll('[data-phone-channel-button]');
-    const consentInput = section.querySelector('[data-consent-input]');
     const submitButton = section.querySelector('[data-submit-button]');
     const fields = section.querySelector('.plennia-coming-soon__fields');
     const successState = section.querySelector('[data-success-state]');
@@ -116,14 +115,12 @@
     let customerFirstName = section.querySelector('[data-customer-first-name]');
     let customerLastName = section.querySelector('[data-customer-last-name]');
     const contactError = section.querySelector('[data-contact-error]');
-    const consentError = section.querySelector('[data-consent-error]');
     const generalError = section.querySelector('[data-general-error]');
     const serverStateMarker = section.querySelector('[data-customer-transport-state]');
     const localeButtons = section.querySelectorAll('[data-locale-button]');
     const methodButtons = section.querySelectorAll('[data-method-button]');
     let textTargets = section.querySelectorAll('[data-i18n-key]');
     const placeholderTargets = section.querySelectorAll('[data-i18n-placeholder]');
-    const consentText = section.querySelector('[data-consent-text]');
 
     const state = {
       locale: defaultLocale,
@@ -502,7 +499,7 @@
     const currentCopy = () => copy[state.locale] || copy[defaultLocale];
 
     const clearErrors = () => {
-      [contactError, consentError, generalError].forEach((element) => {
+      [contactError, generalError].forEach((element) => {
         if (!element) return;
 
         element.textContent = '';
@@ -573,15 +570,6 @@
 
       if (phoneChannelGroup) {
         setHidden(phoneChannelGroup, !isPhone);
-      }
-
-      if (consentText) {
-        consentText.textContent =
-          !isPhone
-            ? localeCopy.consentEmail
-            : state.phoneChannel === 'whatsapp'
-              ? localeCopy.consentPhoneWhatsapp
-              : localeCopy.consentPhoneSms;
       }
 
       methodButtons.forEach((button) => {
@@ -691,7 +679,6 @@
     if (
       !uiForm ||
       !contactInput ||
-      !consentInput ||
       !submitButton ||
       !customerForm ||
       !customerEmail ||
@@ -726,7 +713,7 @@
         setHidden(successState, false);
       }
 
-      [nameInput, contactInput, consentInput].forEach((element) => {
+      [nameInput, contactInput].forEach((element) => {
         if (element) element.disabled = true;
       });
 
@@ -773,11 +760,6 @@
           setError(contactError, localeCopy.validation.phone);
           return false;
         }
-      }
-
-      if (!consentInput.checked) {
-        setError(consentError, localeCopy.validation.consent);
-        return false;
       }
 
       return true;
@@ -864,15 +846,6 @@
         clearErrors();
       });
     }
-
-    consentInput.addEventListener('change', () => {
-      if (!consentError) return;
-
-      if (consentInput.checked) {
-        consentError.textContent = '';
-        consentError.hidden = true;
-      }
-    });
 
     uiForm.addEventListener('submit', handleSubmit);
   };
