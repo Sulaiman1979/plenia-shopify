@@ -947,6 +947,17 @@
       pending: false,
     };
 
+    const localeMeta = {
+      es: {
+        currentLabel: 'Spanish',
+        destinationLabel: 'Español',
+      },
+      en: {
+        currentLabel: 'English',
+        destinationLabel: 'English',
+      },
+    };
+
     const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     const phonePattern = /^\+?[0-9\s().-]{7,}$/;
 
@@ -1049,7 +1060,19 @@
       document.documentElement.lang = state.locale;
 
       localeButtons.forEach((button) => {
-        button.setAttribute('aria-pressed', String(button.dataset.localeButton === state.locale));
+        const buttonLocale = button.dataset.localeButton === 'en' ? 'en' : 'es';
+        const isCurrentLocale = buttonLocale === state.locale;
+        const labels = localeMeta[buttonLocale];
+
+        button.setAttribute('aria-pressed', String(!isCurrentLocale));
+        button.setAttribute('aria-current', String(isCurrentLocale));
+        button.tabIndex = isCurrentLocale ? -1 : 0;
+        button.setAttribute(
+          'aria-label',
+          isCurrentLocale
+            ? `Current language: ${labels.currentLabel}`
+            : `Switch to ${labels.destinationLabel}`
+        );
       });
 
       syncMethodCopy();
@@ -1184,6 +1207,7 @@
     localeButtons.forEach((button) => {
       button.addEventListener('click', () => {
         const locale = button.dataset.localeButton;
+        if (locale === state.locale) return;
         if (locale === 'es' || locale === 'en') {
           applyLocale(locale);
         }
