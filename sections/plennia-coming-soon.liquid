@@ -54,6 +54,13 @@
           class="plennia-coming-soon__locale-button"
           data-locale-button="es"
           aria-pressed="false"
+          {% if default_locale == 'es' %}
+            aria-current="true"
+            hidden
+            disabled
+            aria-hidden="true"
+            tabindex="-1"
+          {% endif %}
         >
           ES
         </button>
@@ -62,6 +69,13 @@
           class="plennia-coming-soon__locale-button"
           data-locale-button="en"
           aria-pressed="false"
+          {% if default_locale == 'en' %}
+            aria-current="true"
+            hidden
+            disabled
+            aria-hidden="true"
+            tabindex="-1"
+          {% endif %}
         >
           EN
         </button>
@@ -900,8 +914,7 @@
 
 {% javascript %}
   (() => {
-    const script = document.currentScript;
-    const section = script ? script.closest('.plennia-coming-soon') : null;
+    const section = document.querySelector('.plennia-coming-soon[data-section-id="{{ section.id }}"]');
     if (!section) return;
 
     const copyElement = section.querySelector('[data-plennia-copy]');
