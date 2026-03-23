@@ -124,6 +124,8 @@
 
     const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     const phonePattern = /^\+?[0-9\s().-]{7,}$/;
+    const transportFrameId = `PlenniaCustomerTransport-${section.dataset.sectionId}`;
+    let pendingTransportSubmission = null;
 
     const ensureFallbackPhoneStyles = () => {
       if (document.getElementById('plennia-coming-soon-phone-fallback-styles')) {
@@ -571,34 +573,101 @@
       );
     };
 
+    const ensureTransportFrame = () => {
+      let frame = document.getElementById(transportFrameId);
+
+      if (frame instanceof HTMLIFrameElement) {
+        return frame;
+      }
+
+      frame = document.createElement('iframe');
+      frame.id = transportFrameId;
+      frame.name = transportFrameId;
+      frame.hidden = true;
+      frame.tabIndex = -1;
+      frame.setAttribute('aria-hidden', 'true');
+      frame.style.display = 'none';
+      frame.src = 'about:blank';
+      section.appendChild(frame);
+
+      return frame;
+    };
+
     const submitCustomerForm = async () => {
-      const response = await fetch(customerForm.action, {
-        method: 'POST',
-        body: new FormData(customerForm),
-        credentials: 'same-origin',
-        headers: {
-          Accept: 'text/html',
-        },
+      if (pendingTransportSubmission) {
+        return pendingTransportSubmission;
+      }
+
+      pendingTransportSubmission = new Promise((resolve, reject) => {
+        const transportFrame = ensureTransportFrame();
+        const originalTarget = customerForm.getAttribute('target');
+        let settled = false;
+
+        const cleanup = () => {
+          transportFrame.removeEventListener('load', handleLoad);
+          window.clearTimeout(timeoutId);
+          pendingTransportSubmission = null;
+
+          if (originalTarget == null) {
+            customerForm.removeAttribute('target');
+          } else {
+            customerForm.setAttribute('target', originalTarget);
+          }
+        };
+
+        const finish = (callback) => {
+          if (settled) return;
+
+          settled = true;
+          cleanup();
+          callback();
+        };
+
+        const handleLoad = () => {
+          try {
+            const frameWindow = transportFrame.contentWindow;
+            const frameDocument = transportFrame.contentDocument;
+            const frameHref = frameWindow && frameWindow.location ? frameWindow.location.href : '';
+
+            if (!frameDocument || !frameHref || frameHref === 'about:blank') {
+              return;
+            }
+
+            const marker = frameDocument.querySelector(
+              `[data-customer-transport-state="${section.dataset.sectionId}"]`
+            );
+
+            if (marker && marker.dataset.state === 'success') {
+              finish(resolve);
+              return;
+            }
+
+            if (hasSubmissionErrors(frameDocument)) {
+              finish(() => reject(new Error('Customer form submission failed')));
+              return;
+            }
+
+            finish(resolve);
+          } catch (error) {
+            finish(() => reject(new Error('Customer form submission failed')));
+          }
+        };
+
+        const timeoutId = window.setTimeout(() => {
+          finish(() => reject(new Error('Customer form submission timed out')));
+        }, 20000);
+
+        transportFrame.addEventListener('load', handleLoad);
+        customerForm.setAttribute('target', transportFrame.name);
+
+        if (typeof customerForm.requestSubmit === 'function') {
+          customerForm.requestSubmit();
+        } else {
+          customerForm.submit();
+        }
       });
 
-      if (!response.ok) {
-        throw new Error('Customer form submission failed');
-      }
-
-      const responseText = await response.text();
-      const parser = new DOMParser();
-      const documentResponse = parser.parseFromString(responseText, 'text/html');
-      const marker = documentResponse.querySelector(
-        `[data-customer-transport-state="${section.dataset.sectionId}"]`
-      );
-
-      if (marker && marker.dataset.state === 'success') {
-        return;
-      }
-
-      if (hasSubmissionErrors(documentResponse)) {
-        throw new Error('Customer form submission failed');
-      }
+      return pendingTransportSubmission;
     };
 
     const validate = () => {
