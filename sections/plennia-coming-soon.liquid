@@ -1,18 +1,11 @@
 {% liquid
   assign default_locale = section.settings.default_locale | default: 'es'
-  assign current_locale = localization.language.iso_code | default: default_locale | downcase | split: '-' | first
   assign theme_logo = settings.logo
   assign logo_height = settings.logo_height | default: 36
   assign logo_height_mobile = settings.logo_height_mobile | default: 28
   assign logo_height_display = logo_height | times: 2.19375 | round
   assign logo_height_mobile_display = logo_height_mobile | times: 2.19375 | round
   assign logo_style = ''
-  assign locale_form_id = 'PlenniaLocaleForm-' | append: section.id
-  assign locale_return_to = request.path | default: routes.root_url
-  assign locale_code_es = 'es'
-  assign locale_code_en = 'en'
-  assign locale_es_available = false
-  assign locale_en_available = false
 
   if theme_logo != blank
     assign logo_width = logo_height_display | times: theme_logo.aspect_ratio | ceil
@@ -20,27 +13,7 @@
     assign logo_style = '--plennia-logo-width: ' | append: logo_width | append: 'px; --plennia-logo-width-mobile: ' | append: logo_width_mobile | append: 'px; --plennia-logo-height: ' | append: logo_height_display | append: 'px; --plennia-logo-height-mobile: ' | append: logo_height_mobile_display | append: 'px;'
   endif
 
-  for language in localization.available_languages
-    assign language_prefix = language.iso_code | downcase | split: '-' | first
-
-    if language_prefix == 'es'
-      assign locale_code_es = language.iso_code
-      assign locale_es_available = true
-    elsif language_prefix == 'en'
-      assign locale_code_en = language.iso_code
-      assign locale_en_available = true
-    endif
-  endfor
-
-  if localization.available_languages.size <= 1
-    assign current_locale = default_locale
-  endif
-
-  if current_locale != 'es' and current_locale != 'en'
-    assign current_locale = default_locale
-  endif
-
-  if current_locale == 'en'
+  if default_locale == 'en'
     assign eyebrow_text = section.settings.eyebrow_en
     assign heading_text = section.settings.heading_en
     assign tagline_text = section.settings.tagline_en
@@ -79,7 +52,6 @@
   class="plennia-coming-soon"
   data-section-id="{{ section.id }}"
   data-default-locale="{{ default_locale }}"
-  data-current-locale="{{ current_locale }}"
 >
   <div class="plennia-coming-soon__shell">
     <header class="plennia-coming-soon__header">
@@ -104,27 +76,17 @@
         {% endif %}
       </a>
 
-      {%- form 'localization',
-        id: locale_form_id,
-        class: 'plennia-coming-soon__locale-switcher',
-        return_to: locale_return_to,
-        aria-label: 'Language switcher'
-      -%}
-        <input
-          type="hidden"
-          name="language_code"
-          value="{{ localization.language.iso_code }}"
-          data-locale-input
-        >
+      <div
+        class="plennia-coming-soon__locale-switcher"
+        role="group"
+        aria-label="Language switcher"
+      >
         <button
           type="button"
           class="plennia-coming-soon__locale-button"
           data-locale-button="es"
-          {% if locale_es_available %}
-            data-locale-code="{{ locale_code_es }}"
-          {% endif %}
           aria-pressed="false"
-          {% if current_locale == 'es' %}
+          {% if default_locale == 'es' %}
             aria-current="true"
             hidden
             disabled
@@ -146,11 +108,8 @@
           type="button"
           class="plennia-coming-soon__locale-button"
           data-locale-button="en"
-          {% if locale_en_available %}
-            data-locale-code="{{ locale_code_en }}"
-          {% endif %}
           aria-pressed="false"
-          {% if current_locale == 'en' %}
+          {% if default_locale == 'en' %}
             aria-current="true"
             hidden
             disabled
@@ -168,7 +127,7 @@
           >
           <span class="visually-hidden">EN</span>
         </button>
-      {%- endform -%}
+      </div>
     </header>
 
     <div class="plennia-coming-soon__divider" aria-hidden="true"></div>
@@ -1025,8 +984,8 @@
       return;
     }
 
+    const storageKey = 'plennia-coming-soon-locale';
     const defaultLocale = section.dataset.defaultLocale === 'en' ? 'en' : 'es';
-    const currentLocale = section.dataset.currentLocale === 'en' ? 'en' : 'es';
     const uiForm = section.querySelector('[data-ui-form]');
     const nameInput = section.querySelector('[data-name-input]');
     const contactInput = section.querySelector('[data-contact-input]');
@@ -1042,8 +1001,6 @@
     const contactError = section.querySelector('[data-contact-error]');
     const consentError = section.querySelector('[data-consent-error]');
     const generalError = section.querySelector('[data-general-error]');
-    const localeForm = section.querySelector('form[data-locale-form], #{{ locale_form_id }}');
-    const localeInput = section.querySelector('[data-locale-input]');
     const localeButtons = section.querySelectorAll('[data-locale-button]');
     const methodButtons = section.querySelectorAll('[data-method-button]');
     const textTargets = section.querySelectorAll('[data-i18n-key]');
@@ -1053,7 +1010,7 @@
     if (!uiForm || !contactInput || !consentInput || !submitButton || !customerForm) return;
 
     const state = {
-      locale: currentLocale,
+      locale: defaultLocale,
       method: 'email',
       submitted: false,
       pending: false,
@@ -1104,7 +1061,7 @@
       };
     };
 
-    const currentCopy = () => copy[state.locale] || copy[currentLocale] || copy[defaultLocale];
+    const currentCopy = () => copy[state.locale] || copy[defaultLocale];
 
     const clearErrors = () => {
       [contactError, consentError, generalError].forEach((element) => {
@@ -1120,6 +1077,22 @@
 
       element.textContent = message;
       element.hidden = false;
+    };
+
+    const syncLocaleUrl = () => {
+      try {
+        const url = new URL(window.location.href);
+
+        if (state.locale === defaultLocale) {
+          url.searchParams.delete('lang');
+        } else {
+          url.searchParams.set('lang', state.locale);
+        }
+
+        window.history.replaceState({}, '', `${url.pathname}${url.search}${url.hash}`);
+      } catch (error) {
+        /* no-op */
+      }
     };
 
     const syncMethodCopy = () => {
@@ -1195,6 +1168,13 @@
       });
 
       syncMethodCopy();
+      syncLocaleUrl();
+
+      try {
+        window.localStorage.setItem(storageKey, state.locale);
+      } catch (error) {
+        /* no-op */
+      }
     };
 
     const setPending = (pending) => {
@@ -1306,22 +1286,27 @@
       }
     };
 
+    let initialLocale = defaultLocale;
+
+    try {
+      const urlLocale = new URL(window.location.href).searchParams.get('lang');
+
+      if (urlLocale === 'es' || urlLocale === 'en') {
+        initialLocale = urlLocale;
+      } else {
+        const storedLocale = window.localStorage.getItem(storageKey);
+        if (storedLocale === 'es' || storedLocale === 'en') {
+          initialLocale = storedLocale;
+        }
+      }
+    } catch (error) {
+      /* no-op */
+    }
+
     localeButtons.forEach((button) => {
       button.addEventListener('click', () => {
         const locale = button.dataset.localeButton === 'en' ? 'en' : 'es';
-        const localeCode = button.dataset.localeCode;
         if (locale === state.locale) return;
-
-        if (localeForm && localeInput && localeCode) {
-          localeInput.value = localeCode;
-          if (typeof localeForm.requestSubmit === 'function') {
-            localeForm.requestSubmit();
-          } else {
-            localeForm.submit();
-          }
-          return;
-        }
-
         applyLocale(locale);
       });
     });
@@ -1355,7 +1340,7 @@
     });
 
     uiForm.addEventListener('submit', handleSubmit);
-    applyLocale(currentLocale);
+    applyLocale(initialLocale);
   })();
 {% endjavascript %}
 

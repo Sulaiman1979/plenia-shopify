@@ -39,11 +39,35 @@
     {%- render 'theme-styles-variables' -%}
     {%- render 'color-schemes' -%}
 
-    {% if request.design_mode %}
+    {% if request.design_mode and hide_theme_chrome == false %}
       {%- render 'theme-editor' -%}
     {% endif %}
 
     {{ content_for_header }}
+
+    {% if hide_theme_chrome %}
+      <style>
+        #admin-bar-iframe,
+        iframe[id*='admin-bar'],
+        iframe[src*='admin_bar'],
+        iframe[src*='preview_bar'],
+        iframe[src*='preview-bar'],
+        shopify-admin-bar,
+        [id*='OnlineStorePreviewBar'],
+        [data-shopify-preview-bar] {
+          display: none !important;
+          visibility: hidden !important;
+          opacity: 0 !important;
+          pointer-events: none !important;
+        }
+
+        html,
+        body {
+          margin-bottom: 0 !important;
+          padding-bottom: 0 !important;
+        }
+      </style>
+    {% endif %}
   </head>
 
   <body class="page-width-{{ settings.page_width }} card-hover-effect-{{ settings.card_hover_effect }}">
