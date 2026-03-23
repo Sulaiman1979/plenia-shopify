@@ -108,11 +108,12 @@
     const submitButton = section.querySelector('[data-submit-button]');
     const successState = section.querySelector('[data-success-state]');
     const statusLive = section.querySelector('[data-status-live]');
-    const customerForm = document.getElementById(`PlenniaCustomerForm-${section.dataset.sectionId}`);
-    const customerEmail = section.querySelector('[data-customer-email]');
-    const customerTags = section.querySelector('[data-customer-tags]');
-    const customerFirstName = section.querySelector('[data-customer-first-name]');
-    const customerLastName = section.querySelector('[data-customer-last-name]');
+    let customerForm =
+      uiForm instanceof HTMLFormElement ? uiForm : document.getElementById(`PlenniaCustomerForm-${section.dataset.sectionId}`);
+    let customerEmail = section.querySelector('[data-customer-email]');
+    let customerTags = section.querySelector('[data-customer-tags]');
+    let customerFirstName = section.querySelector('[data-customer-first-name]');
+    let customerLastName = section.querySelector('[data-customer-last-name]');
     const contactError = section.querySelector('[data-contact-error]');
     const consentError = section.querySelector('[data-consent-error]');
     const generalError = section.querySelector('[data-general-error]');
@@ -349,6 +350,54 @@
     };
 
     createPhoneControls();
+
+    const ensureCustomerField = (name, dataAttribute, value = '') => {
+      if (!(customerForm instanceof HTMLFormElement)) {
+        return null;
+      }
+
+      let field = customerForm.querySelector(`[name="${name}"]`);
+
+      if (!(field instanceof HTMLInputElement)) {
+        field = document.createElement('input');
+        field.type = 'hidden';
+        field.name = name;
+        customerForm.appendChild(field);
+      }
+
+      if (dataAttribute) {
+        field.setAttribute(dataAttribute, '');
+      }
+
+      if (value && !field.value) {
+        field.value = value;
+      }
+
+      return field;
+    };
+
+    const ensureCustomerFormSetup = () => {
+      if (!(uiForm instanceof HTMLFormElement)) {
+        return;
+      }
+
+      customerForm = uiForm;
+      customerForm.id = `PlenniaCustomerForm-${section.dataset.sectionId}`;
+      customerForm.method = 'post';
+      customerForm.action = `/contact#${customerForm.id}`;
+      customerForm.acceptCharset = 'UTF-8';
+      customerForm.setAttribute('novalidate', 'novalidate');
+
+      ensureCustomerField('form_type', null, 'customer');
+      ensureCustomerField('utf8', null, '?');
+
+      customerEmail = ensureCustomerField('contact[email]', 'data-customer-email');
+      customerTags = ensureCustomerField('contact[tags]', 'data-customer-tags');
+      customerFirstName = ensureCustomerField('contact[first_name]', 'data-customer-first-name');
+      customerLastName = ensureCustomerField('contact[last_name]', 'data-customer-last-name');
+    };
+
+    ensureCustomerFormSetup();
 
     const setMetaDescription = (value) => {
       let meta = document.querySelector('meta[name="description"]');

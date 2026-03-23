@@ -186,7 +186,17 @@
               {% endfor %}
             </div>
           {% else %}
-            {%- form 'customer', id: customer_form_id, class: 'plennia-coming-soon__ui-form', novalidate: 'novalidate' -%}
+            <form
+              method="post"
+              action="/contact#{{ customer_form_id }}"
+              id="{{ customer_form_id }}"
+              accept-charset="UTF-8"
+              class="plennia-coming-soon__ui-form"
+              data-ui-form
+              novalidate
+            >
+              <input type="hidden" name="form_type" value="customer">
+              <input type="hidden" name="utf8" value="?">
               <div class="plennia-coming-soon__fields">
                 <div class="plennia-coming-soon__field-group">
                   <label
@@ -452,9 +462,9 @@
               <div
                 hidden
                 data-customer-transport-state="{{ section.id }}"
-                data-state="{% if form.posted_successfully? %}success{% elsif form.errors %}error{% else %}idle{% endif %}"
+                data-state="idle"
               ></div>
-            {%- endform -%}
+            </form>
           {% endif %}
         </div>
       </div>
