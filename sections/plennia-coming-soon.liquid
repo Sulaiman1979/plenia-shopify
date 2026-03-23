@@ -46,6 +46,14 @@
   endif
 
   assign customer_form_id = 'PlenniaCustomerForm-' | append: section.id
+  assign has_app_form_block = false
+
+  for block in section.blocks
+    if block.type == '@app'
+      assign has_app_form_block = true
+      break
+    endif
+  endfor
 %}
 
 <section
@@ -165,147 +173,155 @@
         </div>
 
         <div class="plennia-coming-soon__form-shell">
-          <form
-            class="plennia-coming-soon__ui-form"
-            data-ui-form
-            novalidate
-          >
-            <div class="plennia-coming-soon__fields">
-              <div class="plennia-coming-soon__field-group">
-                <label
-                  class="plennia-coming-soon__label"
-                  for="PlenniaName-{{ section.id }}"
-                  data-i18n-key="fullNameLabel"
-                >
-                  {{ full_name_label }}
-                </label>
-                <input
-                  id="PlenniaName-{{ section.id }}"
-                  class="plennia-coming-soon__input"
-                  type="text"
-                  name="full_name"
-                  autocomplete="name"
-                  placeholder="{{ full_name_placeholder }}"
-                  data-name-input
-                  data-i18n-placeholder="fullNamePlaceholder"
-                >
-              </div>
-
-              <div class="plennia-coming-soon__field-group">
-                <span
-                  class="plennia-coming-soon__label"
-                  data-i18n-key="contactLabel"
-                >
-                  {{ contact_label }}
-                </span>
-
-                <div
-                  class="plennia-coming-soon__method-toggle"
-                  role="tablist"
-                  aria-label="Contact method"
-                >
-                  <button
-                    type="button"
-                    class="plennia-coming-soon__method-button"
-                    data-method-button="email"
-                    data-i18n-key="emailTab"
-                    aria-pressed="false"
-                  >
-                    {{ email_tab_label }}
-                  </button>
-                  <button
-                    type="button"
-                    class="plennia-coming-soon__method-button"
-                    data-method-button="phone"
-                    data-i18n-key="phoneTab"
-                    aria-pressed="false"
-                  >
-                    {{ phone_tab_label }}
-                  </button>
-                </div>
-              </div>
-
-              <div class="plennia-coming-soon__field-group">
-                <input
-                  id="PlenniaContact-{{ section.id }}"
-                  class="plennia-coming-soon__input"
-                  type="email"
-                  name="contact_value"
-                  autocomplete="email"
-                  inputmode="email"
-                  placeholder="{{ email_placeholder }}"
-                  data-contact-input
-                >
-                <p
-                  class="plennia-coming-soon__field-error"
-                  data-contact-error
-                  hidden
-                ></p>
-              </div>
-
-              <div class="plennia-coming-soon__field-group plennia-coming-soon__field-group--checkbox">
-                <label class="plennia-coming-soon__checkbox">
-                  <input
-                    type="checkbox"
-                    name="consent"
-                    value="true"
-                    data-consent-input
-                  >
-                  <span class="plennia-coming-soon__checkbox-box" aria-hidden="true"></span>
-                  <span
-                    class="plennia-coming-soon__checkbox-text"
-                    data-consent-text
-                  >
-                    {{ consent_label }}
-                  </span>
-                </label>
-                <p
-                  class="plennia-coming-soon__field-error"
-                  data-consent-error
-                  hidden
-                ></p>
-              </div>
-
-              <button
-                class="plennia-coming-soon__submit"
-                type="submit"
-                data-submit-button
-              >
-                <span data-i18n-key="submitLabel">{{ submit_label }}</span>
-              </button>
-
-              <p
-                class="plennia-coming-soon__field-error plennia-coming-soon__field-error--general"
-                data-general-error
-                hidden
-              ></p>
+          {% if has_app_form_block %}
+            <div class="plennia-coming-soon__app-form">
+              {% for block in section.blocks %}
+                {% render block %}
+              {% endfor %}
             </div>
-
-            <div
-              class="plennia-coming-soon__success"
-              data-success-state
-              hidden
+          {% else %}
+            <form
+              class="plennia-coming-soon__ui-form"
+              data-ui-form
+              novalidate
             >
-              <p
-                class="plennia-coming-soon__success-title"
-                data-i18n-key="successTitle"
-              >
-                {{ success_title }}
-              </p>
-              <p
-                class="plennia-coming-soon__success-body"
-                data-i18n-key="successBody"
-              >
-                {{ success_body }}
-              </p>
-            </div>
+              <div class="plennia-coming-soon__fields">
+                <div class="plennia-coming-soon__field-group">
+                  <label
+                    class="plennia-coming-soon__label"
+                    for="PlenniaName-{{ section.id }}"
+                    data-i18n-key="fullNameLabel"
+                  >
+                    {{ full_name_label }}
+                  </label>
+                  <input
+                    id="PlenniaName-{{ section.id }}"
+                    class="plennia-coming-soon__input"
+                    type="text"
+                    name="full_name"
+                    autocomplete="name"
+                    placeholder="{{ full_name_placeholder }}"
+                    data-name-input
+                    data-i18n-placeholder="fullNamePlaceholder"
+                  >
+                </div>
 
-            <div
-              class="visually-hidden"
-              aria-live="polite"
-              data-status-live
-            ></div>
-          </form>
+                <div class="plennia-coming-soon__field-group">
+                  <span
+                    class="plennia-coming-soon__label"
+                    data-i18n-key="contactLabel"
+                  >
+                    {{ contact_label }}
+                  </span>
+
+                  <div
+                    class="plennia-coming-soon__method-toggle"
+                    role="tablist"
+                    aria-label="Contact method"
+                  >
+                    <button
+                      type="button"
+                      class="plennia-coming-soon__method-button"
+                      data-method-button="email"
+                      data-i18n-key="emailTab"
+                      aria-pressed="false"
+                    >
+                      {{ email_tab_label }}
+                    </button>
+                    <button
+                      type="button"
+                      class="plennia-coming-soon__method-button"
+                      data-method-button="phone"
+                      data-i18n-key="phoneTab"
+                      aria-pressed="false"
+                    >
+                      {{ phone_tab_label }}
+                    </button>
+                  </div>
+                </div>
+
+                <div class="plennia-coming-soon__field-group">
+                  <input
+                    id="PlenniaContact-{{ section.id }}"
+                    class="plennia-coming-soon__input"
+                    type="email"
+                    name="contact_value"
+                    autocomplete="email"
+                    inputmode="email"
+                    placeholder="{{ email_placeholder }}"
+                    data-contact-input
+                  >
+                  <p
+                    class="plennia-coming-soon__field-error"
+                    data-contact-error
+                    hidden
+                  ></p>
+                </div>
+
+                <div class="plennia-coming-soon__field-group plennia-coming-soon__field-group--checkbox">
+                  <label class="plennia-coming-soon__checkbox">
+                    <input
+                      type="checkbox"
+                      name="consent"
+                      value="true"
+                      data-consent-input
+                    >
+                    <span class="plennia-coming-soon__checkbox-box" aria-hidden="true"></span>
+                    <span
+                      class="plennia-coming-soon__checkbox-text"
+                      data-consent-text
+                    >
+                      {{ consent_label }}
+                    </span>
+                  </label>
+                  <p
+                    class="plennia-coming-soon__field-error"
+                    data-consent-error
+                    hidden
+                  ></p>
+                </div>
+
+                <button
+                  class="plennia-coming-soon__submit"
+                  type="submit"
+                  data-submit-button
+                >
+                  <span data-i18n-key="submitLabel">{{ submit_label }}</span>
+                </button>
+
+                <p
+                  class="plennia-coming-soon__field-error plennia-coming-soon__field-error--general"
+                  data-general-error
+                  hidden
+                ></p>
+              </div>
+
+              <div
+                class="plennia-coming-soon__success"
+                data-success-state
+                hidden
+              >
+                <p
+                  class="plennia-coming-soon__success-title"
+                  data-i18n-key="successTitle"
+                >
+                  {{ success_title }}
+                </p>
+                <p
+                  class="plennia-coming-soon__success-body"
+                  data-i18n-key="successBody"
+                >
+                  {{ success_body }}
+                </p>
+              </div>
+
+              <div
+                class="visually-hidden"
+                aria-live="polite"
+                data-status-live
+              ></div>
+            </form>
+          {% endif %}
         </div>
       </div>
     </main>
@@ -844,6 +860,14 @@
     display: none;
   }
 
+  .plennia-coming-soon__app-form {
+    width: 100%;
+  }
+
+  .plennia-coming-soon__app-form > * {
+    width: 100%;
+  }
+
   @media screen and (max-width: 749px) {
     .plennia-coming-soon__shell {
       padding: 1rem 1rem 1.3rem;
@@ -973,6 +997,11 @@
   "name": "Plennia coming soon",
   "tag": "section",
   "class": "section-wrapper section-wrapper--plennia-coming-soon",
+  "blocks": [
+    {
+      "type": "@app"
+    }
+  ],
   "settings": [
     {
       "type": "text",
