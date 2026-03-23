@@ -968,10 +968,13 @@
   }
 {% endstylesheet %}
 
-{% javascript %}
+<script>
   (() => {
     const section = document.querySelector('.plennia-coming-soon[data-section-id="{{ section.id }}"]');
     if (!section) return;
+    if (section.dataset.localeReady === 'true') return;
+
+    section.dataset.localeReady = 'true';
 
     const copyElement = section.querySelector('[data-plennia-copy]');
     if (!copyElement) return;
@@ -1357,7 +1360,7 @@
     });
     uiForm.addEventListener('submit', handleSubmit);
   })();
-{% endjavascript %}
+</script>
 
 {% schema %}
 {
