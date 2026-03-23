@@ -1,16 +1,71 @@
 {% liquid
   assign default_locale = section.settings.default_locale | default: 'es'
+  assign current_locale = localization.language.iso_code | default: default_locale | downcase | split: '-' | first
   assign theme_logo = settings.logo
   assign logo_height = settings.logo_height | default: 36
   assign logo_height_mobile = settings.logo_height_mobile | default: 28
   assign logo_height_display = logo_height | times: 2.19375 | round
   assign logo_height_mobile_display = logo_height_mobile | times: 2.19375 | round
   assign logo_style = ''
+  assign locale_form_id = 'PlenniaLocaleForm-' | append: section.id
+  assign locale_return_to = request.path | default: routes.root_url
+  assign locale_code_es = 'es'
+  assign locale_code_en = 'en'
+  assign locale_es_available = false
+  assign locale_en_available = false
+
+  if current_locale != 'es' and current_locale != 'en'
+    assign current_locale = default_locale
+  endif
 
   if theme_logo != blank
     assign logo_width = logo_height_display | times: theme_logo.aspect_ratio | ceil
     assign logo_width_mobile = logo_height_mobile_display | times: theme_logo.aspect_ratio | ceil
     assign logo_style = '--plennia-logo-width: ' | append: logo_width | append: 'px; --plennia-logo-width-mobile: ' | append: logo_width_mobile | append: 'px; --plennia-logo-height: ' | append: logo_height_display | append: 'px; --plennia-logo-height-mobile: ' | append: logo_height_mobile_display | append: 'px;'
+  endif
+
+  for language in localization.available_languages
+    assign language_prefix = language.iso_code | downcase | split: '-' | first
+
+    if language_prefix == 'es'
+      assign locale_code_es = language.iso_code
+      assign locale_es_available = true
+    elsif language_prefix == 'en'
+      assign locale_code_en = language.iso_code
+      assign locale_en_available = true
+    endif
+  endfor
+
+  if current_locale == 'en'
+    assign eyebrow_text = section.settings.eyebrow_en
+    assign heading_text = section.settings.heading_en
+    assign tagline_text = section.settings.tagline_en
+    assign body_text = section.settings.body_en
+    assign full_name_label = section.settings.full_name_label_en
+    assign full_name_placeholder = section.settings.full_name_placeholder_en
+    assign contact_label = section.settings.contact_label_en
+    assign email_tab_label = section.settings.email_tab_en
+    assign phone_tab_label = section.settings.phone_tab_en
+    assign email_placeholder = section.settings.email_placeholder_en
+    assign consent_label = section.settings.consent_email_en
+    assign submit_label = section.settings.submit_label_en
+    assign success_title = section.settings.success_title_en
+    assign success_body = section.settings.success_body_en
+  else
+    assign eyebrow_text = section.settings.eyebrow_es
+    assign heading_text = section.settings.heading_es
+    assign tagline_text = section.settings.tagline_es
+    assign body_text = section.settings.body_es
+    assign full_name_label = section.settings.full_name_label_es
+    assign full_name_placeholder = section.settings.full_name_placeholder_es
+    assign contact_label = section.settings.contact_label_es
+    assign email_tab_label = section.settings.email_tab_es
+    assign phone_tab_label = section.settings.phone_tab_es
+    assign email_placeholder = section.settings.email_placeholder_es
+    assign consent_label = section.settings.consent_email_es
+    assign submit_label = section.settings.submit_label_es
+    assign success_title = section.settings.success_title_es
+    assign success_body = section.settings.success_body_es
   endif
 
   assign customer_form_id = 'PlenniaCustomerForm-' | append: section.id
@@ -20,6 +75,7 @@
   class="plennia-coming-soon"
   data-section-id="{{ section.id }}"
   data-default-locale="{{ default_locale }}"
+  data-current-locale="{{ current_locale }}"
 >
   <div class="plennia-coming-soon__shell">
     <header class="plennia-coming-soon__header">
@@ -44,58 +100,71 @@
         {% endif %}
       </a>
 
-      <div
-        class="plennia-coming-soon__locale-switcher"
-        role="group"
-        aria-label="Language switcher"
-      >
-        <button
-          type="button"
-          class="plennia-coming-soon__locale-button"
-          data-locale-button="es"
-          aria-pressed="false"
-          {% if default_locale == 'es' %}
-            aria-current="true"
-            hidden
-            disabled
-            aria-hidden="true"
-            tabindex="-1"
-          {% endif %}
+      {%- form 'localization',
+        id: locale_form_id,
+        class: 'plennia-coming-soon__locale-switcher',
+        return_to: locale_return_to,
+        aria-label: 'Language switcher'
+      -%}
+        <input
+          type="hidden"
+          name="language_code"
+          value="{{ localization.language.iso_code }}"
+          data-locale-input
         >
-          <img
-            class="plennia-coming-soon__locale-flag"
-            src="{{ 'spain-flag.webp' | asset_url }}"
-            alt=""
-            loading="eager"
-            width="24"
-            height="16"
+        {% if locale_es_available %}
+          <button
+            type="button"
+            class="plennia-coming-soon__locale-button"
+            data-locale-button="es"
+            data-locale-code="{{ locale_code_es }}"
+            aria-pressed="false"
+            {% if current_locale == 'es' %}
+              aria-current="true"
+              hidden
+              disabled
+              aria-hidden="true"
+              tabindex="-1"
+            {% endif %}
           >
-          <span class="visually-hidden">ES</span>
-        </button>
-        <button
-          type="button"
-          class="plennia-coming-soon__locale-button"
-          data-locale-button="en"
-          aria-pressed="false"
-          {% if default_locale == 'en' %}
-            aria-current="true"
-            hidden
-            disabled
-            aria-hidden="true"
-            tabindex="-1"
-          {% endif %}
-        >
-          <img
-            class="plennia-coming-soon__locale-flag"
-            src="{{ 'uk-flag.webp' | asset_url }}"
-            alt=""
-            loading="eager"
-            width="24"
-            height="16"
+            <img
+              class="plennia-coming-soon__locale-flag"
+              src="{{ 'spain-flag.webp' | asset_url }}"
+              alt=""
+              loading="eager"
+              width="24"
+              height="16"
+            >
+            <span class="visually-hidden">ES</span>
+          </button>
+        {% endif %}
+        {% if locale_en_available %}
+          <button
+            type="button"
+            class="plennia-coming-soon__locale-button"
+            data-locale-button="en"
+            data-locale-code="{{ locale_code_en }}"
+            aria-pressed="false"
+            {% if current_locale == 'en' %}
+              aria-current="true"
+              hidden
+              disabled
+              aria-hidden="true"
+              tabindex="-1"
+            {% endif %}
           >
-          <span class="visually-hidden">EN</span>
-        </button>
-      </div>
+            <img
+              class="plennia-coming-soon__locale-flag"
+              src="{{ 'uk-flag.webp' | asset_url }}"
+              alt=""
+              loading="eager"
+              width="24"
+              height="16"
+            >
+            <span class="visually-hidden">EN</span>
+          </button>
+        {% endif %}
+      {%- endform -%}
     </header>
 
     <div class="plennia-coming-soon__divider" aria-hidden="true"></div>
@@ -107,28 +176,28 @@
             class="plennia-coming-soon__eyebrow"
             data-i18n-key="eyebrow"
           >
-            {{ section.settings.eyebrow_es }}
+            {{ eyebrow_text }}
           </p>
 
           <h1
             class="plennia-coming-soon__heading"
             data-i18n-key="heading"
           >
-            {{ section.settings.heading_es | newline_to_br }}
+            {{ heading_text | newline_to_br }}
           </h1>
 
           <p
             class="plennia-coming-soon__tagline"
             data-i18n-key="tagline"
           >
-            {{ section.settings.tagline_es }}
+            {{ tagline_text }}
           </p>
 
           <p
             class="plennia-coming-soon__body"
             data-i18n-key="body"
           >
-            {{ section.settings.body_es }}
+            {{ body_text }}
           </p>
         </div>
 
@@ -145,7 +214,7 @@
                   for="PlenniaName-{{ section.id }}"
                   data-i18n-key="fullNameLabel"
                 >
-                  {{ section.settings.full_name_label_es }}
+                  {{ full_name_label }}
                 </label>
                 <input
                   id="PlenniaName-{{ section.id }}"
@@ -153,7 +222,7 @@
                   type="text"
                   name="full_name"
                   autocomplete="name"
-                  placeholder="{{ section.settings.full_name_placeholder_es }}"
+                  placeholder="{{ full_name_placeholder }}"
                   data-name-input
                   data-i18n-placeholder="fullNamePlaceholder"
                 >
@@ -164,7 +233,7 @@
                   class="plennia-coming-soon__label"
                   data-i18n-key="contactLabel"
                 >
-                  {{ section.settings.contact_label_es }}
+                  {{ contact_label }}
                 </span>
 
                 <div
@@ -179,7 +248,7 @@
                     data-i18n-key="emailTab"
                     aria-pressed="false"
                   >
-                    {{ section.settings.email_tab_es }}
+                    {{ email_tab_label }}
                   </button>
                   <button
                     type="button"
@@ -188,7 +257,7 @@
                     data-i18n-key="phoneTab"
                     aria-pressed="false"
                   >
-                    {{ section.settings.phone_tab_es }}
+                    {{ phone_tab_label }}
                   </button>
                 </div>
               </div>
@@ -201,7 +270,7 @@
                   name="contact_value"
                   autocomplete="email"
                   inputmode="email"
-                  placeholder="{{ section.settings.email_placeholder_es }}"
+                  placeholder="{{ email_placeholder }}"
                   data-contact-input
                 >
                 <p
@@ -224,7 +293,7 @@
                     class="plennia-coming-soon__checkbox-text"
                     data-consent-text
                   >
-                    {{ section.settings.consent_email_es }}
+                    {{ consent_label }}
                   </span>
                 </label>
                 <p
@@ -239,7 +308,7 @@
                 type="submit"
                 data-submit-button
               >
-                <span data-i18n-key="submitLabel">{{ section.settings.submit_label_es }}</span>
+                <span data-i18n-key="submitLabel">{{ submit_label }}</span>
               </button>
 
               <p
@@ -258,13 +327,13 @@
                 class="plennia-coming-soon__success-title"
                 data-i18n-key="successTitle"
               >
-                {{ section.settings.success_title_es }}
+                {{ success_title }}
               </p>
               <p
                 class="plennia-coming-soon__success-body"
                 data-i18n-key="successBody"
               >
-                {{ section.settings.success_body_es }}
+                {{ success_body }}
               </p>
             </div>
 
@@ -952,8 +1021,8 @@
       return;
     }
 
-    const storageKey = 'plennia-coming-soon-locale';
     const defaultLocale = section.dataset.defaultLocale === 'en' ? 'en' : 'es';
+    const currentLocale = section.dataset.currentLocale === 'en' ? 'en' : 'es';
     const uiForm = section.querySelector('[data-ui-form]');
     const nameInput = section.querySelector('[data-name-input]');
     const contactInput = section.querySelector('[data-contact-input]');
@@ -969,6 +1038,8 @@
     const contactError = section.querySelector('[data-contact-error]');
     const consentError = section.querySelector('[data-consent-error]');
     const generalError = section.querySelector('[data-general-error]');
+    const localeForm = section.querySelector('form[data-locale-form], #{{ locale_form_id }}');
+    const localeInput = section.querySelector('[data-locale-input]');
     const localeButtons = section.querySelectorAll('[data-locale-button]');
     const methodButtons = section.querySelectorAll('[data-method-button]');
     const textTargets = section.querySelectorAll('[data-i18n-key]');
@@ -978,7 +1049,7 @@
     if (!uiForm || !contactInput || !consentInput || !submitButton || !customerForm) return;
 
     const state = {
-      locale: defaultLocale,
+      locale: currentLocale,
       method: 'email',
       submitted: false,
       pending: false,
@@ -1029,7 +1100,7 @@
       };
     };
 
-    const currentCopy = () => copy[state.locale] || copy[defaultLocale];
+    const currentCopy = () => copy[state.locale] || copy[currentLocale] || copy[defaultLocale];
 
     const clearErrors = () => {
       [contactError, consentError, generalError].forEach((element) => {
@@ -1120,12 +1191,6 @@
       });
 
       syncMethodCopy();
-
-      try {
-        window.localStorage.setItem(storageKey, state.locale);
-      } catch (error) {
-        /* no-op */
-      }
     };
 
     const setPending = (pending) => {
@@ -1237,24 +1302,23 @@
       }
     };
 
-    let initialLocale = defaultLocale;
-
-    try {
-      const storedLocale = window.localStorage.getItem(storageKey);
-      if (storedLocale === 'es' || storedLocale === 'en') {
-        initialLocale = storedLocale;
-      }
-    } catch (error) {
-      /* no-op */
-    }
-
     localeButtons.forEach((button) => {
       button.addEventListener('click', () => {
-        const locale = button.dataset.localeButton;
+        const locale = button.dataset.localeButton === 'en' ? 'en' : 'es';
+        const localeCode = button.dataset.localeCode;
         if (locale === state.locale) return;
-        if (locale === 'es' || locale === 'en') {
-          applyLocale(locale);
+
+        if (localeForm && localeInput && localeCode) {
+          localeInput.value = localeCode;
+          if (typeof localeForm.requestSubmit === 'function') {
+            localeForm.requestSubmit();
+          } else {
+            localeForm.submit();
+          }
+          return;
         }
+
+        applyLocale(locale);
       });
     });
 
@@ -1287,7 +1351,7 @@
     });
 
     uiForm.addEventListener('submit', handleSubmit);
-    applyLocale(initialLocale);
+    applyLocale(currentLocale);
   })();
 {% endjavascript %}
 
