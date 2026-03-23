@@ -993,7 +993,7 @@
     const submitButton = section.querySelector('[data-submit-button]');
     const successState = section.querySelector('[data-success-state]');
     const statusLive = section.querySelector('[data-status-live]');
-    const customerForm = section.querySelector(`#PlenniaCustomerForm-${section.dataset.sectionId}`);
+    const customerForm = document.getElementById(`PlenniaCustomerForm-${section.dataset.sectionId}`);
     const customerEmail = section.querySelector('[data-customer-email]');
     const customerTags = section.querySelector('[data-customer-tags]');
     const customerFirstName = section.querySelector('[data-customer-first-name]');
@@ -1007,8 +1007,6 @@
     const placeholderTargets = section.querySelectorAll('[data-i18n-placeholder]');
     const consentText = section.querySelector('[data-consent-text]');
 
-    if (!uiForm || !contactInput || !consentInput || !submitButton || !customerForm) return;
-
     const state = {
       locale: defaultLocale,
       method: 'email',
@@ -1019,7 +1017,7 @@
     const localeMeta = {
       es: {
         currentLabel: 'Spanish',
-        destinationLabel: 'Español',
+        destinationLabel: 'Spanish',
       },
       en: {
         currentLabel: 'English',
@@ -1098,15 +1096,17 @@
     const syncMethodCopy = () => {
       const localeCopy = currentCopy();
 
-      contactInput.type = state.method === 'email' ? 'email' : 'tel';
-      contactInput.inputMode = state.method === 'email' ? 'email' : 'tel';
-      contactInput.autocomplete = state.method === 'email' ? 'email' : 'tel';
-      contactInput.placeholder =
-        state.method === 'email' ? localeCopy.emailPlaceholder : localeCopy.phonePlaceholder;
-      contactInput.setAttribute(
-        'aria-label',
-        `${localeCopy.contactLabel} ${state.method === 'email' ? localeCopy.emailTab : localeCopy.phoneTab}`
-      );
+      if (contactInput) {
+        contactInput.type = state.method === 'email' ? 'email' : 'tel';
+        contactInput.inputMode = state.method === 'email' ? 'email' : 'tel';
+        contactInput.autocomplete = state.method === 'email' ? 'email' : 'tel';
+        contactInput.placeholder =
+          state.method === 'email' ? localeCopy.emailPlaceholder : localeCopy.phonePlaceholder;
+        contactInput.setAttribute(
+          'aria-label',
+          `${localeCopy.contactLabel} ${state.method === 'email' ? localeCopy.emailTab : localeCopy.phoneTab}`
+        );
+      }
 
       if (consentText) {
         consentText.textContent =
@@ -1304,12 +1304,29 @@
     }
 
     localeButtons.forEach((button) => {
-      button.addEventListener('click', () => {
+      button.addEventListener('click', (event) => {
+        event.preventDefault();
         const locale = button.dataset.localeButton === 'en' ? 'en' : 'es';
         if (locale === state.locale) return;
         applyLocale(locale);
       });
     });
+
+    applyLocale(initialLocale);
+
+    if (
+      !uiForm ||
+      !contactInput ||
+      !consentInput ||
+      !submitButton ||
+      !customerForm ||
+      !customerEmail ||
+      !customerTags ||
+      !customerFirstName ||
+      !customerLastName
+    ) {
+      return;
+    }
 
     methodButtons.forEach((button) => {
       button.addEventListener('click', () => {
@@ -1338,9 +1355,7 @@
         consentError.hidden = true;
       }
     });
-
     uiForm.addEventListener('submit', handleSubmit);
-    applyLocale(initialLocale);
   })();
 {% endjavascript %}
 
