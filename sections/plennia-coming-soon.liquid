@@ -1066,6 +1066,9 @@
 
         button.setAttribute('aria-pressed', String(!isCurrentLocale));
         button.setAttribute('aria-current', String(isCurrentLocale));
+        button.hidden = isCurrentLocale;
+        button.disabled = isCurrentLocale;
+        button.setAttribute('aria-hidden', String(isCurrentLocale));
         button.tabIndex = isCurrentLocale ? -1 : 0;
         button.setAttribute(
           'aria-label',
