@@ -1064,8 +1064,12 @@
         const isCurrentLocale = buttonLocale === state.locale;
         const labels = localeMeta[buttonLocale];
 
-        button.setAttribute('aria-pressed', String(!isCurrentLocale));
-        button.setAttribute('aria-current', String(isCurrentLocale));
+        button.setAttribute('aria-pressed', 'false');
+        if (isCurrentLocale) {
+          button.setAttribute('aria-current', 'true');
+        } else {
+          button.removeAttribute('aria-current');
+        }
         button.hidden = isCurrentLocale;
         button.disabled = isCurrentLocale;
         button.setAttribute('aria-hidden', String(isCurrentLocale));
