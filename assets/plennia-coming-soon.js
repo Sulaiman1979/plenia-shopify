@@ -77,7 +77,10 @@
 
     const storageKey = 'plennia-coming-soon-locale';
     const defaultLocale = section.dataset.defaultLocale === 'en' ? 'en' : 'es';
-    const uiForm = section.querySelector('[data-ui-form]');
+    const uiForm =
+      section.querySelector('[data-ui-form]') ||
+      document.getElementById(`PlenniaCustomerForm-${section.dataset.sectionId}`) ||
+      section.querySelector('.plennia-coming-soon__ui-form');
     const nameInput = section.querySelector('[data-name-input]');
     let contactRow = section.querySelector('[data-contact-row]');
     const contactInput = section.querySelector('[data-contact-input]');
@@ -124,6 +127,48 @@
 
     const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     const phonePattern = /^\+?[0-9\s().-]{7,}$/;
+    const countryCodeOptions = [
+      ['+43', 'AT +43'],
+      ['+973', 'BH +973'],
+      ['+32', 'BE +32'],
+      ['+359', 'BG +359'],
+      ['+385', 'HR +385'],
+      ['+357', 'CY +357'],
+      ['+420', 'CZ +420'],
+      ['+45', 'DK +45'],
+      ['+372', 'EE +372'],
+      ['+358', 'FI +358'],
+      ['+33', 'FR +33'],
+      ['+49', 'DE +49'],
+      ['+30', 'GR +30'],
+      ['+36', 'HU +36'],
+      ['+91', 'IN +91'],
+      ['+353', 'IE +353'],
+      ['+39', 'IT +39'],
+      ['+965', 'KW +965'],
+      ['+371', 'LV +371'],
+      ['+370', 'LT +370'],
+      ['+352', 'LU +352'],
+      ['+356', 'MT +356'],
+      ['+31', 'NL +31'],
+      ['+47', 'NO +47'],
+      ['+968', 'OM +968'],
+      ['+48', 'PL +48'],
+      ['+351', 'PT +351'],
+      ['+974', 'QA +974'],
+      ['+40', 'RO +40'],
+      ['+966', 'SA +966'],
+      ['+421', 'SK +421'],
+      ['+386', 'SI +386'],
+      ['+34', 'ES +34'],
+      ['+46', 'SE +46'],
+      ['+41', 'CH +41'],
+      ['+90', 'TR +90'],
+      ['+971', 'AE +971'],
+      ['+44', 'UK +44'],
+      ['+1', 'US +1'],
+      ['+52', 'MX +52'],
+    ];
     const transportFrameId = `PlenniaCustomerTransport-${section.dataset.sectionId}`;
     let pendingTransportSubmission = null;
 
@@ -237,14 +282,7 @@
         countryCodeSelect.setAttribute('autocomplete', 'tel-country-code');
         countryCodeSelect.setAttribute('aria-label', localeCopy.countryCodeLabel);
 
-        [
-          ['+34', 'ES +34'],
-          ['+1', 'US +1'],
-          ['+44', 'UK +44'],
-          ['+52', 'MX +52'],
-          ['+966', 'SA +966'],
-          ['+971', 'AE +971'],
-        ].forEach(([value, label]) => {
+        countryCodeOptions.forEach(([value, label]) => {
           const option = document.createElement('option');
           option.value = value;
           option.textContent = label;
@@ -573,6 +611,26 @@
       );
     };
 
+    const ensureCaptchaBinding = () => {
+      const captcha = window.Shopify && window.Shopify.captcha;
+      const protect = captcha && captcha.protect;
+
+      if (
+        !(customerForm instanceof HTMLFormElement) ||
+        typeof protect !== 'function' ||
+        customerForm.dataset.hcaptchaBound === 'true' ||
+        customerForm.dataset.recaptchaBound === 'true'
+      ) {
+        return;
+      }
+
+      try {
+        protect(customerForm, true);
+      } catch (error) {
+        /* no-op */
+      }
+    };
+
     const ensureTransportFrame = () => {
       let frame = document.getElementById(transportFrameId);
 
@@ -659,12 +717,7 @@
 
         transportFrame.addEventListener('load', handleLoad);
         customerForm.setAttribute('target', transportFrame.name);
-
-        if (typeof customerForm.requestSubmit === 'function') {
-          customerForm.requestSubmit();
-        } else {
-          customerForm.submit();
-        }
+        ensureCaptchaBinding();
       });
 
       return pendingTransportSubmission;
@@ -705,34 +758,49 @@
       customerLastName.value = lastName;
     };
 
-    const handleSubmit = async (event) => {
-      event.preventDefault();
+    const handleSubmit = (event) => {
+      if (state.pending || state.submitted) {
+        event.preventDefault();
+        return;
+      }
 
-      if (state.pending || state.submitted) return;
-      if (!validate()) return;
+      if (!validate()) {
+        event.preventDefault();
+        return;
+      }
 
       if (state.method === 'phone') {
+        event.preventDefault();
         setError(contactError, currentCopy().validation.phoneUnavailable);
         return;
       }
 
-      try {
-        setPending(true);
-        prepareCustomerForm();
-        await submitCustomerForm();
-        markSuccess();
-      } catch (error) {
-        setPending(false);
-        setError(generalError, currentCopy().validation.submit);
-      }
+      setPending(true);
+      prepareCustomerForm();
+
+      submitCustomerForm()
+        .then(() => {
+          markSuccess();
+        })
+        .catch(() => {
+          setPending(false);
+          setError(generalError, currentCopy().validation.submit);
+        });
     };
 
     methodButtons.forEach((button) => {
       button.addEventListener('click', () => {
         const method = button.dataset.methodButton;
         if (method !== 'email' && method !== 'phone') return;
+        if (method === state.method) return;
 
         state.method = method;
+        if (contactInput) {
+          contactInput.value = '';
+        }
+        if (method === 'phone' && countryCodeSelect && !countryCodeSelect.value) {
+          countryCodeSelect.value = '+966';
+        }
         if (method === 'phone' && !state.phoneChannel) {
           state.phoneChannel = 'sms';
         }
