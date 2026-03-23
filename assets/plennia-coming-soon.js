@@ -205,6 +205,8 @@
     const animationInfoCache = new Map();
     let pendingResetTimeout = null;
     let animationSequenceStarted = false;
+    let animationCycleTimeout = null;
+    let animationIndex = 0;
 
     const ensureFallbackPhoneStyles = () => {
       if (document.getElementById('plennia-coming-soon-phone-fallback-styles')) {
@@ -654,35 +656,75 @@
       item.replaceChildren();
     };
 
+    const getAnimationItems = () => {
+      const liveSection =
+        document.querySelector(`.plennia-coming-soon[data-section-id="${section.dataset.sectionId}"]`) ||
+        (section.isConnected ? section : null);
+
+      if (!(liveSection instanceof HTMLElement)) {
+        return [];
+      }
+
+      return Array.from(liveSection.querySelectorAll('[data-animation-item]'));
+    };
+
+    const queueAnimationPlayback = (delayMs) => {
+      if (animationCycleTimeout) {
+        window.clearTimeout(animationCycleTimeout);
+      }
+
+      animationCycleTimeout = window.setTimeout(() => {
+        void runAnimationSequenceStep();
+      }, delayMs);
+    };
+
+    const runAnimationSequenceStep = async () => {
+      const items = getAnimationItems();
+
+      if (!items.length) {
+        animationSequenceStarted = false;
+        animationCycleTimeout = null;
+        return;
+      }
+
+      const item = items[animationIndex % items.length];
+      animationIndex = (animationIndex + 1) % items.length;
+      animationCycleTimeout = null;
+
+      await playAnimationItem(item);
+
+      if (!getAnimationItems().length) {
+        animationSequenceStarted = false;
+        return;
+      }
+
+      queueAnimationPlayback(animationDelayMs);
+    };
+
     const startAnimationSequence = () => {
-      if (animationSequenceStarted || !animationItems.length) {
+      const items = getAnimationItems();
+
+      if (animationSequenceStarted || !items.length) {
         return;
       }
 
       animationSequenceStarted = true;
 
-      animationItems.forEach((item) => {
+      items.forEach((item) => {
         void loadAnimationInfo(item.dataset.animationSrc);
       });
 
-      void (async () => {
-        while (section.isConnected) {
-          for (const item of animationItems) {
-            await wait(animationDelayMs);
-
-            if (!section.isConnected) {
-              return;
-            }
-
-            await playAnimationItem(item);
-          }
-        }
-      })();
+      queueAnimationPlayback(animationDelayMs);
     };
 
     window.addEventListener(
       'pagehide',
       () => {
+        if (animationCycleTimeout) {
+          window.clearTimeout(animationCycleTimeout);
+          animationCycleTimeout = null;
+        }
+
         animationInfoCache.forEach((infoPromise) => {
           Promise.resolve(infoPromise).then((info) => {
             if (info && info.blobUrl) {
