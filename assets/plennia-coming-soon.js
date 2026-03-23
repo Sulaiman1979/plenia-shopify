@@ -90,6 +90,7 @@
     let phoneChannelButtons = section.querySelectorAll('[data-phone-channel-button]');
     const consentInput = section.querySelector('[data-consent-input]');
     const submitButton = section.querySelector('[data-submit-button]');
+    const fields = section.querySelector('.plennia-coming-soon__fields');
     const successState = section.querySelector('[data-success-state]');
     const statusLive = section.querySelector('[data-status-live]');
     let customerForm =
@@ -101,6 +102,7 @@
     const contactError = section.querySelector('[data-contact-error]');
     const consentError = section.querySelector('[data-consent-error]');
     const generalError = section.querySelector('[data-general-error]');
+    const serverStateMarker = section.querySelector('[data-customer-transport-state]');
     const localeButtons = section.querySelectorAll('[data-locale-button]');
     const methodButtons = section.querySelectorAll('[data-method-button]');
     let textTargets = section.querySelectorAll('[data-i18n-key]');
@@ -129,49 +131,79 @@
     const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     const phonePattern = /^\+?[0-9\s().-]{7,}$/;
     const countryCodeOptions = [
+      ['+355', 'AL +355'],
+      ['+376', 'AD +376'],
+      ['+374', 'AM +374'],
       ['+43', 'AT +43'],
+      ['+61', 'AU +61'],
+      ['+994', 'AZ +994'],
       ['+973', 'BH +973'],
       ['+32', 'BE +32'],
       ['+359', 'BG +359'],
+      ['+387', 'BA +387'],
+      ['+55', 'BR +55'],
+      ['+1', 'CA +1'],
       ['+385', 'HR +385'],
       ['+357', 'CY +357'],
       ['+420', 'CZ +420'],
       ['+45', 'DK +45'],
       ['+372', 'EE +372'],
+      ['+20', 'EG +20'],
       ['+358', 'FI +358'],
       ['+33', 'FR +33'],
+      ['+995', 'GE +995'],
       ['+49', 'DE +49'],
+      ['+350', 'GI +350'],
       ['+30', 'GR +30'],
+      ['+852', 'HK +852'],
       ['+36', 'HU +36'],
+      ['+354', 'IS +354'],
       ['+91', 'IN +91'],
+      ['+62', 'ID +62'],
       ['+353', 'IE +353'],
+      ['+972', 'IL +972'],
       ['+39', 'IT +39'],
+      ['+962', 'JO +962'],
+      ['+81', 'JP +81'],
       ['+965', 'KW +965'],
       ['+371', 'LV +371'],
+      ['+961', 'LB +961'],
+      ['+423', 'LI +423'],
       ['+370', 'LT +370'],
       ['+352', 'LU +352'],
       ['+356', 'MT +356'],
+      ['+60', 'MY +60'],
+      ['+52', 'MX +52'],
       ['+31', 'NL +31'],
+      ['+64', 'NZ +64'],
+      ['+389', 'MK +389'],
       ['+47', 'NO +47'],
       ['+968', 'OM +968'],
+      ['+92', 'PK +92'],
+      ['+63', 'PH +63'],
       ['+48', 'PL +48'],
       ['+351', 'PT +351'],
       ['+974', 'QA +974'],
       ['+40', 'RO +40'],
       ['+966', 'SA +966'],
+      ['+381', 'RS +381'],
+      ['+65', 'SG +65'],
       ['+421', 'SK +421'],
       ['+386', 'SI +386'],
+      ['+27', 'ZA +27'],
+      ['+82', 'KR +82'],
       ['+34', 'ES +34'],
       ['+46', 'SE +46'],
       ['+41', 'CH +41'],
+      ['+66', 'TH +66'],
       ['+90', 'TR +90'],
+      ['+380', 'UA +380'],
       ['+971', 'AE +971'],
       ['+44', 'UK +44'],
       ['+1', 'US +1'],
-      ['+52', 'MX +52'],
+      ['+84', 'VN +84'],
     ];
-    const transportFrameId = `PlenniaCustomerTransport-${section.dataset.sectionId}`;
-    let pendingTransportSubmission = null;
+    let pendingResetTimeout = null;
 
     const ensureFallbackPhoneStyles = () => {
       if (document.getElementById('plennia-coming-soon-phone-fallback-styles')) {
@@ -335,6 +367,42 @@
 
     createPhoneControls();
 
+    const syncCountryCodeOptions = () => {
+      if (!(countryCodeSelect instanceof HTMLSelectElement)) {
+        return;
+      }
+
+      const currentOptions = Array.from(countryCodeSelect.options).map(
+        (option) => `${option.value}|${option.textContent || ''}`
+      );
+      const expectedOptions = countryCodeOptions.map(([value, label]) => `${value}|${label}`);
+
+      if (
+        currentOptions.length === expectedOptions.length &&
+        currentOptions.every((option, index) => option === expectedOptions[index])
+      ) {
+        return;
+      }
+
+      const selectedValue = countryCodeSelect.value;
+      const nextValue = countryCodeOptions.some(([value]) => value === selectedValue)
+        ? selectedValue
+        : '+966';
+
+      countryCodeSelect.textContent = '';
+
+      countryCodeOptions.forEach(([value, label]) => {
+        const option = document.createElement('option');
+        option.value = value;
+        option.textContent = label;
+        countryCodeSelect.appendChild(option);
+      });
+
+      countryCodeSelect.value = nextValue;
+    };
+
+    syncCountryCodeOptions();
+
     const ensureCustomerField = (name, dataAttribute, value = '') => {
       if (!(customerForm instanceof HTMLFormElement)) {
         return null;
@@ -371,6 +439,7 @@
       customerForm.action = `/contact#${customerForm.id}`;
       customerForm.acceptCharset = 'UTF-8';
       customerForm.setAttribute('novalidate', 'novalidate');
+      customerForm.removeAttribute('target');
 
       ensureCustomerField('form_type', null, 'customer');
       ensureCustomerField('utf8', null, '?');
@@ -560,6 +629,12 @@
       });
 
       syncMethodCopy();
+
+      if (generalError && generalError.dataset.serverError === 'true') {
+        generalError.textContent = localeCopy.validation.submit;
+        setHidden(generalError, false);
+      }
+
       syncLocaleUrl();
 
       try {
@@ -615,12 +690,21 @@
       state.pending = pending;
       submitButton.disabled = pending || state.submitted;
       uiForm.setAttribute('aria-busy', String(pending));
+
+      if (!pending && pendingResetTimeout) {
+        window.clearTimeout(pendingResetTimeout);
+        pendingResetTimeout = null;
+      }
     };
 
     const markSuccess = () => {
       state.submitted = true;
       setPending(false);
       clearErrors();
+
+      if (fields) {
+        setHidden(fields, true);
+      }
 
       if (successState) {
         setHidden(successState, false);
@@ -649,128 +733,13 @@
       }
     };
 
-    const hasSubmissionErrors = (documentResponse) => {
-      if (!documentResponse) return false;
+    const serverState = serverStateMarker ? serverStateMarker.dataset.state : 'idle';
 
-      return Boolean(
-        documentResponse.querySelector('[data-customer-transport-state][data-state="error"]') ||
-          documentResponse.querySelector('.errors') ||
-          documentResponse.querySelector('.form-status-list') ||
-          documentResponse.querySelector('[aria-invalid="true"]')
-      );
-    };
-
-    const ensureCaptchaBinding = () => {
-      const captcha = window.Shopify && window.Shopify.captcha;
-      const protect = captcha && captcha.protect;
-
-      if (
-        !(customerForm instanceof HTMLFormElement) ||
-        typeof protect !== 'function' ||
-        customerForm.dataset.hcaptchaBound === 'true' ||
-        customerForm.dataset.recaptchaBound === 'true'
-      ) {
-        return;
-      }
-
-      try {
-        protect(customerForm, true);
-      } catch (error) {
-        /* no-op */
-      }
-    };
-
-    const ensureTransportFrame = () => {
-      let frame = document.getElementById(transportFrameId);
-
-      if (frame instanceof HTMLIFrameElement) {
-        return frame;
-      }
-
-      frame = document.createElement('iframe');
-      frame.id = transportFrameId;
-      frame.name = transportFrameId;
-      frame.hidden = true;
-      frame.tabIndex = -1;
-      frame.setAttribute('aria-hidden', 'true');
-      frame.style.display = 'none';
-      frame.src = 'about:blank';
-      section.appendChild(frame);
-
-      return frame;
-    };
-
-    const submitCustomerForm = async () => {
-      if (pendingTransportSubmission) {
-        return pendingTransportSubmission;
-      }
-
-      pendingTransportSubmission = new Promise((resolve, reject) => {
-        const transportFrame = ensureTransportFrame();
-        const originalTarget = customerForm.getAttribute('target');
-        let settled = false;
-
-        const cleanup = () => {
-          transportFrame.removeEventListener('load', handleLoad);
-          window.clearTimeout(timeoutId);
-          pendingTransportSubmission = null;
-
-          if (originalTarget == null) {
-            customerForm.removeAttribute('target');
-          } else {
-            customerForm.setAttribute('target', originalTarget);
-          }
-        };
-
-        const finish = (callback) => {
-          if (settled) return;
-
-          settled = true;
-          cleanup();
-          callback();
-        };
-
-        const handleLoad = () => {
-          try {
-            const frameWindow = transportFrame.contentWindow;
-            const frameDocument = transportFrame.contentDocument;
-            const frameHref = frameWindow && frameWindow.location ? frameWindow.location.href : '';
-
-            if (!frameDocument || !frameHref || frameHref === 'about:blank') {
-              return;
-            }
-
-            const marker = frameDocument.querySelector(
-              `[data-customer-transport-state="${section.dataset.sectionId}"]`
-            );
-
-            if (marker && marker.dataset.state === 'success') {
-              finish(resolve);
-              return;
-            }
-
-            if (hasSubmissionErrors(frameDocument)) {
-              finish(() => reject(new Error('Customer form submission failed')));
-              return;
-            }
-
-            finish(resolve);
-          } catch (error) {
-            finish(() => reject(new Error('Customer form submission failed')));
-          }
-        };
-
-        const timeoutId = window.setTimeout(() => {
-          finish(() => reject(new Error('Customer form submission timed out')));
-        }, 20000);
-
-        transportFrame.addEventListener('load', handleLoad);
-        customerForm.setAttribute('target', transportFrame.name);
-        ensureCaptchaBinding();
-      });
-
-      return pendingTransportSubmission;
-    };
+    if (serverState === 'success' || (successState && !successState.hidden)) {
+      markSuccess();
+    } else if (serverState === 'error' || (generalError && generalError.dataset.serverError === 'true')) {
+      setError(generalError, currentCopy().validation.submit);
+    }
 
     const validate = () => {
       clearErrors();
@@ -824,17 +793,14 @@
         return;
       }
 
+      ensureCustomerFormSetup();
       setPending(true);
       prepareCustomerForm();
-
-      submitCustomerForm()
-        .then(() => {
-          markSuccess();
-        })
-        .catch(() => {
+      pendingResetTimeout = window.setTimeout(() => {
+        if (!state.submitted) {
           setPending(false);
-          setError(generalError, currentCopy().validation.submit);
-        });
+        }
+      }, 30000);
     };
 
     methodButtons.forEach((button) => {
