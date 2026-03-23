@@ -24,16 +24,54 @@
       return;
     }
 
+    const fallbackCopy = {
+      es: {
+        countryCodeLabel: 'CODIGO DE PAIS',
+        notifyByLabel: 'NOTIFICARME POR *',
+        consentPhoneSms: 'Notifícame por SMS',
+        consentPhoneWhatsapp: 'Notifícame por WhatsApp',
+        validation: {
+          phoneUnavailable:
+            'La inscripcion por SMS o WhatsApp requiere una integracion adicional de Shopify. Usa correo electronico por ahora.',
+        },
+      },
+      en: {
+        countryCodeLabel: 'COUNTRY CODE',
+        notifyByLabel: 'NOTIFY ME BY *',
+        consentPhoneSms: 'Notify me by SMS',
+        consentPhoneWhatsapp: 'Notify me by WhatsApp',
+        validation: {
+          phoneUnavailable:
+            'SMS or WhatsApp waitlist signup needs an additional Shopify app or backend. Please use email for now.',
+        },
+      },
+    };
+
+    copy = ['es', 'en'].reduce((accumulator, locale) => {
+      const localeCopy = copy && typeof copy === 'object' ? copy[locale] || {} : {};
+
+      accumulator[locale] = {
+        ...fallbackCopy[locale],
+        ...localeCopy,
+        validation: {
+          ...fallbackCopy[locale].validation,
+          ...(localeCopy.validation || {}),
+        },
+      };
+
+      return accumulator;
+    }, {});
+
     const storageKey = 'plennia-coming-soon-locale';
     const defaultLocale = section.dataset.defaultLocale === 'en' ? 'en' : 'es';
     const uiForm = section.querySelector('[data-ui-form]');
     const nameInput = section.querySelector('[data-name-input]');
-    const contactRow = section.querySelector('[data-contact-row]');
+    let contactRow = section.querySelector('[data-contact-row]');
     const contactInput = section.querySelector('[data-contact-input]');
-    const countryCodeWrap = section.querySelector('[data-country-code-wrap]');
-    const countryCodeSelect = section.querySelector('[data-country-code-select]');
-    const phoneChannelGroup = section.querySelector('[data-phone-channel-group]');
-    const phoneChannelButtons = section.querySelectorAll('[data-phone-channel-button]');
+    let countryCodeWrap = section.querySelector('[data-country-code-wrap]');
+    let countryCodeSelect = section.querySelector('[data-country-code-select]');
+    let phoneChannelGroup = section.querySelector('[data-phone-channel-group]');
+    let phoneChannelButtons = section.querySelectorAll('[data-phone-channel-button]');
     const consentInput = section.querySelector('[data-consent-input]');
     const submitButton = section.querySelector('[data-submit-button]');
     const successState = section.querySelector('[data-success-state]');
@@ -48,7 +86,7 @@
     const generalError = section.querySelector('[data-general-error]');
     const localeButtons = section.querySelectorAll('[data-locale-button]');
     const methodButtons = section.querySelectorAll('[data-method-button]');
-    const textTargets = section.querySelectorAll('[data-i18n-key]');
+    let textTargets = section.querySelectorAll('[data-i18n-key]');
     const placeholderTargets = section.querySelectorAll('[data-i18n-placeholder]');
     const consentText = section.querySelector('[data-consent-text]');
 
@@ -73,6 +111,175 @@
 
     const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     const phonePattern = /^\+?[0-9\s().-]{7,}$/;
+
+    const ensureFallbackPhoneStyles = () => {
+      if (document.getElementById('plennia-coming-soon-phone-fallback-styles')) {
+        return;
+      }
+
+      const style = document.createElement('style');
+      style.id = 'plennia-coming-soon-phone-fallback-styles';
+      style.textContent = `
+        .plennia-coming-soon__contact-row {
+          display: grid;
+          grid-template-columns: minmax(0, 1fr);
+          gap: 0.7rem;
+          align-items: stretch;
+        }
+
+        .plennia-coming-soon__contact-row.is-phone {
+          grid-template-columns: minmax(6.75rem, 8.5rem) minmax(0, 1fr);
+        }
+
+        .plennia-coming-soon__country-code-wrap {
+          position: relative;
+        }
+
+        .plennia-coming-soon__country-code-wrap::after {
+          content: '';
+          position: absolute;
+          top: 50%;
+          right: 1rem;
+          width: 0.45rem;
+          height: 0.45rem;
+          border-right: 1px solid var(--plennia-muted);
+          border-bottom: 1px solid var(--plennia-muted);
+          pointer-events: none;
+          transform: translateY(-65%) rotate(45deg);
+        }
+
+        .plennia-coming-soon__select {
+          appearance: none;
+          width: 100%;
+          min-height: 3.55rem;
+          border: 1px solid var(--plennia-border);
+          border-radius: 8px;
+          background: rgb(252 250 246 / 0.52);
+          color: var(--plennia-text-soft);
+          cursor: pointer;
+          font-family: var(--font-body--family);
+          font-size: 0.95rem;
+          font-weight: 400;
+          line-height: 1.45;
+          padding: 0.95rem 2rem 0.95rem 1rem;
+          transition:
+            border-color 150ms ease-in-out,
+            background-color 150ms ease-in-out;
+        }
+
+        .plennia-coming-soon__select:focus-visible {
+          outline: none;
+          border-color: var(--plennia-border-focus);
+          background: var(--plennia-surface);
+        }
+
+        @media screen and (max-width: 479px) {
+          .plennia-coming-soon__contact-row.is-phone {
+            grid-template-columns: 1fr;
+          }
+        }
+      `;
+
+      document.head.appendChild(style);
+    };
+
+    const createPhoneControls = () => {
+      if (!contactInput) return;
+
+      const contactFieldGroup = contactInput.closest('.plennia-coming-soon__field-group');
+      if (!contactFieldGroup) return;
+
+      if (!contactRow || !countryCodeWrap || !phoneChannelGroup) {
+        ensureFallbackPhoneStyles();
+      }
+
+      if (!contactRow) {
+        contactRow = document.createElement('div');
+        contactRow.className = 'plennia-coming-soon__contact-row';
+        contactRow.setAttribute('data-contact-row', '');
+        contactInput.parentNode.insertBefore(contactRow, contactInput);
+        contactRow.appendChild(contactInput);
+      }
+
+      if (!countryCodeWrap && contactRow) {
+        const localeCopy = copy[defaultLocale] || fallbackCopy[defaultLocale];
+
+        countryCodeWrap = document.createElement('div');
+        countryCodeWrap.className = 'plennia-coming-soon__country-code-wrap';
+        countryCodeWrap.setAttribute('data-country-code-wrap', '');
+        countryCodeWrap.hidden = true;
+
+        const countryCodeLabel = document.createElement('label');
+        countryCodeLabel.className = 'visually-hidden';
+        countryCodeLabel.htmlFor = `PlenniaCountryCode-${section.dataset.sectionId}`;
+        countryCodeLabel.setAttribute('data-i18n-key', 'countryCodeLabel');
+        countryCodeLabel.textContent = localeCopy.countryCodeLabel;
+
+        countryCodeSelect = document.createElement('select');
+        countryCodeSelect.id = `PlenniaCountryCode-${section.dataset.sectionId}`;
+        countryCodeSelect.className = 'plennia-coming-soon__select';
+        countryCodeSelect.setAttribute('data-country-code-select', '');
+        countryCodeSelect.setAttribute('autocomplete', 'tel-country-code');
+        countryCodeSelect.setAttribute('aria-label', localeCopy.countryCodeLabel);
+
+        [
+          ['+34', 'ES +34'],
+          ['+1', 'US +1'],
+          ['+44', 'UK +44'],
+          ['+52', 'MX +52'],
+          ['+966', 'SA +966'],
+          ['+971', 'AE +971'],
+        ].forEach(([value, label]) => {
+          const option = document.createElement('option');
+          option.value = value;
+          option.textContent = label;
+          countryCodeSelect.appendChild(option);
+        });
+
+        countryCodeWrap.append(countryCodeLabel, countryCodeSelect);
+        contactRow.insertBefore(countryCodeWrap, contactInput);
+      }
+
+      if (!phoneChannelGroup) {
+        const localeCopy = copy[defaultLocale] || fallbackCopy[defaultLocale];
+
+        phoneChannelGroup = document.createElement('div');
+        phoneChannelGroup.className = 'plennia-coming-soon__field-group';
+        phoneChannelGroup.setAttribute('data-phone-channel-group', '');
+        phoneChannelGroup.hidden = true;
+
+        const notifyByLabel = document.createElement('span');
+        notifyByLabel.className = 'plennia-coming-soon__label';
+        notifyByLabel.setAttribute('data-i18n-key', 'notifyByLabel');
+        notifyByLabel.textContent = localeCopy.notifyByLabel;
+
+        const toggle = document.createElement('div');
+        toggle.className = 'plennia-coming-soon__method-toggle';
+        toggle.setAttribute('role', 'tablist');
+        toggle.setAttribute('aria-label', 'Notification channel');
+
+        [
+          ['sms', 'SMS'],
+          ['whatsapp', 'WHATSAPP'],
+        ].forEach(([channel, label]) => {
+          const button = document.createElement('button');
+          button.type = 'button';
+          button.className = 'plennia-coming-soon__method-button';
+          button.setAttribute('data-phone-channel-button', channel);
+          button.setAttribute('aria-pressed', 'false');
+          button.textContent = label;
+          toggle.appendChild(button);
+        });
+
+        phoneChannelGroup.append(notifyByLabel, toggle);
+        contactFieldGroup.insertAdjacentElement('afterend', phoneChannelGroup);
+      }
+
+      phoneChannelButtons = section.querySelectorAll('[data-phone-channel-button]');
+      textTargets = section.querySelectorAll('[data-i18n-key]');
+    };
+
+    createPhoneControls();
 
     const setMetaDescription = (value) => {
       let meta = document.querySelector('meta[name="description"]');
