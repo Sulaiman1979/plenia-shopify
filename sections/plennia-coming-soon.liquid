@@ -14,10 +14,6 @@
   assign locale_es_available = false
   assign locale_en_available = false
 
-  if current_locale != 'es' and current_locale != 'en'
-    assign current_locale = default_locale
-  endif
-
   if theme_logo != blank
     assign logo_width = logo_height_display | times: theme_logo.aspect_ratio | ceil
     assign logo_width_mobile = logo_height_mobile_display | times: theme_logo.aspect_ratio | ceil
@@ -35,6 +31,14 @@
       assign locale_en_available = true
     endif
   endfor
+
+  if localization.available_languages.size <= 1
+    assign current_locale = default_locale
+  endif
+
+  if current_locale != 'es' and current_locale != 'en'
+    assign current_locale = default_locale
+  endif
 
   if current_locale == 'en'
     assign eyebrow_text = section.settings.eyebrow_en
@@ -112,58 +116,58 @@
           value="{{ localization.language.iso_code }}"
           data-locale-input
         >
-        {% if locale_es_available %}
-          <button
-            type="button"
-            class="plennia-coming-soon__locale-button"
-            data-locale-button="es"
+        <button
+          type="button"
+          class="plennia-coming-soon__locale-button"
+          data-locale-button="es"
+          {% if locale_es_available %}
             data-locale-code="{{ locale_code_es }}"
-            aria-pressed="false"
-            {% if current_locale == 'es' %}
-              aria-current="true"
-              hidden
-              disabled
-              aria-hidden="true"
-              tabindex="-1"
-            {% endif %}
+          {% endif %}
+          aria-pressed="false"
+          {% if current_locale == 'es' %}
+            aria-current="true"
+            hidden
+            disabled
+            aria-hidden="true"
+            tabindex="-1"
+          {% endif %}
+        >
+          <img
+            class="plennia-coming-soon__locale-flag"
+            src="{{ 'spain-flag.webp' | asset_url }}"
+            alt=""
+            loading="eager"
+            width="24"
+            height="16"
           >
-            <img
-              class="plennia-coming-soon__locale-flag"
-              src="{{ 'spain-flag.webp' | asset_url }}"
-              alt=""
-              loading="eager"
-              width="24"
-              height="16"
-            >
-            <span class="visually-hidden">ES</span>
-          </button>
-        {% endif %}
-        {% if locale_en_available %}
-          <button
-            type="button"
-            class="plennia-coming-soon__locale-button"
-            data-locale-button="en"
+          <span class="visually-hidden">ES</span>
+        </button>
+        <button
+          type="button"
+          class="plennia-coming-soon__locale-button"
+          data-locale-button="en"
+          {% if locale_en_available %}
             data-locale-code="{{ locale_code_en }}"
-            aria-pressed="false"
-            {% if current_locale == 'en' %}
-              aria-current="true"
-              hidden
-              disabled
-              aria-hidden="true"
-              tabindex="-1"
-            {% endif %}
+          {% endif %}
+          aria-pressed="false"
+          {% if current_locale == 'en' %}
+            aria-current="true"
+            hidden
+            disabled
+            aria-hidden="true"
+            tabindex="-1"
+          {% endif %}
+        >
+          <img
+            class="plennia-coming-soon__locale-flag"
+            src="{{ 'uk-flag.webp' | asset_url }}"
+            alt=""
+            loading="eager"
+            width="24"
+            height="16"
           >
-            <img
-              class="plennia-coming-soon__locale-flag"
-              src="{{ 'uk-flag.webp' | asset_url }}"
-              alt=""
-              loading="eager"
-              width="24"
-              height="16"
-            >
-            <span class="visually-hidden">EN</span>
-          </button>
-        {% endif %}
+          <span class="visually-hidden">EN</span>
+        </button>
       {%- endform -%}
     </header>
 
