@@ -46,6 +46,13 @@
     {{ content_for_header }}
 
     {% if hide_theme_chrome %}
+      <script
+        src="{{ 'plennia-coming-soon.js' | asset_url }}"
+        defer="defer"
+      ></script>
+    {% endif %}
+
+    {% if hide_theme_chrome %}
       <style>
         #admin-bar-iframe,
         iframe[id*='admin-bar'],
