@@ -24,7 +24,10 @@
     assign email_tab_label = section.settings.email_tab_en
     assign phone_tab_label = section.settings.phone_tab_en
     assign email_placeholder = section.settings.email_placeholder_en
+    assign country_code_label = section.settings.country_code_label_en
+    assign notify_by_label = section.settings.notify_by_label_en
     assign consent_label = section.settings.consent_email_en
+    assign consent_whatsapp_label = section.settings.consent_whatsapp_en
     assign submit_label = section.settings.submit_label_en
     assign success_title = section.settings.success_title_en
     assign success_body = section.settings.success_body_en
@@ -39,7 +42,10 @@
     assign email_tab_label = section.settings.email_tab_es
     assign phone_tab_label = section.settings.phone_tab_es
     assign email_placeholder = section.settings.email_placeholder_es
+    assign country_code_label = section.settings.country_code_label_es
+    assign notify_by_label = section.settings.notify_by_label_es
     assign consent_label = section.settings.consent_email_es
+    assign consent_whatsapp_label = section.settings.consent_whatsapp_es
     assign submit_label = section.settings.submit_label_es
     assign success_title = section.settings.success_title_es
     assign success_body = section.settings.success_body_es
@@ -241,21 +247,90 @@
                 </div>
 
                 <div class="plennia-coming-soon__field-group">
-                  <input
-                    id="PlenniaContact-{{ section.id }}"
-                    class="plennia-coming-soon__input"
-                    type="email"
-                    name="contact_value"
-                    autocomplete="email"
-                    inputmode="email"
-                    placeholder="{{ email_placeholder }}"
-                    data-contact-input
+                  <div
+                    class="plennia-coming-soon__contact-row"
+                    data-contact-row
                   >
+                    <div
+                      class="plennia-coming-soon__country-code-wrap"
+                      data-country-code-wrap
+                      hidden
+                    >
+                      <label
+                        class="visually-hidden"
+                        for="PlenniaCountryCode-{{ section.id }}"
+                        data-i18n-key="countryCodeLabel"
+                      >
+                        {{ country_code_label }}
+                      </label>
+                      <select
+                        id="PlenniaCountryCode-{{ section.id }}"
+                        class="plennia-coming-soon__select"
+                        data-country-code-select
+                        aria-label="{{ country_code_label }}"
+                        autocomplete="tel-country-code"
+                      >
+                        <option value="+34">ES +34</option>
+                        <option value="+1">US +1</option>
+                        <option value="+44">UK +44</option>
+                        <option value="+52">MX +52</option>
+                        <option value="+966">SA +966</option>
+                        <option value="+971">AE +971</option>
+                      </select>
+                    </div>
+
+                    <input
+                      id="PlenniaContact-{{ section.id }}"
+                      class="plennia-coming-soon__input"
+                      type="email"
+                      name="contact_value"
+                      autocomplete="email"
+                      inputmode="email"
+                      placeholder="{{ email_placeholder }}"
+                      data-contact-input
+                    >
+                  </div>
                   <p
                     class="plennia-coming-soon__field-error"
                     data-contact-error
                     hidden
                   ></p>
+                </div>
+
+                <div
+                  class="plennia-coming-soon__field-group"
+                  data-phone-channel-group
+                  hidden
+                >
+                  <span
+                    class="plennia-coming-soon__label"
+                    data-i18n-key="notifyByLabel"
+                  >
+                    {{ notify_by_label }}
+                  </span>
+
+                  <div
+                    class="plennia-coming-soon__method-toggle"
+                    role="tablist"
+                    aria-label="Notification channel"
+                  >
+                    <button
+                      type="button"
+                      class="plennia-coming-soon__method-button"
+                      data-phone-channel-button="sms"
+                      aria-pressed="false"
+                    >
+                      SMS
+                    </button>
+                    <button
+                      type="button"
+                      class="plennia-coming-soon__method-button"
+                      data-phone-channel-button="whatsapp"
+                      aria-pressed="false"
+                    >
+                      WHATSAPP
+                    </button>
+                  </div>
                 </div>
 
                 <div class="plennia-coming-soon__field-group plennia-coming-soon__field-group--checkbox">
@@ -381,10 +456,13 @@
         "contactLabel": {{ section.settings.contact_label_es | json }},
         "emailTab": {{ section.settings.email_tab_es | json }},
         "phoneTab": {{ section.settings.phone_tab_es | json }},
+        "countryCodeLabel": {{ section.settings.country_code_label_es | json }},
+        "notifyByLabel": {{ section.settings.notify_by_label_es | json }},
         "emailPlaceholder": {{ section.settings.email_placeholder_es | json }},
         "phonePlaceholder": {{ section.settings.phone_placeholder_es | json }},
         "consentEmail": {{ section.settings.consent_email_es | json }},
-        "consentPhone": {{ section.settings.consent_phone_es | json }},
+        "consentPhoneSms": {{ section.settings.consent_phone_es | json }},
+        "consentPhoneWhatsapp": {{ section.settings.consent_whatsapp_es | json }},
         "submitLabel": {{ section.settings.submit_label_es | json }},
         "successTitle": {{ section.settings.success_title_es | json }},
         "successBody": {{ section.settings.success_body_es | json }},
@@ -408,10 +486,13 @@
         "contactLabel": {{ section.settings.contact_label_en | json }},
         "emailTab": {{ section.settings.email_tab_en | json }},
         "phoneTab": {{ section.settings.phone_tab_en | json }},
+        "countryCodeLabel": {{ section.settings.country_code_label_en | json }},
+        "notifyByLabel": {{ section.settings.notify_by_label_en | json }},
         "emailPlaceholder": {{ section.settings.email_placeholder_en | json }},
         "phonePlaceholder": {{ section.settings.phone_placeholder_en | json }},
         "consentEmail": {{ section.settings.consent_email_en | json }},
-        "consentPhone": {{ section.settings.consent_phone_en | json }},
+        "consentPhoneSms": {{ section.settings.consent_phone_en | json }},
+        "consentPhoneWhatsapp": {{ section.settings.consent_whatsapp_en | json }},
         "submitLabel": {{ section.settings.submit_label_en | json }},
         "successTitle": {{ section.settings.success_title_en | json }},
         "successBody": {{ section.settings.success_body_en | json }},
@@ -655,7 +736,36 @@
     overflow: hidden;
   }
 
+  .plennia-coming-soon__contact-row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0.7rem;
+    align-items: stretch;
+  }
+
+  .plennia-coming-soon__contact-row.is-phone {
+    grid-template-columns: minmax(6.75rem, 8.5rem) minmax(0, 1fr);
+  }
+
+  .plennia-coming-soon__country-code-wrap {
+    position: relative;
+  }
+
+  .plennia-coming-soon__country-code-wrap::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    right: 1rem;
+    width: 0.45rem;
+    height: 0.45rem;
+    border-right: 1px solid var(--plennia-muted);
+    border-bottom: 1px solid var(--plennia-muted);
+    pointer-events: none;
+    transform: translateY(-65%) rotate(45deg);
+  }
+
   .plennia-coming-soon__method-button,
+  .plennia-coming-soon__select,
   .plennia-coming-soon__input,
   .plennia-coming-soon__submit {
     min-height: 3.55rem;
@@ -723,6 +833,25 @@
       background-color 150ms ease-in-out;
   }
 
+  .plennia-coming-soon__select {
+    appearance: none;
+    width: 100%;
+    border: 1px solid var(--plennia-border);
+    border-radius: 8px;
+    background: rgb(252 250 246 / 0.52);
+    color: var(--plennia-text-soft);
+    cursor: pointer;
+    font-family: var(--font-body--family);
+    font-size: 0.95rem;
+    font-weight: 400;
+    line-height: 1.45;
+    padding: 0.95rem 2rem 0.95rem 1rem;
+    transition:
+      border-color 150ms ease-in-out,
+      background-color 150ms ease-in-out;
+  }
+
+  .plennia-coming-soon__select:focus-visible,
   .plennia-coming-soon__input:focus-visible {
     border-color: var(--plennia-border-focus);
     background: var(--plennia-surface);
@@ -734,11 +863,13 @@
 
   .plennia-coming-soon__method-button:focus-visible,
   .plennia-coming-soon__locale-button:focus-visible,
+  .plennia-coming-soon__select:focus-visible,
   .plennia-coming-soon__submit:focus-visible {
     outline: 1px solid var(--plennia-border-focus);
     outline-offset: 1px;
   }
 
+  .plennia-coming-soon__select:focus-visible,
   .plennia-coming-soon__input:focus-visible {
     outline: none;
   }
@@ -918,6 +1049,7 @@
     }
 
     .plennia-coming-soon__method-button,
+    .plennia-coming-soon__select,
     .plennia-coming-soon__input,
     .plennia-coming-soon__submit {
       min-height: 3.25rem;
@@ -932,6 +1064,12 @@
     .plennia-coming-soon__input {
       font-size: 0.95rem;
       padding-inline: 0.95rem;
+    }
+
+    .plennia-coming-soon__select {
+      font-size: 0.92rem;
+      padding-left: 0.9rem;
+      padding-right: 1.8rem;
     }
 
     .plennia-coming-soon__checkbox {
@@ -979,11 +1117,16 @@
       font-size: 0.62rem;
       letter-spacing: 0.06em;
     }
+
+    .plennia-coming-soon__contact-row.is-phone {
+      grid-template-columns: 1fr;
+    }
   }
 
   @media (prefers-reduced-motion: reduce) {
     .plennia-coming-soon__locale-button,
     .plennia-coming-soon__method-button,
+    .plennia-coming-soon__select,
     .plennia-coming-soon__input,
     .plennia-coming-soon__submit,
     .plennia-coming-soon__checkbox-box {
@@ -1097,6 +1240,18 @@
     },
     {
       "type": "text",
+      "id": "country_code_label_es",
+      "label": "Country code label",
+      "default": "CODIGO DE PAIS"
+    },
+    {
+      "type": "text",
+      "id": "notify_by_label_es",
+      "label": "Notify by label",
+      "default": "NOTIFICARME POR *"
+    },
+    {
+      "type": "text",
       "id": "email_placeholder_es",
       "label": "Email placeholder",
       "default": "Tu correo electrónico"
@@ -1118,6 +1273,12 @@
       "id": "consent_phone_es",
       "label": "Phone consent label",
       "default": "Notifícame por SMS"
+    },
+    {
+      "type": "text",
+      "id": "consent_whatsapp_es",
+      "label": "WhatsApp consent label",
+      "default": "Notificarme por WhatsApp"
     },
     {
       "type": "text",
@@ -1165,7 +1326,7 @@
       "type": "textarea",
       "id": "phone_unavailable_es",
       "label": "Phone unavailable message",
-      "default": "La inscripción por SMS requiere una integración adicional de Shopify. Usa correo electrónico por ahora."
+      "default": "La inscripcion por SMS o WhatsApp requiere una integracion adicional de Shopify. Usa correo electronico por ahora."
     },
     {
       "type": "header",
@@ -1239,6 +1400,18 @@
     },
     {
       "type": "text",
+      "id": "country_code_label_en",
+      "label": "Country code label",
+      "default": "COUNTRY CODE"
+    },
+    {
+      "type": "text",
+      "id": "notify_by_label_en",
+      "label": "Notify by label",
+      "default": "NOTIFY ME BY *"
+    },
+    {
+      "type": "text",
       "id": "email_placeholder_en",
       "label": "Email placeholder",
       "default": "Your email address"
@@ -1260,6 +1433,12 @@
       "id": "consent_phone_en",
       "label": "Phone consent label",
       "default": "Notify me by SMS"
+    },
+    {
+      "type": "text",
+      "id": "consent_whatsapp_en",
+      "label": "WhatsApp consent label",
+      "default": "Notify me by WhatsApp"
     },
     {
       "type": "text",
@@ -1307,7 +1486,7 @@
       "type": "textarea",
       "id": "phone_unavailable_en",
       "label": "Phone unavailable message",
-      "default": "SMS waitlist signup needs an additional Shopify app or backend. Please use email for now."
+      "default": "SMS or WhatsApp waitlist signup needs an additional Shopify app or backend. Please use email for now."
     }
   ],
   "presets": [

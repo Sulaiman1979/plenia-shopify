@@ -44,7 +44,12 @@
     const defaultLocale = section.dataset.defaultLocale === 'en' ? 'en' : 'es';
     const uiForm = section.querySelector('[data-ui-form]');
     const nameInput = section.querySelector('[data-name-input]');
+    const contactRow = section.querySelector('[data-contact-row]');
     const contactInput = section.querySelector('[data-contact-input]');
+    const countryCodeWrap = section.querySelector('[data-country-code-wrap]');
+    const countryCodeSelect = section.querySelector('[data-country-code-select]');
+    const phoneChannelGroup = section.querySelector('[data-phone-channel-group]');
+    const phoneChannelButtons = section.querySelectorAll('[data-phone-channel-button]');
     const consentInput = section.querySelector('[data-consent-input]');
     const submitButton = section.querySelector('[data-submit-button]');
     const successState = section.querySelector('[data-success-state]');
@@ -66,6 +71,7 @@
     const state = {
       locale: defaultLocale,
       method: 'email',
+      phoneChannel: 'sms',
       submitted: false,
       pending: false,
     };
@@ -151,26 +157,53 @@
 
     const syncMethodCopy = () => {
       const localeCopy = currentCopy();
+      const isPhone = state.method === 'phone';
 
       if (contactInput) {
-        contactInput.type = state.method === 'email' ? 'email' : 'tel';
-        contactInput.inputMode = state.method === 'email' ? 'email' : 'tel';
-        contactInput.autocomplete = state.method === 'email' ? 'email' : 'tel';
-        contactInput.placeholder =
-          state.method === 'email' ? localeCopy.emailPlaceholder : localeCopy.phonePlaceholder;
+        contactInput.type = isPhone ? 'tel' : 'email';
+        contactInput.inputMode = isPhone ? 'tel' : 'email';
+        contactInput.autocomplete = isPhone ? 'tel-national' : 'email';
+        contactInput.placeholder = isPhone ? localeCopy.phonePlaceholder : localeCopy.emailPlaceholder;
         contactInput.setAttribute(
           'aria-label',
-          `${localeCopy.contactLabel} ${state.method === 'email' ? localeCopy.emailTab : localeCopy.phoneTab}`
+          `${localeCopy.contactLabel} ${isPhone ? localeCopy.phoneTab : localeCopy.emailTab}`
         );
+      }
+
+      if (contactRow) {
+        contactRow.classList.toggle('is-phone', isPhone);
+      }
+
+      if (countryCodeWrap) {
+        countryCodeWrap.hidden = !isPhone;
+      }
+
+      if (countryCodeSelect) {
+        countryCodeSelect.disabled = !isPhone;
+        if (localeCopy.countryCodeLabel) {
+          countryCodeSelect.setAttribute('aria-label', localeCopy.countryCodeLabel);
+        }
+      }
+
+      if (phoneChannelGroup) {
+        phoneChannelGroup.hidden = !isPhone;
       }
 
       if (consentText) {
         consentText.textContent =
-          state.method === 'email' ? localeCopy.consentEmail : localeCopy.consentPhone;
+          !isPhone
+            ? localeCopy.consentEmail
+            : state.phoneChannel === 'whatsapp'
+              ? localeCopy.consentPhoneWhatsapp
+              : localeCopy.consentPhoneSms;
       }
 
       methodButtons.forEach((button) => {
         button.setAttribute('aria-pressed', String(button.dataset.methodButton === state.method));
+      });
+
+      phoneChannelButtons.forEach((button) => {
+        button.setAttribute('aria-pressed', String(button.dataset.phoneChannelButton === state.phoneChannel));
       });
     };
 
@@ -293,7 +326,15 @@
         if (element) element.disabled = true;
       });
 
+      if (countryCodeSelect) {
+        countryCodeSelect.disabled = true;
+      }
+
       methodButtons.forEach((button) => {
+        button.disabled = true;
+      });
+
+      phoneChannelButtons.forEach((button) => {
         button.disabled = true;
       });
 
@@ -332,6 +373,7 @@
       clearErrors();
       const localeCopy = currentCopy();
       const contactValue = contactInput.value.trim();
+      const phoneValue = `${countryCodeSelect ? countryCodeSelect.value : ''} ${contactValue}`.trim();
 
       if (state.method === 'email') {
         if (!emailPattern.test(contactValue)) {
@@ -339,7 +381,7 @@
           return false;
         }
       } else {
-        if (!phonePattern.test(contactValue)) {
+        if (!phonePattern.test(phoneValue)) {
           setError(contactError, localeCopy.validation.phone);
           return false;
         }
@@ -390,6 +432,20 @@
         if (method !== 'email' && method !== 'phone') return;
 
         state.method = method;
+        if (method === 'phone' && !state.phoneChannel) {
+          state.phoneChannel = 'sms';
+        }
+        clearErrors();
+        syncMethodCopy();
+      });
+    });
+
+    phoneChannelButtons.forEach((button) => {
+      button.addEventListener('click', () => {
+        const phoneChannel = button.dataset.phoneChannelButton;
+        if (phoneChannel !== 'sms' && phoneChannel !== 'whatsapp') return;
+
+        state.phoneChannel = phoneChannel;
         clearErrors();
         syncMethodCopy();
       });
@@ -402,6 +458,12 @@
         clearErrors();
       });
     });
+
+    if (countryCodeSelect) {
+      countryCodeSelect.addEventListener('change', () => {
+        clearErrors();
+      });
+    }
 
     consentInput.addEventListener('change', () => {
       if (!consentError) return;
