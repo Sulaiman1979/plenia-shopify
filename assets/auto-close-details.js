@@ -121,6 +121,7 @@
     const methodButtons = section.querySelectorAll('[data-method-button]');
     let textTargets = section.querySelectorAll('[data-i18n-key]');
     const placeholderTargets = section.querySelectorAll('[data-i18n-placeholder]');
+    const animationItems = Array.from(section.querySelectorAll('[data-animation-item]'));
 
     const state = {
       locale: defaultLocale,
@@ -143,6 +144,7 @@
 
     const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     const phonePattern = /^\+?[0-9\s().-]{7,}$/;
+    const animationDelayMs = 20000;
     const countryCodeOptions = [
       ['+355', 'AL +355'],
       ['+376', 'AD +376'],
@@ -216,7 +218,9 @@
       ['+1', 'US +1'],
       ['+84', 'VN +84'],
     ];
+    const animationInfoCache = new Map();
     let pendingResetTimeout = null;
+    let animationSequenceStarted = false;
 
     const ensureFallbackPhoneStyles = () => {
       if (document.getElementById('plennia-coming-soon-phone-fallback-styles')) {
@@ -415,6 +419,187 @@
     };
 
     syncCountryCodeOptions();
+
+    const wait = (durationMs) =>
+      new Promise((resolve) => {
+        window.setTimeout(resolve, durationMs);
+      });
+
+    const readChunkId = (view, offset) => {
+      if (offset + 4 > view.byteLength) return '';
+
+      return String.fromCharCode(
+        view.getUint8(offset),
+        view.getUint8(offset + 1),
+        view.getUint8(offset + 2),
+        view.getUint8(offset + 3)
+      );
+    };
+
+    const parseAnimatedWebPDuration = (arrayBuffer) => {
+      const view = new DataView(arrayBuffer);
+
+      if (view.byteLength < 16 || readChunkId(view, 0) !== 'RIFF' || readChunkId(view, 8) !== 'WEBP') {
+        return null;
+      }
+
+      let offset = 12;
+      let totalDurationMs = 0;
+      let frameCount = 0;
+
+      while (offset + 8 <= view.byteLength) {
+        const chunkId = readChunkId(view, offset);
+        const chunkSize = view.getUint32(offset + 4, true);
+        const chunkDataOffset = offset + 8;
+
+        if (chunkDataOffset + chunkSize > view.byteLength) {
+          break;
+        }
+
+        if (chunkId === 'ANMF' && chunkSize >= 16) {
+          let frameDurationMs =
+            view.getUint8(chunkDataOffset + 12) |
+            (view.getUint8(chunkDataOffset + 13) << 8) |
+            (view.getUint8(chunkDataOffset + 14) << 16);
+
+          if (frameDurationMs <= 0) {
+            frameDurationMs = 100;
+          }
+
+          totalDurationMs += frameDurationMs;
+          frameCount += 1;
+        }
+
+        offset = chunkDataOffset + chunkSize + (chunkSize % 2);
+      }
+
+      return frameCount > 0 ? totalDurationMs : null;
+    };
+
+    const loadAnimationInfo = async (src) => {
+      if (!src) return null;
+
+      if (!animationInfoCache.has(src)) {
+        const infoPromise = fetch(src, { credentials: 'same-origin' })
+          .then((response) => {
+            if (!response.ok) {
+              throw new Error(`Animation request failed: ${response.status}`);
+            }
+
+            return response.arrayBuffer();
+          })
+          .then((arrayBuffer) => {
+            const durationMs = parseAnimatedWebPDuration(arrayBuffer);
+
+            if (!durationMs) {
+              throw new Error('Animation duration could not be detected');
+            }
+
+            const blob = new Blob([arrayBuffer], { type: 'image/webp' });
+
+            return {
+              blobUrl: URL.createObjectURL(blob),
+              durationMs,
+            };
+          })
+          .catch(() => null);
+
+        animationInfoCache.set(src, infoPromise);
+      }
+
+      return animationInfoCache.get(src);
+    };
+
+    const waitForImageReady = (image) =>
+      new Promise((resolve) => {
+        if (image.complete && image.naturalWidth > 0) {
+          resolve();
+          return;
+        }
+
+        const finish = () => {
+          image.removeEventListener('load', finish);
+          image.removeEventListener('error', finish);
+          resolve();
+        };
+
+        image.addEventListener('load', finish, { once: true });
+        image.addEventListener('error', finish, { once: true });
+      });
+
+    const playAnimationItem = async (item) => {
+      if (!(item instanceof HTMLElement)) return;
+
+      const src = item.dataset.animationSrc;
+      const info = await loadAnimationInfo(src);
+
+      if (!info || !info.blobUrl || !info.durationMs) {
+        return;
+      }
+
+      const image = new Image();
+      image.alt = '';
+      image.className = 'plennia-coming-soon__animation-frame';
+      image.decoding = 'async';
+      image.loading = 'eager';
+
+      item.replaceChildren(image);
+      item.hidden = false;
+      image.src = info.blobUrl;
+
+      await waitForImageReady(image);
+
+      if (!image.naturalWidth) {
+        item.hidden = true;
+        item.replaceChildren();
+        return;
+      }
+
+      await wait(info.durationMs);
+
+      item.hidden = true;
+      item.replaceChildren();
+    };
+
+    const startAnimationSequence = () => {
+      if (animationSequenceStarted || !animationItems.length) {
+        return;
+      }
+
+      animationSequenceStarted = true;
+
+      animationItems.forEach((item) => {
+        void loadAnimationInfo(item.dataset.animationSrc);
+      });
+
+      void (async () => {
+        while (section.isConnected) {
+          for (const item of animationItems) {
+            await wait(animationDelayMs);
+
+            if (!section.isConnected) {
+              return;
+            }
+
+            await playAnimationItem(item);
+          }
+        }
+      })();
+    };
+
+    window.addEventListener(
+      'pagehide',
+      () => {
+        animationInfoCache.forEach((infoPromise) => {
+          Promise.resolve(infoPromise).then((info) => {
+            if (info && info.blobUrl) {
+              URL.revokeObjectURL(info.blobUrl);
+            }
+          });
+        });
+      },
+      { once: true }
+    );
 
     const ensureCustomerField = (name, dataAttribute, value = '') => {
       if (!(customerForm instanceof HTMLFormElement)) {
@@ -675,6 +860,7 @@
     });
 
     applyLocale(initialLocale);
+    startAnimationSequence();
 
     if (
       !uiForm ||
