@@ -373,14 +373,14 @@
     min-height: 100svh;
     display: flex;
     flex-direction: column;
-    padding: clamp(1.25rem, 2.5vw, 2rem) clamp(1.25rem, 3vw, 2.75rem);
+    padding: clamp(1.35rem, 2.8vw, 2.35rem) clamp(1.1rem, 4vw, 3.5rem) clamp(1.65rem, 3vw, 2.5rem);
   }
 
   .plennia-coming-soon__header {
     display: grid;
     grid-template-columns: 1fr auto 1fr;
-    align-items: start;
-    gap: 1rem;
+    align-items: center;
+    gap: 0.85rem;
   }
 
   .plennia-coming-soon__header-empty {
@@ -393,12 +393,14 @@
     align-items: center;
     text-decoration: none;
     color: inherit;
+    padding-block: clamp(0.15rem, 0.5vw, 0.45rem);
   }
 
   .plennia-coming-soon__logo-image {
     display: block;
     width: auto;
     max-height: {{ logo_height }}px;
+    max-width: min(18rem, 42vw);
     height: auto;
   }
 
@@ -414,20 +416,22 @@
     justify-self: end;
     display: inline-flex;
     align-items: center;
-    gap: 0.25rem;
+    gap: 0.5rem;
   }
 
   .plennia-coming-soon__locale-button {
     appearance: none;
-    border: 1px solid transparent;
+    border: 0;
+    border-bottom: 1px solid transparent;
     background: transparent;
     color: var(--plennia-muted);
     cursor: pointer;
     font-family: var(--font-body--family);
-    font-size: 0.72rem;
+    font-size: 0.68rem;
     font-weight: 600;
-    letter-spacing: 0.14em;
-    padding: 0.35rem 0.5rem;
+    letter-spacing: 0.18em;
+    line-height: 1;
+    padding: 0.2rem 0.1rem 0.35rem;
     text-transform: uppercase;
     transition:
       color 160ms ease,
@@ -437,12 +441,12 @@
 
   .plennia-coming-soon__locale-button[aria-pressed='true'] {
     color: var(--plennia-text);
-    border-color: var(--plennia-border);
-    background: rgb(255 255 255 / 0.45);
+    border-color: var(--plennia-border-strong);
+    background: transparent;
   }
 
   .plennia-coming-soon__divider {
-    margin-top: 1.1rem;
+    margin-top: 1.35rem;
     border-top: 1px solid var(--plennia-border);
   }
 
@@ -451,62 +455,66 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    padding-block: clamp(2.5rem, 8vw, 7rem);
+    padding-block: clamp(3rem, 9vw, 8.5rem);
   }
 
   .plennia-coming-soon__content {
-    width: min(100%, 64rem);
+    width: min(100%, 58rem);
     display: grid;
-    gap: clamp(2.5rem, 5vw, 4.5rem);
+    gap: clamp(2.75rem, 5.5vw, 5.25rem);
     justify-items: center;
   }
 
   .plennia-coming-soon__hero {
-    width: min(100%, 48rem);
+    width: min(100%, 43rem);
+    display: grid;
+    justify-items: center;
     text-align: center;
   }
 
   .plennia-coming-soon__eyebrow {
-    margin: 0 0 1.1rem;
+    margin: 0 0 1.3rem;
     color: var(--plennia-muted);
     font-family: var(--font-body--family);
-    font-size: 0.75rem;
+    font-size: 0.68rem;
     font-weight: 600;
-    letter-spacing: 0.2em;
+    letter-spacing: 0.24em;
     text-transform: uppercase;
   }
 
   .plennia-coming-soon__heading {
     margin: 0;
+    width: min(100%, 11ch);
     font-family: var(--font-heading--family);
-    font-size: clamp(2.8rem, 7vw, 5.7rem);
+    font-size: clamp(3rem, 7.4vw, 6.1rem);
     font-weight: var(--font-heading--weight);
-    line-height: 0.95;
-    letter-spacing: -0.05em;
+    line-height: 0.92;
+    letter-spacing: -0.055em;
     text-wrap: balance;
   }
 
   .plennia-coming-soon__tagline {
-    margin: 1.2rem 0 0;
+    width: min(100%, 27rem);
+    margin: 1.55rem 0 0;
     color: var(--plennia-muted);
     font-family: var(--font-body--family);
-    font-size: clamp(1rem, 0.96rem + 0.18vw, 1.1rem);
+    font-size: clamp(1rem, 0.96rem + 0.14vw, 1.08rem);
     font-style: italic;
-    line-height: 1.6;
+    line-height: 1.7;
   }
 
   .plennia-coming-soon__body {
-    width: min(100%, 34rem);
-    margin: 1rem auto 0;
+    width: min(100%, 31rem);
+    margin: 1.35rem auto 0;
     color: var(--plennia-muted);
     font-family: var(--font-body--family);
-    font-size: clamp(0.98rem, 0.93rem + 0.15vw, 1.05rem);
-    line-height: 1.75;
+    font-size: clamp(0.97rem, 0.93rem + 0.12vw, 1.03rem);
+    line-height: 1.82;
     text-wrap: pretty;
   }
 
   .plennia-coming-soon__form-shell {
-    width: min(100%, 30rem);
+    width: min(100%, 27.5rem);
   }
 
   .plennia-coming-soon__ui-form {
@@ -515,50 +523,50 @@
 
   .plennia-coming-soon__fields {
     display: grid;
-    gap: 1.1rem;
+    gap: 1.2rem;
   }
 
   .plennia-coming-soon__field-group {
     display: grid;
-    gap: 0.55rem;
+    gap: 0.65rem;
   }
 
   .plennia-coming-soon__field-group--checkbox {
-    gap: 0.45rem;
+    gap: 0.5rem;
   }
 
   .plennia-coming-soon__label {
     color: var(--plennia-text);
     font-family: var(--font-body--family);
-    font-size: 0.72rem;
+    font-size: 0.68rem;
     font-weight: 600;
-    letter-spacing: 0.16em;
+    letter-spacing: 0.18em;
     text-transform: uppercase;
   }
 
   .plennia-coming-soon__method-toggle {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 0.55rem;
+    gap: 0.65rem;
   }
 
   .plennia-coming-soon__method-button,
   .plennia-coming-soon__input,
   .plennia-coming-soon__submit {
-    min-height: 3.4rem;
+    min-height: 3.55rem;
   }
 
   .plennia-coming-soon__method-button {
     appearance: none;
     border: 1px solid var(--plennia-border);
-    background: transparent;
+    background: rgb(252 250 246 / 0.55);
     color: var(--plennia-muted);
     cursor: pointer;
     font-family: var(--font-body--family);
-    font-size: 0.78rem;
+    font-size: 0.74rem;
     font-weight: 600;
-    letter-spacing: 0.08em;
-    padding: 0.9rem 1rem;
+    letter-spacing: 0.12em;
+    padding: 0.95rem 1rem;
     text-transform: uppercase;
     transition:
       border-color 160ms ease,
@@ -568,7 +576,8 @@
 
   .plennia-coming-soon__method-button[aria-pressed='true'] {
     border-color: var(--plennia-border-strong);
-    background: rgb(255 255 255 / 0.56);
+    background: var(--plennia-surface);
+    box-shadow: inset 0 0 0 1px var(--plennia-border-strong);
     color: var(--plennia-text);
   }
 
@@ -576,15 +585,19 @@
     width: 100%;
     border: 1px solid var(--plennia-border);
     border-radius: 0;
-    background: transparent;
+    background: rgb(252 250 246 / 0.52);
     color: var(--plennia-text);
     font-family: var(--font-body--family);
-    font-size: 0.98rem;
-    line-height: 1.4;
-    padding: 0.85rem 1rem;
+    font-size: 0.95rem;
+    line-height: 1.45;
+    padding: 0.95rem 1rem;
     transition:
       border-color 160ms ease,
       background-color 160ms ease;
+  }
+
+  .plennia-coming-soon__input:focus-visible {
+    background: var(--plennia-surface);
   }
 
   .plennia-coming-soon__input::placeholder {
@@ -602,7 +615,7 @@
   .plennia-coming-soon__checkbox {
     display: grid;
     grid-template-columns: auto 1fr;
-    gap: 0.75rem;
+    gap: 0.7rem;
     align-items: start;
     cursor: pointer;
   }
@@ -614,9 +627,9 @@
   }
 
   .plennia-coming-soon__checkbox-box {
-    width: 1rem;
-    height: 1rem;
-    margin-top: 0.2rem;
+    width: 1.05rem;
+    height: 1.05rem;
+    margin-top: 0.25rem;
     border: 1px solid var(--plennia-border);
     background: transparent;
     transition:
@@ -637,8 +650,8 @@
   .plennia-coming-soon__checkbox-text {
     color: var(--plennia-muted);
     font-family: var(--font-body--family);
-    font-size: 0.93rem;
-    line-height: 1.6;
+    font-size: 0.91rem;
+    line-height: 1.65;
   }
 
   .plennia-coming-soon__submit {
@@ -650,10 +663,10 @@
     color: var(--plennia-button-text);
     cursor: pointer;
     font-family: var(--font-body--family);
-    font-size: 0.82rem;
+    font-size: 0.78rem;
     font-weight: 600;
-    letter-spacing: 0.18em;
-    padding: 0.95rem 1.25rem;
+    letter-spacing: 0.2em;
+    padding: 1rem 1.25rem;
     text-transform: uppercase;
     transition:
       background-color 160ms ease,
@@ -680,8 +693,8 @@
     margin: 0;
     color: var(--plennia-error);
     font-family: var(--font-body--family);
-    font-size: 0.88rem;
-    line-height: 1.5;
+    font-size: 0.82rem;
+    line-height: 1.55;
   }
 
   .plennia-coming-soon__field-error--general {
@@ -689,7 +702,7 @@
   }
 
   .plennia-coming-soon__success {
-    padding-top: 0.45rem;
+    padding-top: 0.75rem;
     text-align: center;
   }
 
@@ -716,36 +729,119 @@
 
   @media screen and (max-width: 749px) {
     .plennia-coming-soon__shell {
-      padding: 1rem 1rem 1.5rem;
+      padding: 1rem 1rem 1.3rem;
     }
 
     .plennia-coming-soon__header {
       grid-template-columns: 1fr auto 1fr;
-      align-items: start;
+      gap: 0.6rem;
     }
 
     .plennia-coming-soon__logo-image {
       max-height: {{ logo_height_mobile }}px;
+      max-width: min(12rem, 44vw);
+    }
+
+    .plennia-coming-soon__locale-button {
+      font-size: 0.64rem;
+      letter-spacing: 0.16em;
     }
 
     .plennia-coming-soon__main {
-      padding-block: 2.75rem 3rem;
+      padding-block: 2.15rem 2.65rem;
     }
 
     .plennia-coming-soon__content {
-      gap: 2.25rem;
+      width: min(100%, 30rem);
+      gap: 2rem;
     }
 
     .plennia-coming-soon__heading {
-      font-size: clamp(2.35rem, 12vw, 3.4rem);
+      font-size: clamp(2.45rem, 11.5vw, 3.55rem);
+      line-height: 0.94;
     }
 
-    .plennia-coming-soon__body {
+    .plennia-coming-soon__tagline {
+      width: min(100%, 23rem);
+      margin-top: 1.15rem;
+    }
+
+    .plennia-coming-soon__body,
+    .plennia-coming-soon__form-shell {
       width: 100%;
     }
 
+    .plennia-coming-soon__body {
+      margin-top: 0.95rem;
+      font-size: 0.96rem;
+      line-height: 1.75;
+    }
+
     .plennia-coming-soon__method-toggle {
-      grid-template-columns: 1fr;
+      gap: 0.5rem;
+    }
+
+    .plennia-coming-soon__method-button,
+    .plennia-coming-soon__input,
+    .plennia-coming-soon__submit {
+      min-height: 3.25rem;
+    }
+
+    .plennia-coming-soon__method-button {
+      font-size: 0.68rem;
+      letter-spacing: 0.08em;
+      padding-inline: 0.75rem;
+    }
+
+    .plennia-coming-soon__input {
+      font-size: 0.95rem;
+      padding-inline: 0.95rem;
+    }
+
+    .plennia-coming-soon__checkbox {
+      gap: 0.65rem;
+    }
+
+    .plennia-coming-soon__checkbox-text {
+      font-size: 0.88rem;
+    }
+
+    .plennia-coming-soon__submit {
+      letter-spacing: 0.16em;
+    }
+  }
+
+  @media screen and (max-width: 479px) {
+    .plennia-coming-soon__shell {
+      padding: 0.85rem 0.85rem 1.1rem;
+    }
+
+    .plennia-coming-soon__divider {
+      margin-top: 1rem;
+    }
+
+    .plennia-coming-soon__heading {
+      width: min(100%, 10.5ch);
+      font-size: clamp(2.25rem, 12.5vw, 3rem);
+    }
+
+    .plennia-coming-soon__tagline {
+      width: min(100%, 20rem);
+      font-size: 0.95rem;
+    }
+
+    .plennia-coming-soon__body {
+      font-size: 0.93rem;
+    }
+
+    .plennia-coming-soon__label {
+      font-size: 0.64rem;
+      letter-spacing: 0.16em;
+    }
+
+    .plennia-coming-soon__method-button {
+      font-size: 0.62rem;
+      letter-spacing: 0.06em;
     }
   }
 
