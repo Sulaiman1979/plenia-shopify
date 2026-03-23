@@ -420,6 +420,98 @@
       );
     };
 
+    const parseGifDuration = (arrayBuffer) => {
+      const bytes = new Uint8Array(arrayBuffer);
+
+      if (bytes.length < 13) {
+        return null;
+      }
+
+      const header = String.fromCharCode(bytes[0], bytes[1], bytes[2], bytes[3], bytes[4], bytes[5]);
+
+      if (header !== 'GIF87a' && header !== 'GIF89a') {
+        return null;
+      }
+
+      let offset = 13;
+      let totalDurationMs = 0;
+      let frameCount = 0;
+
+      if ((bytes[10] & 0x80) !== 0) {
+        offset += 3 * (1 << ((bytes[10] & 0x07) + 1));
+      }
+
+      while (offset < bytes.length) {
+        const blockId = bytes[offset];
+
+        if (blockId === 0x3b) {
+          break;
+        }
+
+        if (blockId === 0x21) {
+          const label = bytes[offset + 1];
+
+          if (label === 0xf9 && bytes[offset + 2] === 0x04 && offset + 7 < bytes.length) {
+            let frameDurationMs = (bytes[offset + 4] | (bytes[offset + 5] << 8)) * 10;
+
+            if (frameDurationMs <= 0) {
+              frameDurationMs = 100;
+            }
+
+            totalDurationMs += frameDurationMs;
+            frameCount += 1;
+          }
+
+          offset += 2;
+
+          while (offset < bytes.length) {
+            const subBlockSize = bytes[offset];
+            offset += 1;
+
+            if (subBlockSize === 0) {
+              break;
+            }
+
+            offset += subBlockSize;
+          }
+
+          continue;
+        }
+
+        if (blockId === 0x2c) {
+          if (offset + 9 >= bytes.length) {
+            break;
+          }
+
+          const packed = bytes[offset + 9];
+          offset += 10;
+
+          if ((packed & 0x80) !== 0) {
+            offset += 3 * (1 << ((packed & 0x07) + 1));
+          }
+
+          offset += 1;
+
+          while (offset < bytes.length) {
+            const subBlockSize = bytes[offset];
+            offset += 1;
+
+            if (subBlockSize === 0) {
+              break;
+            }
+
+            offset += subBlockSize;
+          }
+
+          continue;
+        }
+
+        break;
+      }
+
+      return frameCount > 0 ? totalDurationMs : null;
+    };
+
     const parseAnimatedWebPDuration = (arrayBuffer) => {
       const view = new DataView(arrayBuffer);
 
@@ -460,6 +552,20 @@
       return frameCount > 0 ? totalDurationMs : null;
     };
 
+    const parseAnimationDuration = (arrayBuffer, contentType = '') => {
+      const normalizedContentType = contentType.toLowerCase();
+
+      if (normalizedContentType.includes('gif')) {
+        return parseGifDuration(arrayBuffer);
+      }
+
+      if (normalizedContentType.includes('webp')) {
+        return parseAnimatedWebPDuration(arrayBuffer);
+      }
+
+      return parseAnimatedWebPDuration(arrayBuffer) || parseGifDuration(arrayBuffer);
+    };
+
     const loadAnimationInfo = async (src) => {
       if (!src) return null;
 
@@ -470,16 +576,19 @@
               throw new Error(`Animation request failed: ${response.status}`);
             }
 
-            return response.arrayBuffer();
+            return response.arrayBuffer().then((arrayBuffer) => ({
+              arrayBuffer,
+              contentType: response.headers.get('content-type') || '',
+            }));
           })
-          .then((arrayBuffer) => {
-            const durationMs = parseAnimatedWebPDuration(arrayBuffer);
+          .then(({ arrayBuffer, contentType }) => {
+            const durationMs = parseAnimationDuration(arrayBuffer, contentType);
 
             if (!durationMs) {
               throw new Error('Animation duration could not be detected');
             }
 
-            const blob = new Blob([arrayBuffer], { type: 'image/webp' });
+            const blob = new Blob([arrayBuffer], { type: contentType || 'application/octet-stream' });
 
             return {
               blobUrl: URL.createObjectURL(blob),
