@@ -256,6 +256,13 @@
   ></script>
 {% endif %}
 
+{% if template.name == 'index' or template.name == 'page' and template.suffix == 'plennia-coming-soon' %}
+  <script
+    src="{{ 'plennia-coming-soon.js' | asset_url }}"
+    defer="defer"
+  ></script>
+{% endif %}
+
 {% if template == 'product' or template.name == 'product' or request.page_type == 'product' %}
   <script
     src="{{ 'fly-to-cart.js' | asset_url }}"
