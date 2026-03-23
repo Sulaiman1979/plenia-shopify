@@ -3,12 +3,14 @@
   assign theme_logo = settings.logo
   assign logo_height = settings.logo_height | default: 36
   assign logo_height_mobile = settings.logo_height_mobile | default: 28
-  assign logo_width = blank
-  assign logo_width_mobile = blank
+  assign logo_height_display = logo_height | times: 1.35 | round
+  assign logo_height_mobile_display = logo_height_mobile | times: 1.35 | round
+  assign logo_style = ''
 
   if theme_logo != blank
-    assign logo_width = logo_height | times: theme_logo.aspect_ratio | round
-    assign logo_width_mobile = logo_height_mobile | times: theme_logo.aspect_ratio | round
+    assign logo_width = logo_height_display | times: theme_logo.aspect_ratio | ceil
+    assign logo_width_mobile = logo_height_mobile_display | times: theme_logo.aspect_ratio | ceil
+    assign logo_style = '--plennia-logo-width: ' | append: logo_width | append: 'px; --plennia-logo-width-mobile: ' | append: logo_width_mobile | append: 'px; --plennia-logo-height: ' | append: logo_height_display | append: 'px; --plennia-logo-height-mobile: ' | append: logo_height_mobile_display | append: 'px;'
   endif
 
   assign customer_form_id = 'PlenniaCustomerForm-' | append: section.id
@@ -29,17 +31,14 @@
         aria-label="{{ shop.name | escape }}"
       >
         {% if theme_logo != blank %}
-          {{
-            theme_logo
-            | image_url: width: 720
-            | image_tag:
-              widths: '180, 240, 360, 540, 720',
-              width: logo_width,
-              height: logo_height,
-              class: 'plennia-coming-soon__logo-image',
-              sizes: '(max-width: 749px) ' | append: logo_width_mobile | append: 'px, ' | append: logo_width | append: 'px',
-              alt: shop.name
-          }}
+          {% render 'image',
+            image: theme_logo,
+            class: 'plennia-coming-soon__logo-image',
+            height: logo_height_display,
+            alt_text_fallback: shop.name,
+            text_fallback: shop.name,
+            style: logo_style
+          %}
         {% else %}
           <span class="plennia-coming-soon__logo-text">{{ section.settings.logo_text }}</span>
         {% endif %}
@@ -391,6 +390,8 @@
     justify-self: center;
     display: inline-flex;
     align-items: center;
+    justify-content: center;
+    max-width: 100%;
     text-decoration: none;
     color: inherit;
     padding-block: clamp(0.15rem, 0.5vw, 0.45rem);
@@ -398,10 +399,17 @@
 
   .plennia-coming-soon__logo-image {
     display: block;
-    width: auto;
-    max-height: {{ logo_height }}px;
+    width: var(--plennia-logo-width-mobile, auto);
     max-width: min(18rem, 42vw);
-    height: auto;
+    height: var(--plennia-logo-height-mobile, auto);
+    object-fit: contain;
+  }
+
+  @media screen and (min-width: 750px) {
+    .plennia-coming-soon__logo-image {
+      width: var(--plennia-logo-width, auto);
+      height: var(--plennia-logo-height, auto);
+    }
   }
 
   .plennia-coming-soon__logo-text {
@@ -487,7 +495,7 @@
     width: min(100%, 11ch);
     font-family: var(--font-heading--family);
     font-size: clamp(3rem, 7.4vw, 6.1rem);
-    font-weight: var(--font-heading--weight);
+    font-weight: 400;
     line-height: 0.92;
     letter-spacing: -0.055em;
     text-wrap: balance;
@@ -738,7 +746,6 @@
     }
 
     .plennia-coming-soon__logo-image {
-      max-height: {{ logo_height_mobile }}px;
       max-width: min(12rem, 44vw);
     }
 
