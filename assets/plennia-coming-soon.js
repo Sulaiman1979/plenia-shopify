@@ -128,7 +128,8 @@
 
     const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     const phonePattern = /^\+?[0-9\s().-]{7,}$/;
-    const animationDelayMs = 20000;
+    const initialAnimationDelayMs = 3000;
+    const animationDelayMs = 3500;
     const countryCodeOptions = [
       ['+355', 'AL +355'],
       ['+376', 'AD +376'],
@@ -714,7 +715,7 @@
         void loadAnimationInfo(item.dataset.animationSrc);
       });
 
-      queueAnimationPlayback(animationDelayMs);
+      queueAnimationPlayback(initialAnimationDelayMs);
     };
 
     window.addEventListener(
