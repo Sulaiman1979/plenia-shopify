@@ -1,0 +1,61 @@
+{%- liquid
+  assign recommended_product = product | default: card_product
+  assign card_reason = reason | default: ''
+  assign card_score = score | default: blank
+  assign format_label = format_label | default: blank
+-%}
+
+{%- if recommended_product != blank -%}
+  <article class="plennia-recommendation-card" data-plennia-recommendation-card>
+    <div class="plennia-recommendation-card__media">
+      {%- if recommended_product.featured_image != blank -%}
+        {{
+          recommended_product.featured_image
+          | image_url: width: 720
+          | image_tag:
+            loading: 'lazy',
+            widths: '180, 240, 360, 540, 720',
+            class: 'plennia-recommendation-card__image',
+            alt: recommended_product.featured_image.alt | default: recommended_product.title
+        }}
+      {%- else -%}
+        {{ 'product-1' | placeholder_svg_tag: 'plennia-recommendation-card__image placeholder-svg' }}
+      {%- endif -%}
+    </div>
+
+    <div class="plennia-recommendation-card__body">
+      <div class="plennia-card__badges">
+        {%- if format_label != blank -%}
+          <span class="plennia-badge">{{ format_label }}</span>
+        {%- endif -%}
+        {%- if card_score != blank -%}
+          <span class="plennia-badge plennia-badge--muted">Score {{ card_score }}</span>
+        {%- endif -%}
+      </div>
+
+      <h3 class="plennia-card__title">
+        <a href="{{ recommended_product.url }}">{{ recommended_product.title | escape }}</a>
+      </h3>
+
+      {%- if card_reason != blank -%}
+        <p class="plennia-card__excerpt">{{ card_reason }}</p>
+      {%- endif -%}
+
+      <div class="plennia-card__footer">
+        <div class="plennia-card__price">
+          {%- render 'price', product: recommended_product, use_variant: false, show_badges: false -%}
+        </div>
+        {%- if recommended_product.selected_or_first_available_variant != blank -%}
+          <button
+            class="button button--secondary plennia-button-secondary"
+            type="button"
+            data-plennia-add-item
+            data-variant-id="{{ recommended_product.selected_or_first_available_variant.id }}"
+          >
+            Add to cart
+          </button>
+        {%- endif -%}
+      </div>
+    </div>
+  </article>
+{%- endif -%}

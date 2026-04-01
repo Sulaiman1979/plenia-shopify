@@ -1,0 +1,10 @@
+{%- assign bundle_title = bundle_title | default: 'Bundle ready' -%}
+{%- assign bundle_text = bundle_text | default: 'Pair dry food, wet food, and treats into a future-ready bundle flow.' -%}
+{%- assign bundle_link = bundle_link | default: routes.all_products_collection_url -%}
+
+<article class="plennia-bundle-card">
+  <p class="plennia-section__eyebrow">Bundles</p>
+  <h3 class="plennia-card__title">{{ bundle_title }}</h3>
+  <p class="plennia-card__excerpt">{{ bundle_text }}</p>
+  <a class="plennia-link" href="{{ bundle_link }}">Explore bundles</a>
+</article>

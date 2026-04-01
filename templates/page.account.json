@@ -1,0 +1,22 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "plennia-account-dashboard",
+      "settings": {
+        "eyebrow": "My account",
+        "heading": "A single customer account with room for multiple pets.",
+        "body": "Use this page template for content-driven account experiences or future account landing pages while the Shopify customer account route uses the same dashboard section."
+      }
+    }
+  },
+  "order": ["main"]
+}

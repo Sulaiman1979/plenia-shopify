@@ -1,0 +1,28 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "plennia-quiz-container",
+      "settings": {
+        "display_mode": "full",
+        "source_collection": "all",
+        "product_limit": 12,
+        "eyebrow": "Create a Plan",
+        "heading": "Build a first-pass nutrition plan for your pet.",
+        "body": "This multi-step flow is already wired for persistent state, Shopify product tags, and future saved-plan expansion.",
+        "button_label": "Start the quiz",
+        "plan_link": "/pages/plan",
+        "results_page_url": "/pages/plan-results"
+      }
+    }
+  },
+  "order": ["main"]
+}

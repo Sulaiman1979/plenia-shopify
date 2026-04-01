@@ -1,0 +1,51 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "hero": {
+      "type": "plennia-plan-results-hero",
+      "settings": {
+        "exit_label": "Exit",
+        "exit_link": "/pages/plan",
+        "heading_prefix": "We are processing",
+        "default_name": "your pet's",
+        "heading_middle": "information and creating the perfect meal for",
+        "default_pronoun": "them",
+        "body": "Please, enter your email so we can continue with your buddy's meal planning",
+        "gift_title": "Free welcome gift!",
+        "gift_body": "You're one of the lucky few who gets a free leash. Congrats!",
+        "email_placeholder": "Your email here",
+        "button_label": "Continue"
+      }
+    },
+    "summary": {
+      "type": "plennia-plan-results-summary",
+      "settings": {
+        "eyebrow": "Your plan",
+        "default_title": "Your first tailored recommendation set.",
+        "default_body": "Based on the answers you shared, we grouped the products that fit your pet best right now.",
+        "note_title": "What happens next",
+        "note_body": "You can revisit the quiz anytime and refine the plan as your pet's needs change.",
+        "plan_link": "/pages/plan"
+      }
+    },
+    "products": {
+      "type": "plennia-plan-results-products",
+      "settings": {
+        "source_collection": "all",
+        "product_limit": 12,
+        "eyebrow": "Recommended products",
+        "heading": "Shop the products linked to your current plan.",
+        "plan_link": "/pages/plan"
+      }
+    }
+  },
+  "order": ["hero", "summary", "products"]
+}

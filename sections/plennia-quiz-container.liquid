@@ -1,0 +1,332 @@
+{%- liquid
+  assign source_collection = section.settings.source_collection | default: collections['all']
+  assign source_collection_handle = source_collection.handle | default: 'all'
+  assign currency_code = cart.currency.iso_code | default: localization.country.currency.iso_code | default: 'USD'
+-%}
+
+<section class="plennia-section">
+  <div class="page-width">
+    {%- if section.settings.display_mode == 'teaser' -%}
+      <div class="plennia-section__shell plennia-quiz-teaser">
+        <div class="plennia-quiz-teaser__copy">
+          <p class="plennia-section__eyebrow">{{ section.settings.eyebrow }}</p>
+          <h2 class="plennia-section__heading h1">{{ section.settings.heading }}</h2>
+          <p class="plennia-section__body">{{ section.settings.body }}</p>
+        </div>
+
+        <div class="plennia-quiz-teaser__panel">
+          <div class="plennia-quiz-teaser__steps">
+            <span class="plennia-badge plennia-badge--muted">Pet type</span>
+            <span class="plennia-badge plennia-badge--muted">Health needs</span>
+            <span class="plennia-badge plennia-badge--muted">Goals</span>
+            <span class="plennia-badge plennia-badge--muted">Results</span>
+          </div>
+          {%- if section.settings.teaser_note != blank -%}
+            <p class="plennia-card__excerpt">{{ section.settings.teaser_note }}</p>
+          {%- endif -%}
+          <a class="button" href="{{ section.settings.plan_link | default: '/pages/plan' }}">{{ section.settings.button_label }}</a>
+        </div>
+      </div>
+    {%- else -%}
+      <div class="plennia-section__shell">
+        <div class="plennia-section__content">
+          <plennia-quiz
+            data-storage-key="plennia:quiz"
+            data-currency="{{ currency_code }}"
+            data-customer-id="{{ customer.id | default: '' }}"
+            data-source-collection-handle="{{ source_collection_handle }}"
+            data-results-url="{{ section.settings.results_page_url | default: '/pages/plan-results' }}"
+          >
+            <script type="application/json" data-plennia-quiz-products>
+              [
+                {%- for product in source_collection.products limit: section.settings.product_limit -%}
+                  {
+                    "id": {{ product.id | json }},
+                    "title": {{ product.title | json }},
+                    "url": {{ product.url | json }},
+                    "tags": {{ product.tags | json }},
+                    "price": {{ product.price | json }},
+                    "description": {{ product.description | strip_html | strip | truncatewords: 20 | json }},
+                    "featured_image": {{ product.featured_image | image_url: width: 720 | json }},
+                    "variant_id": {{ product.selected_or_first_available_variant.id | json }}
+                  }{% unless forloop.last %},{% endunless %}
+                {%- endfor -%}
+              ]
+            </script>
+
+            <div class="plennia-quiz__frame">
+              <div class="plennia-quiz__aside">
+                <a class="plennia-wordmark" href="{{ routes.root_url }}">{{ shop.name }}</a>
+                <p class="plennia-section__eyebrow">{{ section.settings.eyebrow }}</p>
+                <h1 class="plennia-section__heading h1">{{ section.settings.heading }}</h1>
+                <p class="plennia-section__body">{{ section.settings.body }}</p>
+
+                <div class="plennia-quiz__progress">
+                  <span class="plennia-note" data-quiz-step-label>Step 1 of 9</span>
+                  <div class="plennia-quiz__progress-track">
+                    <span class="plennia-quiz__progress-bar" data-quiz-progress-bar></span>
+                  </div>
+                </div>
+
+                <div class="plennia-quiz__summary" data-quiz-summary></div>
+                <a class="plennia-link" href="{{ routes.root_url }}">Exit quiz</a>
+              </div>
+
+              <div class="plennia-quiz__panel">
+                <form novalidate>
+                  <section class="plennia-quiz__step is-active" data-quiz-step data-step-key="pet_type">
+                    <div class="plennia-quiz__step-head">
+                      <p class="plennia-section__eyebrow">Step 1</p>
+                      <h2 class="plennia-card__title">Who are we building for?</h2>
+                      <p class="plennia-card__excerpt">Choose the pet type to narrow the recommendation pool from the first click.</p>
+                    </div>
+                    <div class="plennia-quiz__option-grid">
+                      {% render 'plennia-quiz-option-card', name: 'pet_type', value: 'dog', label: 'Dog', helper: 'Launch dog nutrition', icon: 'DOG' %}
+                      {% render 'plennia-quiz-option-card', name: 'pet_type', value: 'cat', label: 'Cat', helper: 'Launch cat nutrition', icon: 'CAT' %}
+                    </div>
+                  </section>
+
+                  <section class="plennia-quiz__step" data-quiz-step data-step-key="basic_info" hidden>
+                    <div class="plennia-quiz__step-head">
+                      <p class="plennia-section__eyebrow">Step 2</p>
+                      <h2 class="plennia-card__title">Basic pet profile</h2>
+                      <p class="plennia-card__excerpt">These fields seed future multi-pet saved plans and recommendation history.</p>
+                    </div>
+                    <div class="plennia-quiz__fields-grid">
+                      <div class="plennia-quiz__field">
+                        <label for="PetName-{{ section.id }}">Pet name</label>
+                        <input id="PetName-{{ section.id }}" type="text" name="pet_name" placeholder="Milo">
+                      </div>
+                      <div class="plennia-quiz__field">
+                        <label for="PetSex-{{ section.id }}">Sex</label>
+                        <select id="PetSex-{{ section.id }}" name="sex">
+                          <option value="">Select</option>
+                          <option value="female">Female</option>
+                          <option value="male">Male</option>
+                        </select>
+                      </div>
+                      <div class="plennia-quiz__field">
+                        <label for="PetAge-{{ section.id }}">Age</label>
+                        <input id="PetAge-{{ section.id }}" type="number" name="age" min="0" step="0.1" placeholder="3">
+                      </div>
+                      <div class="plennia-quiz__field">
+                        <label for="PetBreed-{{ section.id }}">Breed</label>
+                        <input id="PetBreed-{{ section.id }}" type="text" name="breed" placeholder="Labrador">
+                      </div>
+                      <div class="plennia-quiz__field">
+                        <label for="PetNeutered-{{ section.id }}">Neutered / spayed</label>
+                        <select id="PetNeutered-{{ section.id }}" name="neutered_status">
+                          <option value="">Select</option>
+                          <option value="yes">Yes</option>
+                          <option value="no">No</option>
+                        </select>
+                      </div>
+                      <div class="plennia-quiz__field">
+                        <label for="PetWeight-{{ section.id }}">Weight (kg)</label>
+                        <input id="PetWeight-{{ section.id }}" type="number" name="weight" min="0" step="0.1" placeholder="12">
+                      </div>
+                    </div>
+                  </section>
+
+                  <section class="plennia-quiz__step" data-quiz-step data-step-key="body_activity" hidden>
+                    <div class="plennia-quiz__step-head">
+                      <p class="plennia-section__eyebrow">Step 3</p>
+                      <h2 class="plennia-card__title">Body condition and activity</h2>
+                    </div>
+                    <div class="plennia-quiz__option-grid">
+                      {% render 'plennia-quiz-option-card', name: 'body_condition', value: 'underweight', label: 'Underweight', helper: 'Needs nutritional support' %}
+                      {% render 'plennia-quiz-option-card', name: 'body_condition', value: 'ideal', label: 'Ideal', helper: 'Maintenance and balance' %}
+                      {% render 'plennia-quiz-option-card', name: 'body_condition', value: 'overweight', label: 'Overweight', helper: 'Weight management' %}
+                    </div>
+                    <div class="plennia-quiz__option-grid">
+                      {% render 'plennia-quiz-option-card', name: 'activity_level', value: 'low', label: 'Low activity', helper: 'Mostly calm days' %}
+                      {% render 'plennia-quiz-option-card', name: 'activity_level', value: 'medium', label: 'Medium activity', helper: 'Balanced daily movement' %}
+                      {% render 'plennia-quiz-option-card', name: 'activity_level', value: 'high', label: 'High activity', helper: 'Very active or athletic' %}
+                    </div>
+                  </section>
+
+                  <section class="plennia-quiz__step" data-quiz-step data-step-key="current_food" hidden>
+                    <div class="plennia-quiz__step-head">
+                      <p class="plennia-section__eyebrow">Step 4</p>
+                      <h2 class="plennia-card__title">Current food mix</h2>
+                    </div>
+                    <div class="plennia-quiz__option-grid">
+                      {% render 'plennia-quiz-option-card', input_type: 'checkbox', name: 'current_food', value: 'dry', label: 'Dry food', helper: 'Kibble or dry format' %}
+                      {% render 'plennia-quiz-option-card', input_type: 'checkbox', name: 'current_food', value: 'wet', label: 'Wet food', helper: 'Pouches or cans' %}
+                      {% render 'plennia-quiz-option-card', input_type: 'checkbox', name: 'current_food', value: 'treats', label: 'Treats', helper: 'Daily reward moments' %}
+                    </div>
+                  </section>
+
+                  <section class="plennia-quiz__step" data-quiz-step data-step-key="health" hidden>
+                    <div class="plennia-quiz__step-head">
+                      <p class="plennia-section__eyebrow">Step 5</p>
+                      <h2 class="plennia-card__title">Health problems</h2>
+                    </div>
+                    <div class="plennia-quiz__option-grid plennia-quiz__option-grid--wide">
+                      {% render 'plennia-quiz-option-card', input_type: 'checkbox', name: 'health_problems', value: 'none', label: 'None in particular' %}
+                      {% render 'plennia-quiz-option-card', input_type: 'checkbox', name: 'health_problems', value: 'skin_hair', label: 'Skin and hair' %}
+                      {% render 'plennia-quiz-option-card', input_type: 'checkbox', name: 'health_problems', value: 'dental_oral', label: 'Dental / oral problems' %}
+                      {% render 'plennia-quiz-option-card', input_type: 'checkbox', name: 'health_problems', value: 'diabetes', label: 'Diabetes' %}
+                      {% render 'plennia-quiz-option-card', input_type: 'checkbox', name: 'health_problems', value: 'allergies', label: 'Allergies' %}
+                      {% render 'plennia-quiz-option-card', input_type: 'checkbox', name: 'health_problems', value: 'joint_problems', label: 'Joint problems' %}
+                      {% render 'plennia-quiz-option-card', input_type: 'checkbox', name: 'health_problems', value: 'sensitive_digestion', label: 'Sensitive digestion' %}
+                      {% render 'plennia-quiz-option-card', input_type: 'checkbox', name: 'health_problems', value: 'heart_problems', label: 'Heart problems' %}
+                      {% render 'plennia-quiz-option-card', input_type: 'checkbox', name: 'health_problems', value: 'cancer', label: 'Cancer' %}
+                      {% render 'plennia-quiz-option-card', input_type: 'checkbox', name: 'health_problems', value: 'obesity', label: 'Obesity' %}
+                      {% render 'plennia-quiz-option-card', input_type: 'checkbox', name: 'health_problems', value: 'ear_infection', label: 'Ear infection' %}
+                      {% render 'plennia-quiz-option-card', input_type: 'checkbox', name: 'health_problems', value: 'shedding', label: 'Shedding' %}
+                      {% render 'plennia-quiz-option-card', input_type: 'checkbox', name: 'health_problems', value: 'trouble_breathing', label: 'Trouble breathing' %}
+                      {% render 'plennia-quiz-option-card', input_type: 'checkbox', name: 'health_problems', value: 'urinary_infection', label: 'Urinary infection' %}
+                    </div>
+                  </section>
+
+                  <section class="plennia-quiz__step" data-quiz-step data-step-key="allergies" hidden>
+                    <div class="plennia-quiz__step-head">
+                      <p class="plennia-section__eyebrow">Step 6</p>
+                      <h2 class="plennia-card__title">Allergies and exclusions</h2>
+                    </div>
+                    <div class="plennia-quiz__option-grid">
+                      {% render 'plennia-quiz-option-card', input_type: 'checkbox', name: 'allergies', value: 'none', label: 'None in particular' %}
+                      {% render 'plennia-quiz-option-card', input_type: 'checkbox', name: 'allergies', value: 'beef', label: 'Beef' %}
+                      {% render 'plennia-quiz-option-card', input_type: 'checkbox', name: 'allergies', value: 'fish', label: 'Fish' %}
+                      {% render 'plennia-quiz-option-card', input_type: 'checkbox', name: 'allergies', value: 'chicken', label: 'Chicken' %}
+                      {% render 'plennia-quiz-option-card', input_type: 'checkbox', name: 'allergies', value: 'turkey', label: 'Turkey' %}
+                      {% render 'plennia-quiz-option-card', input_type: 'checkbox', name: 'allergies', value: 'pork', label: 'Pork' %}
+                    </div>
+                  </section>
+
+                  <section class="plennia-quiz__step" data-quiz-step data-step-key="goals" hidden>
+                    <div class="plennia-quiz__step-head">
+                      <p class="plennia-section__eyebrow">Step 7</p>
+                      <h2 class="plennia-card__title">Focus goals</h2>
+                    </div>
+                    <div class="plennia-quiz__option-grid">
+                      {% render 'plennia-quiz-option-card', input_type: 'checkbox', name: 'goals', value: 'none', label: 'None in particular' %}
+                      {% render 'plennia-quiz-option-card', input_type: 'checkbox', name: 'goals', value: 'skin_coat', label: 'Skin and coat' %}
+                      {% render 'plennia-quiz-option-card', input_type: 'checkbox', name: 'goals', value: 'joints_mobility', label: 'Joints and mobility' %}
+                      {% render 'plennia-quiz-option-card', input_type: 'checkbox', name: 'goals', value: 'dental_oral', label: 'Dental / oral problems' %}
+                      {% render 'plennia-quiz-option-card', input_type: 'checkbox', name: 'goals', value: 'weight_control', label: 'Weight control' %}
+                    </div>
+                  </section>
+
+                  <section class="plennia-quiz__step" data-quiz-step data-step-key="email" hidden>
+                    <div class="plennia-quiz__step-head">
+                      <p class="plennia-section__eyebrow">Step 8</p>
+                      <h2 class="plennia-card__title">Optional email capture</h2>
+                      <p class="plennia-card__excerpt">Leave an email if you want the plan handy later. You can skip this and keep moving.</p>
+                    </div>
+                    <div class="plennia-quiz__fields-grid">
+                      <div class="plennia-quiz__field plennia-quiz__field--full">
+                        <label for="QuizEmail-{{ section.id }}">Email</label>
+                        <input id="QuizEmail-{{ section.id }}" type="email" name="email" placeholder="you@example.com">
+                      </div>
+                    </div>
+                    <a class="plennia-wordmark" href="{{ routes.root_url }}">{{ shop.name }}</a>
+                  </section>
+
+                  <section class="plennia-quiz__step" data-quiz-step data-step-key="results" hidden>
+                    <div class="plennia-quiz__step-head">
+                      <p class="plennia-section__eyebrow">Step 9</p>
+                      <h2 class="plennia-card__title">Your first-pass Plennia plan</h2>
+                      <p class="plennia-card__excerpt">These results use launch tags, goal matching, and allergen exclusions so the logic can expand later without rewiring the theme.</p>
+                    </div>
+                    <a class="plennia-wordmark" href="{{ routes.root_url }}">{{ shop.name }}</a>
+                    <div data-quiz-results></div>
+                  </section>
+                </form>
+
+                <div class="plennia-quiz__actions">
+                  <button class="button button--secondary plennia-button-secondary" type="button" data-quiz-prev>
+                    Previous
+                  </button>
+                  <button class="button" type="button" data-quiz-next>Continue</button>
+                  <button class="button button--secondary plennia-button-secondary" type="button" data-quiz-restart>
+                    Start again
+                  </button>
+                </div>
+              </div>
+            </div>
+          </plennia-quiz>
+        </div>
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Plennia Quiz Container",
+  "settings": [
+    {
+      "type": "select",
+      "id": "display_mode",
+      "label": "Display mode",
+      "default": "full",
+      "options": [
+        {
+          "value": "full",
+          "label": "Full quiz"
+        },
+        {
+          "value": "teaser",
+          "label": "Homepage teaser"
+        }
+      ]
+    },
+    {
+      "type": "collection",
+      "id": "source_collection",
+      "label": "Source collection"
+    },
+    {
+      "type": "range",
+      "id": "product_limit",
+      "label": "Products for scoring",
+      "min": 4,
+      "max": 24,
+      "step": 2,
+      "default": 12
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "Create a Plan"
+    },
+    {
+      "type": "textarea",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Build a first-pass nutrition plan for your pet."
+    },
+    {
+      "type": "textarea",
+      "id": "body",
+      "label": "Body",
+      "default": "This Shopify-native scaffold persists answers between steps, ranks products by launch tags, and is designed to evolve cleanly into deeper app or metafield logic."
+    },
+    {
+      "type": "textarea",
+      "id": "teaser_note",
+      "label": "Teaser note",
+      "default": "Answer a few quick questions and get dry food, wet food, treat, and booster recommendations in one pass."
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Teaser button label",
+      "default": "Start the quiz"
+    },
+    {
+      "type": "url",
+      "id": "plan_link",
+      "label": "Teaser button link"
+    },
+    {
+      "type": "url",
+      "id": "results_page_url",
+      "label": "Results page URL"
+    }
+  ]
+}
+{% endschema %}

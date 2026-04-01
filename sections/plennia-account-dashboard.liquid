@@ -1,0 +1,260 @@
+{%- liquid
+  assign source_collection = section.settings.source_collection | default: collections['all']
+  assign source_collection_handle = source_collection.handle | default: 'all'
+  assign currency_code = cart.currency.iso_code | default: localization.country.currency.iso_code | default: 'USD'
+  assign initial_pet_profiles = '[]'
+  if customer and customer.metafields.custom.pet_profiles != blank and customer.metafields.custom.pet_profiles.value != blank
+    assign initial_pet_profiles = customer.metafields.custom.pet_profiles.value | json
+  endif
+-%}
+
+<section class="plennia-section">
+  <div class="page-width">
+    {%- if customer -%}
+      <div class="plennia-section__shell">
+        <div class="plennia-section__content">
+          <div class="plennia-account__hero-shell">
+            <div class="plennia-account__hero">
+              <div class="plennia-account__hero-copy">
+                <p class="plennia-section__eyebrow">{{ section.settings.eyebrow }}</p>
+                <h1 class="plennia-section__heading h1">{{ section.settings.heading }}</h1>
+                <p class="plennia-section__body">{{ section.settings.body }}</p>
+
+                <div class="plennia-card__badges">
+                  <span class="plennia-badge">One customer account</span>
+                  <span class="plennia-badge plennia-badge--muted">Multiple pets</span>
+                  <span class="plennia-badge plennia-badge--muted">{{ customer.email }}</span>
+                </div>
+              </div>
+            </div>
+
+            <aside class="plennia-account__hero-panel">
+              <p class="plennia-section__eyebrow">Account overview</p>
+              <div class="plennia-note-list">
+                <div class="plennia-note-list__item">
+                  <span>Orders</span>
+                  <span>{{ customer.orders.size }}</span>
+                </div>
+                <div class="plennia-note-list__item">
+                  <span>Addresses</span>
+                  <span>{{ customer.addresses_count }}</span>
+                </div>
+                <div class="plennia-note-list__item">
+                  <span>Login</span>
+                  <span>{{ customer.email }}</span>
+                </div>
+              </div>
+              <div class="plennia-account__hero-actions">
+                <a class="button button--secondary plennia-button-secondary" href="{{ routes.account_addresses_url }}">Manage addresses</a>
+                <a class="button" href="{{ routes.account_logout_url }}">Log out</a>
+              </div>
+            </aside>
+          </div>
+
+          <plennia-pet-dashboard
+            class="plennia-account__dashboard"
+            data-customer-id="{{ customer.id }}"
+            data-currency="{{ currency_code }}"
+            data-source-collection-handle="{{ source_collection_handle }}"
+          >
+            <script type="application/json" data-initial-pets>{{ initial_pet_profiles }}</script>
+            <script type="application/json" data-plennia-dashboard-products>
+              [
+                {%- for product in source_collection.products limit: 24 -%}
+                  {
+                    "id": {{ product.id | json }},
+                    "title": {{ product.title | json }},
+                    "url": {{ product.url | json }},
+                    "tags": {{ product.tags | json }},
+                    "price": {{ product.price | json }},
+                    "compare_at_price": {{ product.compare_at_price | default: blank | json }},
+                    "description": {{ product.description | strip_html | strip | truncatewords: 20 | json }},
+                    "featured_image": {{ product.featured_image | image_url: width: 720 | json }},
+                    "variant_id": {{ product.selected_or_first_available_variant.id | json }},
+                    "available": {{ product.selected_or_first_available_variant.available | json }}
+                  }{% unless forloop.last %},{% endunless %}
+                {%- endfor -%}
+              ]
+            </script>
+            <div class="plennia-account__banner" data-pet-save-flash hidden></div>
+
+            {% render 'plennia-pet-switcher', title: 'My Pets', subtitle: 'One customer account, multiple pet profiles.' %}
+
+            <form class="plennia-pet-form" data-pet-form>
+              <input type="hidden" name="pet_id">
+              <div class="plennia-pet-form__grid">
+                <div class="plennia-quiz__field">
+                  <label for="PetProfileName-{{ section.id }}">Pet name</label>
+                  <input id="PetProfileName-{{ section.id }}" type="text" name="pet_profile_name" placeholder="Milo">
+                </div>
+                <div class="plennia-quiz__field">
+                  <label for="PetProfileType-{{ section.id }}">Pet type</label>
+                  <select id="PetProfileType-{{ section.id }}" name="pet_profile_type">
+                    <option value="dog">Dog</option>
+                    <option value="cat">Cat</option>
+                  </select>
+                </div>
+                <div class="plennia-quiz__field">
+                  <label for="PetProfileSex-{{ section.id }}">Sex</label>
+                  <select id="PetProfileSex-{{ section.id }}" name="pet_profile_sex">
+                    <option value="">Select</option>
+                    <option value="female">Female</option>
+                    <option value="male">Male</option>
+                  </select>
+                </div>
+                <div class="plennia-quiz__field">
+                  <label for="PetProfileAge-{{ section.id }}">Age</label>
+                  <input id="PetProfileAge-{{ section.id }}" type="number" name="pet_profile_age" min="0" step="0.1">
+                </div>
+                <div class="plennia-quiz__field">
+                  <label for="PetProfileBreed-{{ section.id }}">Breed</label>
+                  <input id="PetProfileBreed-{{ section.id }}" type="text" name="pet_profile_breed" placeholder="Mixed breed">
+                </div>
+                <div class="plennia-quiz__field">
+                  <label for="PetProfileWeight-{{ section.id }}">Weight (kg)</label>
+                  <input id="PetProfileWeight-{{ section.id }}" type="number" name="pet_profile_weight" min="0" step="0.1" placeholder="12">
+                </div>
+                <div class="plennia-quiz__field">
+                  <label for="PetProfileNeutered-{{ section.id }}">Neutered / spayed</label>
+                  <select id="PetProfileNeutered-{{ section.id }}" name="pet_profile_neutered_status">
+                    <option value="">Select</option>
+                    <option value="yes">Yes</option>
+                    <option value="no">No</option>
+                  </select>
+                </div>
+                <div class="plennia-quiz__field plennia-quiz__field--full">
+                  <label for="PetProfileAllergies-{{ section.id }}">Allergies</label>
+                  <textarea
+                    id="PetProfileAllergies-{{ section.id }}"
+                    name="pet_profile_allergies"
+                    rows="3"
+                    placeholder="chicken, fish"
+                  ></textarea>
+                  <p class="plennia-note">Use comma-separated values. Quiz saves these automatically when available.</p>
+                </div>
+                <div class="plennia-quiz__field plennia-quiz__field--full">
+                  <label for="PetProfileHealth-{{ section.id }}">Health issues</label>
+                  <textarea
+                    id="PetProfileHealth-{{ section.id }}"
+                    name="pet_profile_health_problems"
+                    rows="3"
+                    placeholder="sensitive digestion, joint problems"
+                  ></textarea>
+                </div>
+                <div class="plennia-quiz__field plennia-quiz__field--full">
+                  <label for="PetProfileGoals-{{ section.id }}">Focus goals</label>
+                  <textarea
+                    id="PetProfileGoals-{{ section.id }}"
+                    name="pet_profile_goals"
+                    rows="3"
+                    placeholder="skin and coat, weight control"
+                  ></textarea>
+                </div>
+              </div>
+
+              <div class="plennia-pet-form__actions">
+                <button class="button" type="submit">Save pet profile</button>
+                <button class="button button--secondary plennia-button-secondary" type="button" data-pet-cancel>
+                  Cancel
+                </button>
+              </div>
+            </form>
+
+            <div class="plennia-pet-grid" data-pet-cards></div>
+
+            <div class="plennia-account__grid">
+              <article class="plennia-dashboard-card plennia-pet-card plennia-dashboard-card--orders">
+                <p class="plennia-section__eyebrow">My Orders</p>
+                <h2 class="plennia-card__title">Recent orders</h2>
+                <div class="plennia-order-list">
+                  {%- for order in customer.orders limit: 5 -%}
+                    <div class="plennia-order-list__item">
+                      <div>
+                        <a class="plennia-link" href="{{ order.customer_url }}">{{ order.name }}</a>
+                        <p class="plennia-note">{{ order.created_at | time_tag: format: 'date' }}</p>
+                      </div>
+                      <strong>{{ order.total_net_amount | money_with_currency }}</strong>
+                    </div>
+                  {%- else -%}
+                    <p class="plennia-note">No orders yet. The dashboard is ready for order-linked pet logic once the catalog is live.</p>
+                  {%- endfor -%}
+                </div>
+              </article>
+
+              <article class="plennia-dashboard-card plennia-pet-card plennia-dashboard-card--subscriptions">
+                <p class="plennia-section__eyebrow">My Subscriptions</p>
+                <h2 class="plennia-card__title">Subscription-ready foundation</h2>
+                <p class="plennia-card__excerpt">
+                  Keep subscription management future-ready without replacing Shopify checkout. This area can later connect to Recharge, native subscriptions, or an app-based layer.
+                </p>
+              </article>
+
+              <article class="plennia-dashboard-card plennia-pet-card plennia-dashboard-card--plans">
+                <p class="plennia-section__eyebrow">Saved Plans</p>
+                <h2 class="plennia-card__title">Latest plan summary</h2>
+                <div data-saved-plan-summary></div>
+              </article>
+
+              <article class="plennia-dashboard-card plennia-pet-card plennia-dashboard-card--settings">
+                <p class="plennia-section__eyebrow">Account Settings</p>
+                <h2 class="plennia-card__title">{{ customer.name | default: customer.email }}</h2>
+                <div class="plennia-note-list">
+                  <div class="plennia-note-list__item">
+                    <span>Email</span>
+                    <span>{{ customer.email }}</span>
+                  </div>
+                  <div class="plennia-note-list__item">
+                    <span>Addresses</span>
+                    <span>{{ customer.addresses_count }}</span>
+                  </div>
+                </div>
+              </article>
+            </div>
+          </plennia-pet-dashboard>
+        </div>
+      </div>
+    {%- else -%}
+      <div class="plennia-section__shell">
+        <div class="plennia-section__content">
+          <p class="plennia-section__eyebrow">{{ section.settings.eyebrow }}</p>
+          <h1 class="plennia-section__heading h1">Sign in to access your Plennia dashboard</h1>
+          <p class="plennia-section__body">Customer auth stays Shopify-native. Once signed in, this dashboard can manage pets, plans, orders, and future subscription touchpoints.</p>
+          <p style="margin-top: 2rem;">
+            <a class="button" href="{{ routes.account_login_url }}">Sign in</a>
+          </p>
+        </div>
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Plennia Account Dashboard",
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "My account"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "A single customer account with room for multiple pets."
+    },
+    {
+      "type": "textarea",
+      "id": "body",
+      "label": "Body",
+      "default": "Pet profiles work now inside the theme with browser persistence. For true Shopify customer metafield or metaobject storage across devices, connect the optional sync endpoint in theme settings."
+    },
+    {
+      "type": "collection",
+      "id": "source_collection",
+      "label": "Recommendation source collection"
+    }
+  ]
+}
+{% endschema %}

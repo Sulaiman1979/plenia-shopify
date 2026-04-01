@@ -5,6 +5,10 @@
     assign hide_theme_chrome = true
   elsif template.name == 'page' and template.suffix == 'plennia-coming-soon'
     assign hide_theme_chrome = true
+  elsif template.name == 'page' and template.suffix == 'plan'
+    assign hide_theme_chrome = true
+  elsif template.name == 'page' and template.suffix == 'plan-results'
+    assign hide_theme_chrome = true
   endif
 %}
 <html
@@ -79,6 +83,14 @@
     {% endunless %}
 
     <script>
+      window.PlenniaThemeConfig = {
+        customerPetsEndpoint: '',
+        planUrl: {{ pages['plan'].url | default: '/pages/plan' | json }},
+        planResultsUrl: {{ pages['plan-results'].url | default: '/pages/plan-results' | json }},
+        petUrl: {{ pages['pet'].url | default: '/pages/pet' | json }},
+        accountUrl: {{ pages['account'].url | default: '/pages/account' | json }},
+      };
+
       // Inline header height and menu style calculations to prevent layout shift
       // Note: Updates in calculateHeaderGroupHeight(), updateTransparentHeaderOffset() and setHeaderMenuStyle() utilities.js should be kept in sync with this function
       (function setHeaderHeighCustomProperties() {

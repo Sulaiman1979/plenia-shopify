@@ -1,0 +1,78 @@
+<section class="plennia-plan-results-summary">
+  <div class="page-width">
+    {%- assign account_dashboard_url = pages['account'].url | default: '/pages/account' -%}
+    <plennia-plan-results-summary
+      class="plennia-plan-results-summary__shell"
+      data-plan-link="{{ section.settings.plan_link | default: '/pages/plan' }}"
+      data-account-url="{{ account_dashboard_url }}"
+      data-login-url="{{ routes.account_login_url }}"
+      data-register-url="{{ routes.account_register_url }}"
+      data-customer-id="{{ customer.id }}"
+    >
+      <div class="plennia-plan-results-summary__intro">
+        {%- liquid
+          assign initial_pet_profiles = '[]'
+          if customer and customer.metafields.custom.pet_profiles != blank and customer.metafields.custom.pet_profiles.value != blank
+            assign initial_pet_profiles = customer.metafields.custom.pet_profiles.value | json
+          endif
+        -%}
+        <script type="application/json" data-initial-pets>{{ initial_pet_profiles }}</script>
+        <p class="plennia-plan-results-summary__eyebrow">{{ section.settings.eyebrow }}</p>
+        <h2 class="plennia-plan-results-summary__title" data-results-summary-title>{{ section.settings.default_title }}</h2>
+        <p class="plennia-plan-results-summary__body" data-results-summary-body>{{ section.settings.default_body }}</p>
+      </div>
+
+      <div class="plennia-plan-results-summary__aside">
+        <div class="plennia-plan-results-summary__chips" data-results-summary-chips></div>
+        <div data-results-profile-save></div>
+        <div class="plennia-plan-results-summary__note">
+          <strong>{{ section.settings.note_title }}</strong>
+          <p>{{ section.settings.note_body }}</p>
+        </div>
+      </div>
+    </plennia-plan-results-summary>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Plan Results Summary",
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "Your plan"
+    },
+    {
+      "type": "text",
+      "id": "default_title",
+      "label": "Default title",
+      "default": "Your first tailored recommendation set."
+    },
+    {
+      "type": "textarea",
+      "id": "default_body",
+      "label": "Default body",
+      "default": "Based on the answers you shared, we grouped the products that fit your pet best right now."
+    },
+    {
+      "type": "text",
+      "id": "note_title",
+      "label": "Note title",
+      "default": "What happens next"
+    },
+    {
+      "type": "textarea",
+      "id": "note_body",
+      "label": "Note body",
+      "default": "You can revisit the quiz anytime and refine the plan as your pet's needs change."
+    },
+    {
+      "type": "url",
+      "id": "plan_link",
+      "label": "Plan link"
+    }
+  ]
+}
+{% endschema %}

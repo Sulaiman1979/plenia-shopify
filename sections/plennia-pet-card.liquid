@@ -1,0 +1,53 @@
+{%- liquid
+  assign initial_pet_profiles = '[]'
+  if customer and customer.metafields.custom.pet_profiles != blank and customer.metafields.custom.pet_profiles.value != blank
+    assign initial_pet_profiles = customer.metafields.custom.pet_profiles.value | json
+  endif
+-%}
+
+<section class="plennia-section">
+  <div class="page-width">
+    <div class="plennia-section__shell">
+      <div class="plennia-section__content">
+        <div class="plennia-pet-profile__hero">
+          <div>
+            <p class="plennia-section__eyebrow">{{ section.settings.eyebrow }}</p>
+            <h1 class="plennia-section__heading h1">{{ section.settings.heading }}</h1>
+            <p class="plennia-section__body">{{ section.settings.body }}</p>
+          </div>
+        </div>
+
+        <plennia-pet-profile class="plennia-pet-profile__panel" data-customer-id="{{ customer.id | default: 'guest' }}">
+          <script type="application/json" data-initial-pets>{{ initial_pet_profiles }}</script>
+          <div data-pet-profile-panel></div>
+        </plennia-pet-profile>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Plennia Pet Card",
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "Pet profile"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Current pet plan and profile overview"
+    },
+    {
+      "type": "textarea",
+      "id": "body",
+      "label": "Body",
+      "default": "Use this page as the per-pet destination for saved plans, order history by pet, and future subscription management."
+    }
+  ]
+}
+{% endschema %}

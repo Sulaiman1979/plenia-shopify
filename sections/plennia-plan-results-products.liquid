@@ -1,0 +1,89 @@
+{%- liquid
+  assign source_collection = section.settings.source_collection | default: collections['all']
+  assign source_collection_handle = source_collection.handle | default: 'all'
+  assign currency_code = cart.currency.iso_code | default: localization.country.currency.iso_code | default: 'USD'
+-%}
+
+<section class="plennia-plan-results-products">
+  <div class="page-width">
+    <plennia-plan-results-products
+      class="plennia-plan-results-products__shell"
+      data-currency="{{ currency_code }}"
+      data-source-collection-handle="{{ source_collection_handle }}"
+      data-plan-link="{{ section.settings.plan_link | default: '/pages/plan' }}"
+    >
+      <script type="application/json" data-plennia-plan-products>
+        [
+          {%- for product in source_collection.products limit: section.settings.product_limit -%}
+            {
+              "id": {{ product.id | json }},
+              "title": {{ product.title | json }},
+              "url": {{ product.url | json }},
+              "tags": {{ product.tags | json }},
+              "price": {{ product.price | json }},
+              "compare_at_price": {{ product.compare_at_price | default: blank | json }},
+              "description": {{ product.description | strip_html | strip | truncatewords: 20 | json }},
+              "featured_image": {{ product.featured_image | image_url: width: 720 | json }},
+              "variant_id": {{ product.selected_or_first_available_variant.id | json }},
+              "available": {{ product.selected_or_first_available_variant.available | json }}
+            }{% unless forloop.last %},{% endunless %}
+          {%- endfor -%}
+        ]
+      </script>
+
+      <div class="plennia-plan-results-products__header">
+        <div>
+          <p class="plennia-plan-results-products__eyebrow">{{ section.settings.eyebrow }}</p>
+          <h2>{{ section.settings.heading }}</h2>
+        </div>
+      </div>
+
+      <div data-results-products-groups>
+        <div class="plennia-plan-results-products__fallback">
+          {%- for product in source_collection.products limit: 3 -%}
+            {% render 'plennia-plan-product-card', product: product %}
+          {%- endfor -%}
+        </div>
+      </div>
+    </plennia-plan-results-products>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Plan Results Products",
+  "settings": [
+    {
+      "type": "collection",
+      "id": "source_collection",
+      "label": "Source collection"
+    },
+    {
+      "type": "range",
+      "id": "product_limit",
+      "label": "Products for recommendation",
+      "min": 6,
+      "max": 24,
+      "step": 2,
+      "default": 12
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "Recommended products"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Shop the products linked to your current plan."
+    },
+    {
+      "type": "url",
+      "id": "plan_link",
+      "label": "Plan link"
+    }
+  ]
+}
+{% endschema %}

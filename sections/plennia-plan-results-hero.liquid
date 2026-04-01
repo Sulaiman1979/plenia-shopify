@@ -1,0 +1,147 @@
+<section class="plennia-plan-results-hero">
+  <div class="page-width">
+    <div class="plennia-plan-results-hero__topbar">
+      <a class="plennia-plan-results-hero__exit" href="{{ section.settings.exit_link | default: '/pages/plan' }}">
+        {{ section.settings.exit_label }}
+      </a>
+      <a class="plennia-plan-results-hero__brand" href="{{ routes.root_url }}">{{ shop.name }}</a>
+      <span class="plennia-plan-results-hero__topbar-spacer" aria-hidden="true"></span>
+    </div>
+
+    <div class="plennia-plan-results-hero__curve" aria-hidden="true"></div>
+
+    <plennia-plan-results-hero class="plennia-plan-results-hero__shell">
+      <div class="plennia-plan-results-hero__graphics plennia-plan-results-hero__graphics--left" aria-hidden="true">
+        <svg viewBox="0 0 204 212" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M18 210C58 166 74 142 86 110C98 78 100 48 92 20" stroke="currentColor" stroke-width="4.5" stroke-linecap="round"/>
+          <path d="M72 10C88 20 94 32 98 54" stroke="currentColor" stroke-width="4.5" stroke-linecap="round"/>
+          <path d="M104 8C120 20 126 34 130 58" stroke="currentColor" stroke-width="4.5" stroke-linecap="round"/>
+          <path d="M138 14C152 26 158 38 160 58" stroke="currentColor" stroke-width="4.5" stroke-linecap="round"/>
+          <path d="M112 62C150 70 174 90 182 120C188 144 174 162 146 168C120 174 96 164 82 146C66 126 60 102 66 84C72 66 88 58 112 62Z" stroke="currentColor" stroke-width="4.5"/>
+          <path d="M106 74C132 76 150 90 156 110" stroke="currentColor" stroke-width="4.5" stroke-linecap="round"/>
+        </svg>
+      </div>
+
+      <div class="plennia-plan-results-hero__inner">
+        <div class="plennia-plan-results-hero__heading">
+          <p>
+            {{ section.settings.heading_prefix }}
+            <span class="plennia-plan-results-hero__name" data-plan-results-name>{{ section.settings.default_name }}</span>
+            {{ section.settings.heading_middle }}
+            <span data-plan-results-pronoun-object>{{ section.settings.default_pronoun }}</span>
+          </p>
+        </div>
+
+        <p class="plennia-plan-results-hero__body">{{ section.settings.body }}</p>
+
+        <div class="plennia-plan-results-hero__gift">
+          <strong>{{ section.settings.gift_title }}</strong>
+          <p>{{ section.settings.gift_body }}</p>
+        </div>
+
+        {%- form 'customer', id: 'PlenniaPlanResultsEmail-' | append: section.id, class: 'plennia-plan-results-hero__form' -%}
+          <input type="hidden" name="contact[tags]" value="newsletter,plan-results">
+          <label class="visually-hidden" for="PlanResultsEmail-{{ section.id }}">{{ section.settings.email_placeholder }}</label>
+          <div class="plennia-plan-results-hero__field">
+            <input
+              id="PlanResultsEmail-{{ section.id }}"
+              type="email"
+              name="contact[email]"
+              value="{{ form.email }}"
+              autocorrect="off"
+              autocapitalize="off"
+              autocomplete="email"
+              placeholder="{{ section.settings.email_placeholder }}"
+            >
+            <button type="submit">{{ section.settings.button_label }}</button>
+          </div>
+          {%- if form.posted_successfully? -%}
+            <p class="plennia-plan-results-hero__message">{{ 'newsletter.success' | t }}</p>
+          {%- endif -%}
+        {%- endform -%}
+      </div>
+
+      <div class="plennia-plan-results-hero__graphics plennia-plan-results-hero__graphics--right" aria-hidden="true">
+        <svg viewBox="0 0 242 182" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M40 118C78 98 126 100 162 120C194 138 214 154 230 176" stroke="currentColor" stroke-width="4.5" stroke-linecap="round"/>
+          <path d="M58 102C74 72 106 58 138 58C166 58 192 72 208 98" stroke="currentColor" stroke-width="4.5" stroke-linecap="round"/>
+          <path d="M86 62L108 24L130 62" stroke="currentColor" stroke-width="4.5" stroke-linecap="round"/>
+          <path d="M112 58C132 30 160 14 188 14" stroke="currentColor" stroke-width="4.5" stroke-linecap="round"/>
+        </svg>
+      </div>
+    </plennia-plan-results-hero>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Plennia Plan Results Hero",
+  "settings": [
+    {
+      "type": "text",
+      "id": "exit_label",
+      "label": "Exit label",
+      "default": "Exit"
+    },
+    {
+      "type": "url",
+      "id": "exit_link",
+      "label": "Exit link"
+    },
+    {
+      "type": "text",
+      "id": "heading_prefix",
+      "label": "Heading prefix",
+      "default": "We are processing"
+    },
+    {
+      "type": "text",
+      "id": "default_name",
+      "label": "Default pet name",
+      "default": "your pet's"
+    },
+    {
+      "type": "text",
+      "id": "heading_middle",
+      "label": "Heading middle",
+      "default": "information and creating the perfect meal for"
+    },
+    {
+      "type": "text",
+      "id": "default_pronoun",
+      "label": "Default pronoun",
+      "default": "them"
+    },
+    {
+      "type": "textarea",
+      "id": "body",
+      "label": "Body",
+      "default": "Please, enter your email so we can continue with your buddy's meal planning"
+    },
+    {
+      "type": "text",
+      "id": "gift_title",
+      "label": "Gift title",
+      "default": "Free welcome gift!"
+    },
+    {
+      "type": "textarea",
+      "id": "gift_body",
+      "label": "Gift body",
+      "default": "You're one of the lucky few who gets a free leash. Congrats!"
+    },
+    {
+      "type": "text",
+      "id": "email_placeholder",
+      "label": "Email placeholder",
+      "default": "Your email here"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button label",
+      "default": "Continue"
+    }
+  ]
+}
+{% endschema %}

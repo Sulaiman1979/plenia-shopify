@@ -1,0 +1,51 @@
+{%- liquid
+  assign pet_label = 'For pets'
+  assign format_label = 'Product'
+
+  if product.tags contains 'pet_dog'
+    assign pet_label = 'For dogs'
+  elsif product.tags contains 'pet_cat'
+    assign pet_label = 'For cats'
+  endif
+
+  if product.tags contains 'format_dry'
+    assign format_label = 'Dry food'
+  elsif product.tags contains 'format_wet'
+    assign format_label = 'Wet food'
+  elsif product.tags contains 'format_treat'
+    assign format_label = 'Treat'
+  endif
+-%}
+
+<article class="plennia-plan-product-card">
+  <div class="plennia-plan-product-card__tile">
+    {%- if product.featured_image != blank -%}
+      {{
+        product.featured_image
+        | image_url: width: 320
+        | image_tag:
+          widths: '120, 160, 240, 320',
+          loading: 'lazy',
+          alt: product.title
+      }}
+    {%- else -%}
+      {{ 'product-1' | placeholder_svg_tag: 'placeholder-svg' }}
+    {%- endif -%}
+  </div>
+
+  <div class="plennia-plan-product-card__body">
+    <p class="plennia-plan-product-card__meta">{{ pet_label }} <span>&bull;</span> {{ format_label }}</p>
+    <h3>{{ product.title }}</h3>
+
+    <div class="plennia-plan-product-card__price">
+      {%- if product.compare_at_price > product.price -%}
+        <span class="plennia-plan-product-card__compare">{{ product.compare_at_price | money }}</span>
+      {%- endif -%}
+      <span>{{ product.price | money }}</span>
+    </div>
+
+    <div class="plennia-plan-product-card__actions">
+      <a class="button button--secondary plennia-button-secondary" href="{{ product.url }}">View product</a>
+    </div>
+  </div>
+</article>

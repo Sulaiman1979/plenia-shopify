@@ -1,0 +1,29 @@
+{%- liquid
+  assign input_type = input_type | default: 'radio'
+  assign helper = helper | default: ''
+  assign icon = icon | default: ''
+  assign checked = checked | default: false
+-%}
+
+<label class="plennia-option-card" data-plennia-option-card>
+  <input
+    class="visually-hidden"
+    type="{{ input_type }}"
+    name="{{ name }}"
+    value="{{ value }}"
+    {% if checked %}
+      checked
+    {% endif %}
+  >
+  <span class="plennia-option-card__content">
+    {%- if icon != blank -%}
+      <span class="plennia-option-card__icon">{{ icon }}</span>
+    {%- endif -%}
+    <span class="plennia-option-card__label-group">
+      <span class="plennia-option-card__label">{{ label }}</span>
+      {%- if helper != blank -%}
+        <span class="plennia-option-card__helper">{{ helper }}</span>
+      {%- endif -%}
+    </span>
+  </span>
+</label>

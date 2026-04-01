@@ -3,6 +3,14 @@
 
   @param {object} [product] - The product object, available on product pages.
 {% enddoc %}
+{% liquid
+  assign enable_plennia_plan_assets = false
+  if template.name == 'page'
+    if template.suffix == 'plan' or template.suffix == 'plan-results' or template.suffix == 'pet' or template.suffix == 'account'
+      assign enable_plennia_plan_assets = true
+    endif
+  endif
+%}
 
 <script type="importmap">
   {
@@ -43,6 +51,9 @@
     blocking="render"
   {% endif %}
 ></script>
+{% if enable_plennia_plan_assets %}
+  <script src="{{ 'plennia-theme.js' | asset_url }}" defer="defer"></script>
+{% endif %}
 
 <link
   rel="modulepreload"

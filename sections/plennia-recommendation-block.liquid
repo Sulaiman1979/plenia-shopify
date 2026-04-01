@@ -1,0 +1,122 @@
+{%- liquid
+  assign source_collection = section.settings.source_collection | default: collections['all']
+  assign source_collection_handle = source_collection.handle | default: 'all'
+  assign currency_code = cart.currency.iso_code | default: localization.country.currency.iso_code | default: 'USD'
+  assign account_dashboard_url = pages['account'].url | default: '/pages/account'
+-%}
+
+<section class="plennia-section" id="PlenniaRecommendations-{{ section.id }}">
+  <div class="page-width">
+    <div class="plennia-section__shell">
+      <div class="plennia-section__content">
+        <plennia-recommendations
+          data-storage-key="plennia:quiz"
+          data-currency="{{ currency_code }}"
+          data-customer-id="{{ customer.id | default: '' }}"
+          data-source-collection-handle="{{ source_collection_handle }}"
+          data-state-source="{{ section.settings.state_source | default: 'quiz' }}"
+          data-account-url="{{ account_dashboard_url }}"
+          data-plan-link="{{ section.settings.plan_link | default: '/pages/plan' }}"
+        >
+          <script type="application/json" data-plennia-recommendation-products>
+            [
+              {%- for product in source_collection.products limit: section.settings.product_limit -%}
+                {
+                  "id": {{ product.id | json }},
+                  "title": {{ product.title | json }},
+                  "url": {{ product.url | json }},
+                  "tags": {{ product.tags | json }},
+                  "price": {{ product.price | json }},
+                  "description": {{ product.description | strip_html | strip | truncatewords: 20 | json }},
+                  "featured_image": {{ product.featured_image | image_url: width: 720 | json }},
+                  "variant_id": {{ product.selected_or_first_available_variant.id | json }}
+                }{% unless forloop.last %},{% endunless %}
+              {%- endfor -%}
+            ]
+          </script>
+
+          <div class="plennia-recommendations__header">
+            <div>
+              <p class="plennia-section__eyebrow">{{ section.settings.eyebrow }}</p>
+              <h2 class="plennia-section__heading h1">{{ section.settings.heading }}</h2>
+              <p class="plennia-section__body">{{ section.settings.body }}</p>
+            </div>
+          </div>
+
+          <div class="plennia-recommendations__summary" data-recommendation-summary></div>
+
+          <div class="plennia-recommendations__cards" data-recommendation-results>
+            {%- for product in source_collection.products limit: 3 -%}
+              {%- render 'plennia-recommendation-card', product: product -%}
+            {%- else -%}
+              {%- render 'plennia-bundle-card' -%}
+            {%- endfor -%}
+          </div>
+
+          <div class="plennia-recommendations__actions" data-recommendation-actions></div>
+        </plennia-recommendations>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Plennia Recommendation",
+  "settings": [
+    {
+      "type": "collection",
+      "id": "source_collection",
+      "label": "Source collection"
+    },
+    {
+      "type": "range",
+      "id": "product_limit",
+      "label": "Products for scoring",
+      "min": 4,
+      "max": 24,
+      "step": 2,
+      "default": 12
+    },
+    {
+      "type": "select",
+      "id": "state_source",
+      "label": "State source",
+      "default": "quiz",
+      "options": [
+        {
+          "value": "quiz",
+          "label": "Current quiz state"
+        },
+        {
+          "value": "active_pet",
+          "label": "Active pet profile"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "Recommendation engine"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Tag-based recommendations ready for refinement"
+    },
+    {
+      "type": "textarea",
+      "id": "body",
+      "label": "Body",
+      "default": "This standalone block reads the same quiz state and Shopify product tags as the plan flow, so it can be reused across the homepage, product pages, pet pages, or future app surfaces."
+    },
+    {
+      "type": "url",
+      "id": "plan_link",
+      "label": "Plan link"
+    }
+  ]
+}
+{% endschema %}

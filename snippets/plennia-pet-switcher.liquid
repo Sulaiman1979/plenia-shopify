@@ -1,0 +1,16 @@
+{%- assign switcher_title = title | default: 'My pets' -%}
+{%- assign switcher_subtitle = subtitle | default: 'Switch between pet profiles or add a new one.' -%}
+
+<div class="plennia-pet-switcher" data-plennia-pet-switcher>
+  <div class="plennia-pet-switcher__copy">
+    <p class="plennia-section__eyebrow">{{ switcher_title }}</p>
+    <h2 class="plennia-section__heading h3">Pet profiles</h2>
+    <p class="plennia-section__body">{{ switcher_subtitle }}</p>
+  </div>
+
+  <div class="plennia-pet-switcher__controls" data-pet-switcher-controls></div>
+
+  <button class="button button--secondary plennia-button-secondary" type="button" data-pet-add-trigger>
+    Add another pet
+  </button>
+</div>
