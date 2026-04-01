@@ -7,14 +7,54 @@
   assign cat_dry_collection = collections['cat-dry-food']
   assign cat_wet_collection = collections['cat-wet-food']
   assign cat_treats_collection = collections['cat-treats']
-  assign dog_url = routes.all_products_collection_url | append: '?filter.p.tag=pet_dog'
-  assign dog_dry_url = routes.all_products_collection_url | append: '?filter.p.tag=pet_dog&filter.p.tag=format_dry'
-  assign dog_wet_url = routes.all_products_collection_url | append: '?filter.p.tag=pet_dog&filter.p.tag=format_wet'
-  assign dog_treats_url = routes.all_products_collection_url | append: '?filter.p.tag=pet_dog&filter.p.tag=format_treat'
-  assign cat_url = routes.all_products_collection_url | append: '?filter.p.tag=pet_cat'
-  assign cat_dry_url = routes.all_products_collection_url | append: '?filter.p.tag=pet_cat&filter.p.tag=format_dry'
-  assign cat_wet_url = routes.all_products_collection_url | append: '?filter.p.tag=pet_cat&filter.p.tag=format_wet'
-  assign cat_treats_url = routes.all_products_collection_url | append: '?filter.p.tag=pet_cat&filter.p.tag=format_treat'
+
+  capture dog_url
+    echo routes.search_url
+    echo '?type=product&q='
+    echo 'tag:pet_dog' | url_encode
+  endcapture
+
+  capture dog_dry_url
+    echo routes.search_url
+    echo '?type=product&q='
+    echo 'tag:pet_dog AND tag:format_dry' | url_encode
+  endcapture
+
+  capture dog_wet_url
+    echo routes.search_url
+    echo '?type=product&q='
+    echo 'tag:pet_dog AND tag:format_wet' | url_encode
+  endcapture
+
+  capture dog_treats_url
+    echo routes.search_url
+    echo '?type=product&q='
+    echo 'tag:pet_dog AND tag:format_treat' | url_encode
+  endcapture
+
+  capture cat_url
+    echo routes.search_url
+    echo '?type=product&q='
+    echo 'tag:pet_cat' | url_encode
+  endcapture
+
+  capture cat_dry_url
+    echo routes.search_url
+    echo '?type=product&q='
+    echo 'tag:pet_cat AND tag:format_dry' | url_encode
+  endcapture
+
+  capture cat_wet_url
+    echo routes.search_url
+    echo '?type=product&q='
+    echo 'tag:pet_cat AND tag:format_wet' | url_encode
+  endcapture
+
+  capture cat_treats_url
+    echo routes.search_url
+    echo '?type=product&q='
+    echo 'tag:pet_cat AND tag:format_treat' | url_encode
+  endcapture
 %}
 
 <ul
