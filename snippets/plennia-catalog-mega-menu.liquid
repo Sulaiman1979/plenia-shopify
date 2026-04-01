@@ -1,0 +1,88 @@
+{% liquid
+  assign dog_collection = collections['dogs']
+  assign dog_dry_collection = collections['dog-dry-food']
+  assign dog_wet_collection = collections['dog-wet-food']
+  assign dog_treats_collection = collections['dog-treats']
+  assign cat_collection = collections['cats']
+  assign cat_dry_collection = collections['cat-dry-food']
+  assign cat_wet_collection = collections['cat-wet-food']
+  assign cat_treats_collection = collections['cat-treats']
+%}
+
+<ul
+  class="mega-menu__list list-unstyled"
+  style="--menu-columns-desktop: 2; --menu-columns-tablet: 2;"
+>
+  <li class="mega-menu__column">
+    <div>
+      <a
+        href="{{ dog_collection.url | default: '/collections/dogs' }}"
+        class="mega-menu__link mega-menu__link--parent"
+      >
+        <span class="wrap-text">{{ dog_collection.title | default: 'Dog Food' }}</span>
+      </a>
+      <ul class="list-unstyled">
+        <li>
+          <a
+            href="{{ dog_dry_collection.url | default: '/collections/dog-dry-food' }}"
+            class="mega-menu__link"
+          >
+            <span class="wrap-text">{{ dog_dry_collection.title | default: 'Dog Food - Dry Food' }}</span>
+          </a>
+        </li>
+        <li>
+          <a
+            href="{{ dog_wet_collection.url | default: '/collections/dog-wet-food' }}"
+            class="mega-menu__link"
+          >
+            <span class="wrap-text">{{ dog_wet_collection.title | default: 'Dog Food - Wet Food' }}</span>
+          </a>
+        </li>
+        <li>
+          <a
+            href="{{ dog_treats_collection.url | default: '/collections/dog-treats' }}"
+            class="mega-menu__link"
+          >
+            <span class="wrap-text">{{ dog_treats_collection.title | default: 'Dog Food - Treats' }}</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </li>
+  <li class="mega-menu__column">
+    <div>
+      <a
+        href="{{ cat_collection.url | default: '/collections/cats' }}"
+        class="mega-menu__link mega-menu__link--parent"
+      >
+        <span class="wrap-text">{{ cat_collection.title | default: 'Cat Food' }}</span>
+      </a>
+      <ul class="list-unstyled">
+        <li>
+          <a
+            href="{{ cat_dry_collection.url | default: '/collections/cat-dry-food' }}"
+            class="mega-menu__link"
+          >
+            <span class="wrap-text">{{ cat_dry_collection.title | default: 'Cat Food - Dry Food' }}</span>
+          </a>
+        </li>
+        <li>
+          <a
+            href="{{ cat_wet_collection.url | default: '/collections/cat-wet-food' }}"
+            class="mega-menu__link"
+          >
+            <span class="wrap-text">{{ cat_wet_collection.title | default: 'Cat Food - Wet Food' }}</span>
+          </a>
+        </li>
+        <li>
+          <a
+            href="{{ cat_treats_collection.url | default: '/collections/cat-treats' }}"
+            class="mega-menu__link"
+          >
+            <span class="wrap-text">{{ cat_treats_collection.title | default: 'Cat Food - Treats' }}</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </li>
+</ul>

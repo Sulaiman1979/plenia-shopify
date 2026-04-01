@@ -102,12 +102,44 @@
             {% assign first_accordion_open = false %}
             {% assign animation_index = 0 %}
             {%- for link in linklist.links -%}
+              {% liquid
+                assign is_catalog_root = false
+                if link.type == 'catalog_link' or link.url == routes.all_products_collection_url
+                  assign is_catalog_root = true
+                endif
+              %}
               {% assign animation_index = animation_index | plus: 1 %}
               <li
                 style="--menu-drawer-animation-index: {{ animation_index }};"
                 class="{%- if block_settings.drawer_accordion -%}menu-drawer__list-item--deep{%- else -%}menu-drawer__list-item--flat{%- endif -%}{% if block_settings.drawer_dividers %} menu-drawer__list-item--divider{% endif %}"
               >
-                {% if block_settings.drawer_accordion and link.links != blank %}
+                {% if is_catalog_root %}
+                  {% liquid
+                    assign should_open_first = false
+                    if first_accordion_open == false and block_settings.drawer_accordion_expand_first
+                      assign first_accordion_open = true
+                      assign should_open_first = true
+                    endif
+                  %}
+                  {% capture accordion_children %}
+                    <details id="Details-menu-drawer-{{ link.handle }}">
+                      <summary
+                        id="HeaderDrawer-{{ link.handle }}"
+                        class="menu-drawer__menu-item menu-drawer__menu-item--mainlist menu-drawer__animated-element focus-inset"
+                      >
+                        <span class="menu-drawer__menu-item-text wrap-text">{{ link.title | escape }}</span>
+                        <span class="svg-wrapper icon-plus">
+                          {{- 'icon-plus.svg' | inline_asset_content -}}
+                        </span>
+                      </summary>
+                      {% render 'plennia-catalog-drawer-menu' %}
+                    </details>
+                  {% endcapture %}
+                  {% render 'accordion-custom-component',
+                    children: accordion_children,
+                    open_by_default_on_mobile: should_open_first
+                  %}
+                {% elsif block_settings.drawer_accordion and link.links != blank %}
                   {%- comment -%}
                     Accordion for links with children, in menus with fewer than 3 levels of links
                   {%- endcomment -%}
@@ -1269,6 +1301,18 @@
   .menu-drawer__featured-collection-image,
   .menu-drawer__featured-collection-link::before {
     border-radius: var(--menu-image-border-radius);
+  }
+
+  .menu-drawer__list-item--catalog-group + .menu-drawer__list-item--catalog-group {
+    margin-top: var(--padding-sm);
+  }
+
+  .menu-drawer__list-item--catalog-group > .menu-drawer__menu-item--parent {
+    padding-block-end: var(--padding-2xs);
+  }
+
+  .menu-drawer__list-item--catalog-group .menu-drawer__menu--grandchildlist {
+    padding-inline-start: var(--padding-lg);
   }
 
   @keyframes menu-drawer-nav-open {

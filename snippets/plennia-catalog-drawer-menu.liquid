@@ -1,0 +1,95 @@
+{% liquid
+  assign dog_collection = collections['dogs']
+  assign dog_dry_collection = collections['dog-dry-food']
+  assign dog_wet_collection = collections['dog-wet-food']
+  assign dog_treats_collection = collections['dog-treats']
+  assign cat_collection = collections['cats']
+  assign cat_dry_collection = collections['cat-dry-food']
+  assign cat_wet_collection = collections['cat-wet-food']
+  assign cat_treats_collection = collections['cat-treats']
+%}
+
+<ul
+  class="menu-drawer__menu menu-drawer__menu--childlist details-content"
+  role="list"
+  tabindex="-1"
+>
+  <li class="menu-drawer__list-item">
+    <a
+      href="{{ routes.all_products_collection_url }}"
+      class="menu-drawer__menu-item menu-drawer__menu-item--child focus-inset"
+    >
+      <span class="menu-drawer__menu-item-text wrap-text">All Products</span>
+    </a>
+  </li>
+
+  <li class="menu-drawer__list-item menu-drawer__list-item--catalog-group">
+    <a
+      href="{{ dog_collection.url | default: '/collections/dogs' }}"
+      class="menu-drawer__menu-item menu-drawer__menu-item--parent focus-inset"
+    >
+      <span class="menu-drawer__menu-item-text wrap-text">{{ dog_collection.title | default: 'Dog Food' }}</span>
+    </a>
+    <ul class="menu-drawer__menu menu-drawer__menu--grandchildlist" role="list">
+      <li class="menu-drawer__list-item">
+        <a
+          href="{{ dog_dry_collection.url | default: '/collections/dog-dry-food' }}"
+          class="menu-drawer__menu-item menu-drawer__menu-item--child focus-inset"
+        >
+          <span class="menu-drawer__menu-item-text wrap-text">{{ dog_dry_collection.title | default: 'Dog Food - Dry Food' }}</span>
+        </a>
+      </li>
+      <li class="menu-drawer__list-item">
+        <a
+          href="{{ dog_wet_collection.url | default: '/collections/dog-wet-food' }}"
+          class="menu-drawer__menu-item menu-drawer__menu-item--child focus-inset"
+        >
+          <span class="menu-drawer__menu-item-text wrap-text">{{ dog_wet_collection.title | default: 'Dog Food - Wet Food' }}</span>
+        </a>
+      </li>
+      <li class="menu-drawer__list-item">
+        <a
+          href="{{ dog_treats_collection.url | default: '/collections/dog-treats' }}"
+          class="menu-drawer__menu-item menu-drawer__menu-item--child focus-inset"
+        >
+          <span class="menu-drawer__menu-item-text wrap-text">{{ dog_treats_collection.title | default: 'Dog Food - Treats' }}</span>
+        </a>
+      </li>
+    </ul>
+  </li>
+
+  <li class="menu-drawer__list-item menu-drawer__list-item--catalog-group">
+    <a
+      href="{{ cat_collection.url | default: '/collections/cats' }}"
+      class="menu-drawer__menu-item menu-drawer__menu-item--parent focus-inset"
+    >
+      <span class="menu-drawer__menu-item-text wrap-text">{{ cat_collection.title | default: 'Cat Food' }}</span>
+    </a>
+    <ul class="menu-drawer__menu menu-drawer__menu--grandchildlist" role="list">
+      <li class="menu-drawer__list-item">
+        <a
+          href="{{ cat_dry_collection.url | default: '/collections/cat-dry-food' }}"
+          class="menu-drawer__menu-item menu-drawer__menu-item--child focus-inset"
+        >
+          <span class="menu-drawer__menu-item-text wrap-text">{{ cat_dry_collection.title | default: 'Cat Food - Dry Food' }}</span>
+        </a>
+      </li>
+      <li class="menu-drawer__list-item">
+        <a
+          href="{{ cat_wet_collection.url | default: '/collections/cat-wet-food' }}"
+          class="menu-drawer__menu-item menu-drawer__menu-item--child focus-inset"
+        >
+          <span class="menu-drawer__menu-item-text wrap-text">{{ cat_wet_collection.title | default: 'Cat Food - Wet Food' }}</span>
+        </a>
+      </li>
+      <li class="menu-drawer__list-item">
+        <a
+          href="{{ cat_treats_collection.url | default: '/collections/cat-treats' }}"
+          class="menu-drawer__menu-item menu-drawer__menu-item--child focus-inset"
+        >
+          <span class="menu-drawer__menu-item-text wrap-text">{{ cat_treats_collection.title | default: 'Cat Food - Treats' }}</span>
+        </a>
+      </li>
+    </ul>
+  </li>
+</ul>
