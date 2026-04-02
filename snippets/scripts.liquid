@@ -6,7 +6,7 @@
 {% liquid
   assign enable_plennia_plan_assets = false
   if template.name == 'page'
-    if template.suffix == 'plan' or template.suffix == 'plan-results' or template.suffix == 'pet' or template.suffix == 'account'
+    if template.suffix == 'plan-results' or template.suffix == 'pet' or template.suffix == 'account'
       assign enable_plennia_plan_assets = true
     endif
   endif

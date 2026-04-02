@@ -10,17 +10,15 @@
 {
   "sections": {
     "main": {
-      "type": "plennia-quiz-container",
+      "type": "plennia-plan-intro",
       "settings": {
-        "display_mode": "full",
-        "source_collection": "all",
-        "product_limit": 12,
-        "eyebrow": "Create a Plan",
-        "heading": "Build a first-pass nutrition plan for your pet.",
-        "body": "This multi-step flow is already wired for persistent state, Shopify product tags, and future saved-plan expansion.",
-        "button_label": "Start the quiz",
-        "plan_link": "/pages/plan",
-        "results_page_url": "/pages/plan-results"
+        "exit_label": "Exit",
+        "heading": "I'm creating a\nplan for my...",
+        "note_title": "Do you have more than one animal?",
+        "note_body": "If you have a tribe, don't worry, you'll be able to add more animals during the summary.",
+        "dog_label": "Dog",
+        "cat_label": "Cat",
+        "continue_label": "Continue"
       }
     }
   },

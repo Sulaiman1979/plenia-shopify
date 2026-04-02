@@ -1,0 +1,5849 @@
+:root {
+  --plennia-cream: #ffffff;
+  --plennia-paper: #ffffff;
+  --plennia-panel: rgba(255, 255, 255, 0.92);
+  --plennia-panel-strong: rgba(255, 255, 255, 0.94);
+  --plennia-soft: #f1f1f1;
+  --plennia-accent: #d5c1a3;
+  --plennia-accent-strong: #b69c79;
+  --plennia-ink: #181412;
+  --plennia-muted: #6f655d;
+  --plennia-line: rgba(24, 20, 18, 0.08);
+  --plennia-soft-line: rgba(24, 20, 18, 0.05);
+  --plennia-shadow: 0 2.8rem 6rem rgba(39, 29, 20, 0.1);
+  --plennia-shadow-soft: 0 1.6rem 3.6rem rgba(39, 29, 20, 0.08);
+  --plennia-radius-2xl: 4rem;
+  --plennia-radius-xl: 3.2rem;
+  --plennia-radius-lg: 2.4rem;
+  --plennia-radius-md: 1.8rem;
+  --plennia-radius-sm: 1.2rem;
+  --plennia-radius-pill: 999px;
+  --plennia-page-width: min(136rem, calc(100vw - 3.2rem));
+}
+
+body {
+  background:
+    radial-gradient(circle at top left, rgba(255, 255, 255, 1), transparent 28%),
+    radial-gradient(circle at top right, rgba(24, 20, 18, 0.03), transparent 32%),
+    var(--plennia-cream);
+  color: var(--plennia-ink);
+}
+
+.page-width {
+  width: var(--plennia-page-width);
+}
+
+.content-for-layout {
+  padding-bottom: 8rem;
+}
+
+.template-index .content-for-layout {
+  padding-top: 2.6rem;
+}
+
+.template-index .shopify-section:first-child .plennia-section {
+  margin-top: 0;
+}
+
+.plennia-section {
+  position: relative;
+}
+
+.plennia-section + .plennia-section {
+  margin-top: 3.2rem;
+}
+
+.plennia-section__shell {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid var(--plennia-line);
+  border-radius: var(--plennia-radius-2xl);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(255, 255, 255, 0.98));
+  box-shadow: var(--plennia-shadow-soft);
+}
+
+.plennia-section__content {
+  padding: 4rem;
+}
+
+.plennia-section__eyebrow,
+.plennia-card__eyebrow {
+  margin: 0 0 1.2rem;
+  color: var(--plennia-muted);
+  font-size: 1.1rem;
+  font-weight: 700;
+  letter-spacing: 0.28rem;
+  text-transform: uppercase;
+}
+
+.plennia-section__heading {
+  margin: 0;
+  color: var(--plennia-ink);
+}
+
+.plennia-section__body,
+.plennia-card__excerpt {
+  margin: 0;
+  color: var(--plennia-muted);
+}
+
+.plennia-wordmark,
+.plennia-link {
+  color: var(--plennia-ink);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.plennia-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.8rem;
+  text-decoration: underline;
+  text-decoration-color: rgba(24, 20, 18, 0.12);
+  text-underline-offset: 0.35rem;
+}
+
+.plennia-link:hover,
+.plennia-wordmark:hover {
+  opacity: 0.72;
+}
+
+.plennia-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 3.1rem;
+  padding: 0.55rem 1rem;
+  border-radius: var(--plennia-radius-pill);
+  background: rgba(24, 20, 18, 0.08);
+  color: var(--plennia-ink);
+  font-size: 1.1rem;
+  font-weight: 600;
+  letter-spacing: 0.04rem;
+}
+
+.plennia-badge--muted {
+  background: rgba(24, 20, 18, 0.05);
+  color: var(--plennia-muted);
+}
+
+.plennia-button-secondary {
+  background: rgba(255, 255, 255, 0.02);
+  border-color: rgba(24, 20, 18, 0.15);
+  color: var(--plennia-ink);
+}
+
+.plennia-button-secondary:hover {
+  background: rgba(24, 20, 18, 0.04);
+}
+
+.plennia-announcement-bar {
+  border-bottom: 1px solid var(--plennia-soft-line);
+  background: rgba(255, 255, 255, 0.94);
+  backdrop-filter: blur(18px);
+}
+
+.plennia-announcement-bar__inner {
+  display: flex;
+  justify-content: center;
+}
+
+.plennia-announcement-bar__track {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  min-height: 4.2rem;
+  flex-wrap: wrap;
+}
+
+.plennia-announcement-bar__item {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  padding: 0.6rem 0;
+  color: var(--plennia-muted);
+  font-size: 1.2rem;
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.plennia-announcement-bar__item:not(:first-child) {
+  margin-left: 1.8rem;
+  padding-left: 1.8rem;
+}
+
+.plennia-announcement-bar__item:not(:first-child)::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 0.4rem;
+  height: 0.4rem;
+  border-radius: 50%;
+  background: rgba(24, 20, 18, 0.25);
+  transform: translateY(-50%);
+}
+
+.plennia-announcement-bar__item:hover {
+  color: var(--plennia-ink);
+}
+
+.plennia-header-wrapper {
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  border-bottom: 1px solid rgba(24, 20, 18, 0.06);
+  background: rgba(255, 255, 255, 0.88);
+  backdrop-filter: blur(18px);
+  transition: background-color 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.plennia-header-wrapper.is-scrolled,
+.plennia-header-wrapper.scrolled {
+  background: rgba(255, 255, 255, 0.94);
+  box-shadow: 0 1.2rem 3rem rgba(39, 29, 20, 0.05);
+}
+
+.plennia-header {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  align-items: center;
+  gap: 2rem;
+  min-height: 9rem;
+}
+
+.plennia-header__nav,
+.plennia-header__actions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.plennia-header__desktop-nav {
+  min-width: 0;
+}
+
+.plennia-header__menu {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.plennia-header__menu-item {
+  position: relative;
+}
+
+.plennia-header__menu-link,
+.plennia-header__summary {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.8rem;
+  min-height: 4.4rem;
+  padding: 0.9rem 1.4rem;
+  border-radius: var(--plennia-radius-pill);
+  color: var(--plennia-ink);
+  font-size: 1.3rem;
+  font-weight: 600;
+  letter-spacing: 0.04rem;
+  text-decoration: none;
+  transition: background-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
+}
+
+.plennia-header__menu-link:hover,
+.plennia-header__summary:hover,
+.plennia-header__desktop-details[open] > .plennia-header__summary {
+  background: rgba(255, 255, 255, 0.68);
+}
+
+.plennia-header__summary {
+  cursor: pointer;
+  list-style: none;
+}
+
+.plennia-header__summary::-webkit-details-marker {
+  display: none;
+}
+
+.plennia-header__caret {
+  transition: transform 0.2s ease;
+}
+
+.plennia-header__desktop-details[open] .plennia-header__caret {
+  transform: rotate(180deg);
+}
+
+.plennia-header__brand {
+  justify-self: center;
+  text-align: center;
+}
+
+.plennia-header__brand-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 4.6rem;
+  color: var(--plennia-ink);
+  text-decoration: none;
+}
+
+.plennia-header__brand-mark {
+  font-size: 1.9rem;
+  font-weight: 700;
+  letter-spacing: 0.22rem;
+  text-transform: uppercase;
+}
+
+.plennia-header__brand-logo {
+  display: block;
+  max-width: 12rem;
+  height: auto;
+}
+
+.plennia-header__actions {
+  justify-content: flex-end;
+}
+
+.plennia-header__cta {
+  min-height: 4.6rem;
+  padding-inline: 2rem;
+}
+
+.plennia-header__icon-link {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 4.4rem;
+  height: 4.4rem;
+  border: 1px solid rgba(24, 20, 18, 0.08);
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.68);
+  color: var(--plennia-ink);
+  transition: transform 0.2s ease, background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.plennia-header__icon-link:hover {
+  transform: translateY(-1px);
+  border-color: rgba(24, 20, 18, 0.14);
+  background: rgba(255, 255, 255, 0.95);
+}
+
+.plennia-header__icon-link .svg-wrapper {
+  width: 1.8rem;
+  height: 1.8rem;
+}
+
+.plennia-header__cart-count {
+  position: absolute;
+  top: -0.25rem;
+  right: -0.25rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 2rem;
+  min-height: 2rem;
+  padding: 0.2rem 0.4rem;
+  border-radius: 50%;
+  background: var(--plennia-ink);
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.plennia-header__mobile-drawer {
+  display: none;
+}
+
+.plennia-header__mega {
+  position: absolute;
+  top: calc(100% + 1.2rem);
+  left: 0;
+  z-index: 50;
+  opacity: 0;
+  transform: translateY(1.2rem);
+  pointer-events: none;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.plennia-header__desktop-details[open] > .plennia-header__mega {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.plennia-mega-menu__panel {
+  display: grid;
+  grid-template-columns: minmax(0, 1.08fr) minmax(26rem, 0.92fr);
+  gap: 2.4rem;
+  width: min(72rem, calc(100vw - 4rem));
+  padding: 2.6rem;
+  border: 1px solid rgba(24, 20, 18, 0.08);
+  border-radius: 3rem;
+  background: rgba(255, 255, 255, 0.98);
+  box-shadow: var(--plennia-shadow);
+}
+
+.plennia-mega-menu__lead {
+  grid-column: 1 / -1;
+  display: grid;
+  gap: 0.6rem;
+  padding-bottom: 0.4rem;
+}
+
+.plennia-mega-menu__column {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.plennia-mega-menu__links {
+  display: grid;
+  gap: 0.4rem;
+  margin: 0;
+}
+
+.plennia-mega-menu__link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1.2rem 0;
+  border-bottom: 1px solid var(--plennia-soft-line);
+  color: var(--plennia-ink);
+  font-size: 2.15rem;
+  line-height: 1.08;
+  text-decoration: none;
+}
+
+.plennia-mega-menu__link:hover {
+  color: var(--plennia-accent-strong);
+}
+
+.plennia-mega-menu__account {
+  margin-top: auto;
+  padding-top: 1.8rem;
+}
+
+.plennia-mega-menu__featured-head {
+  display: grid;
+  gap: 0.6rem;
+  margin-bottom: 1.2rem;
+}
+
+.plennia-mega-menu__featured-grid {
+  display: grid;
+  gap: 1rem;
+}
+
+.plennia-mega-menu__product {
+  border-radius: 2rem;
+}
+
+.plennia-card,
+.plennia-recommendation-card,
+.plennia-bundle-card,
+.plennia-category-card,
+.plennia-dashboard-card,
+.plennia-subscription-card,
+.plennia-summary-card {
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+  border: 1px solid var(--plennia-line);
+  border-radius: var(--plennia-radius-lg);
+  background: rgba(255, 255, 255, 0.84);
+  box-shadow: var(--plennia-shadow-soft);
+  overflow: hidden;
+}
+
+.plennia-card__media,
+.plennia-recommendation-card__media,
+.plennia-category-card__media {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(180deg, rgba(213, 193, 163, 0.3), rgba(255, 255, 255, 0.8));
+}
+
+.plennia-card__media::after,
+.plennia-category-card__media::after,
+.plennia-brand-story__visual-frame::after,
+.plennia-hero__image-frame::after,
+.plennia-hero__secondary-media::after,
+.plennia-subscription__visual-frame::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(24, 20, 18, 0), rgba(24, 20, 18, 0.08));
+  pointer-events: none;
+}
+
+.plennia-card__image,
+.plennia-recommendation-card__image,
+.plennia-card__media img,
+.plennia-recommendation-card__media img,
+.plennia-category-card__media img,
+.plennia-brand-story__visual-frame img,
+.plennia-hero__image-frame img,
+.plennia-hero__secondary-media img,
+.plennia-subscription__visual-frame img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.placeholder-svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(145deg, rgba(213, 193, 163, 0.22), rgba(255, 255, 255, 0.82));
+  fill: rgba(24, 20, 18, 0.12);
+}
+
+.plennia-card__body,
+.plennia-recommendation-card__body,
+.plennia-bundle-card {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  gap: 1.4rem;
+  padding: 2rem;
+}
+
+.plennia-card__badges {
+  display: flex;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+}
+
+.plennia-card__copy {
+  display: grid;
+  gap: 0.8rem;
+}
+
+.plennia-card__title {
+  margin: 0;
+  color: var(--plennia-ink);
+  font-size: 2rem;
+  line-height: 1.08;
+}
+
+.plennia-card__title a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.plennia-card__footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.2rem;
+  margin-top: auto;
+}
+
+.plennia-card--compact {
+  display: grid;
+  grid-template-columns: 8.8rem minmax(0, 1fr);
+}
+
+.plennia-card--compact .plennia-card__media {
+  aspect-ratio: auto;
+  min-height: 100%;
+}
+
+.plennia-card--compact .plennia-card__body {
+  padding: 1.4rem;
+}
+
+.plennia-card--compact .plennia-card__title {
+  font-size: 1.6rem;
+}
+
+.plennia-card--compact .plennia-card__excerpt,
+.plennia-card--compact .plennia-card__eyebrow {
+  font-size: 1.15rem;
+}
+
+.plennia-card--compact .plennia-card__footer {
+  align-items: center;
+}
+
+.plennia-hero-shell {
+  background:
+    radial-gradient(circle at left top, rgba(255, 255, 255, 0.94), transparent 42%),
+    linear-gradient(135deg, rgba(255, 255, 255, 0.98), rgba(248, 248, 248, 0.94));
+}
+
+.plennia-hero {
+  display: grid;
+  grid-template-columns: minmax(0, 0.96fr) minmax(34rem, 1.04fr);
+  gap: 2rem;
+  align-items: stretch;
+  padding: 2rem;
+}
+
+.plennia-hero__copy {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 2.4rem;
+  padding: 4.8rem 3.8rem 4.6rem;
+}
+
+.plennia-hero__copy .plennia-section__heading {
+  max-width: 11ch;
+}
+
+.plennia-hero__copy .plennia-section__body {
+  max-width: 50rem;
+  font-size: 1.75rem;
+}
+
+.plennia-hero__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.plennia-hero__detail-list {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+  margin-top: auto;
+}
+
+.plennia-hero__detail {
+  padding: 1.5rem 1.4rem;
+  border: 1px solid rgba(24, 20, 18, 0.08);
+  border-radius: 2rem;
+  background: rgba(255, 255, 255, 0.58);
+}
+
+.plennia-hero__detail-label {
+  margin: 0 0 0.6rem;
+  color: var(--plennia-muted);
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 0.24rem;
+  text-transform: uppercase;
+}
+
+.plennia-hero__detail-text {
+  margin: 0;
+  color: var(--plennia-ink);
+  font-size: 1.35rem;
+  font-weight: 600;
+  line-height: 1.35;
+}
+
+.plennia-hero__visual {
+  position: relative;
+  min-height: 58rem;
+  padding: 1.6rem 1.6rem 4.8rem 7rem;
+}
+
+.plennia-hero__image-frame {
+  position: relative;
+  height: 100%;
+  min-height: 53rem;
+  border-radius: 3.2rem;
+  overflow: hidden;
+  background: linear-gradient(145deg, rgba(213, 193, 163, 0.4), rgba(255, 255, 255, 0.88));
+  box-shadow: var(--plennia-shadow-soft);
+}
+
+.plennia-hero__floating-card {
+  position: absolute;
+  top: 3.2rem;
+  left: 0;
+  max-width: 23rem;
+  padding: 1.8rem;
+  border: 1px solid rgba(24, 20, 18, 0.08);
+  border-radius: 2.4rem;
+  background: rgba(255, 255, 255, 0.94);
+  box-shadow: var(--plennia-shadow);
+}
+
+.plennia-hero__secondary-media {
+  position: absolute;
+  bottom: 0;
+  left: 2.2rem;
+  width: 21rem;
+  aspect-ratio: 0.9;
+  border: 1px solid rgba(24, 20, 18, 0.08);
+  border-radius: 2.4rem;
+  overflow: hidden;
+  background: linear-gradient(145deg, rgba(213, 193, 163, 0.3), rgba(255, 255, 255, 0.88));
+  box-shadow: var(--plennia-shadow);
+}
+
+.plennia-brand-story-shell {
+  display: grid;
+  grid-template-columns: minmax(0, 0.98fr) minmax(30rem, 1.02fr);
+  gap: 2rem;
+  padding: 2rem;
+}
+
+.plennia-brand-story__intro {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 1.8rem;
+  padding: 2.8rem 2.2rem 2.8rem 2.6rem;
+}
+
+.plennia-brand-story__actions {
+  margin-top: 1rem;
+}
+
+.plennia-brand-story__visual {
+  position: relative;
+  min-height: 40rem;
+}
+
+.plennia-brand-story__visual-frame {
+  position: relative;
+  height: 100%;
+  min-height: 40rem;
+  border-radius: 3rem;
+  overflow: hidden;
+  background: linear-gradient(145deg, rgba(213, 193, 163, 0.28), rgba(255, 255, 255, 0.88));
+}
+
+.plennia-brand-story__quote {
+  position: absolute;
+  right: 2rem;
+  bottom: 2rem;
+  max-width: 28rem;
+  padding: 1.8rem;
+  border-radius: 2.2rem;
+  background: rgba(255, 255, 255, 0.92);
+  box-shadow: var(--plennia-shadow);
+}
+
+.plennia-brand-story__quote p {
+  margin: 0;
+  color: var(--plennia-ink);
+  font-size: 1.7rem;
+  line-height: 1.35;
+}
+
+.plennia-brand-story__points,
+.plennia-subscription__benefits {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1.2rem;
+}
+
+.plennia-brand-story__point {
+  padding: 2rem;
+  border-radius: var(--plennia-radius-lg);
+  background: rgba(24, 20, 18, 0.03);
+}
+
+.plennia-shop-by-pet-shell {
+  padding: 2rem;
+}
+
+.plennia-shop-by-pet__intro {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 2rem;
+  padding-bottom: 2rem;
+}
+
+.plennia-shop-by-pet__intro .plennia-section__body {
+  max-width: 50rem;
+}
+
+.plennia-shop-by-pet__grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.4rem;
+}
+
+.plennia-category-card {
+  padding: 0;
+}
+
+.plennia-category-card--immersive {
+  position: relative;
+  min-height: 42rem;
+  overflow: hidden;
+}
+
+.plennia-category-card--immersive .plennia-category-card__media {
+  position: absolute;
+  inset: 0;
+  height: 100%;
+}
+
+.plennia-category-card--immersive .plennia-category-card__media::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(24, 20, 18, 0.02), rgba(24, 20, 18, 0.46));
+}
+
+.plennia-category-card__overlay {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: 1.4rem;
+  min-height: 42rem;
+  padding: 2rem;
+}
+
+.plennia-category-card__overlay .plennia-card__title,
+.plennia-category-card__overlay .plennia-card__title a,
+.plennia-category-card__overlay .plennia-card__excerpt {
+  color: #fff;
+}
+
+.plennia-category-card__overlay .plennia-button-secondary {
+  align-self: flex-start;
+  border-color: rgba(255, 255, 255, 0.24);
+  background: rgba(255, 255, 255, 0.14);
+  color: #fff;
+}
+
+.plennia-category-card__overlay .plennia-button-secondary:hover {
+  background: rgba(255, 255, 255, 0.22);
+}
+
+.plennia-featured-products-shell {
+  padding: 2rem;
+}
+
+.plennia-best-sellers {
+  display: block;
+  padding: 7rem 0 1.2rem;
+}
+
+.plennia-best-sellers__header {
+  display: grid;
+  justify-items: center;
+  gap: 2.6rem;
+  margin-bottom: 3.2rem;
+}
+
+.plennia-best-sellers__heading {
+  margin: 0;
+  color: #181412;
+  font-size: clamp(4.4rem, 6vw, 6.8rem);
+  font-weight: 700;
+  line-height: 0.94;
+  letter-spacing: -0.2rem;
+  text-align: center;
+}
+
+.plennia-best-sellers__tabs {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.55rem;
+  border: 1px solid rgba(24, 20, 18, 0.06);
+  border-radius: 2rem;
+  background: rgba(255, 255, 255, 0.98);
+  box-shadow: 0 1.4rem 3rem rgba(24, 20, 18, 0.06);
+}
+
+.plennia-best-sellers__tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 1rem;
+  min-height: 4.8rem;
+  padding: 0 1.8rem;
+  border: 0;
+  border-radius: 1.55rem;
+  background: transparent;
+  color: #7b726c;
+  font-size: 1.55rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
+}
+
+.plennia-best-sellers__tab:hover:not([disabled]) {
+  color: #181412;
+}
+
+.plennia-best-sellers__tab:focus-visible {
+  outline: 0.2rem solid rgba(24, 20, 18, 0.18);
+  outline-offset: 0.2rem;
+}
+
+.plennia-best-sellers__tab[disabled] {
+  cursor: not-allowed;
+  opacity: 0.42;
+}
+
+.plennia-best-sellers__tab.is-active {
+  background: #efebe4;
+  color: #181412;
+}
+
+.plennia-best-sellers__tab-icon {
+  display: inline-flex;
+  width: 2.6rem;
+  height: 3rem;
+}
+
+.plennia-best-sellers__tab-icon svg {
+  width: 100%;
+  height: 100%;
+}
+
+.plennia-best-sellers__tab[data-best-sellers-tab='dog'] .plennia-best-sellers__tab-icon {
+  color: #0b2630;
+}
+
+.plennia-best-sellers__tab[data-best-sellers-tab='cat'] .plennia-best-sellers__tab-icon {
+  color: #a89293;
+}
+
+.plennia-best-sellers__panel[hidden] {
+  display: none;
+}
+
+.plennia-best-sellers__grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1.2rem;
+}
+
+.plennia-best-seller-card {
+  display: grid;
+  align-content: space-between;
+  min-height: 56rem;
+  padding: 2.2rem 2.2rem 2.4rem;
+  border-radius: 3rem;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.98), #fbfaf7);
+  box-shadow: 0 2rem 4rem rgba(24, 20, 18, 0.05);
+}
+
+.plennia-best-seller-card__badges {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  flex-wrap: wrap;
+}
+
+.plennia-best-seller-card__badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 3rem;
+  padding: 0.5rem 1rem;
+  border-radius: 999px;
+  background: rgba(24, 20, 18, 0.05);
+  color: #4e4742;
+  font-size: 1.15rem;
+  font-weight: 700;
+  letter-spacing: 0.01rem;
+}
+
+.plennia-best-seller-card__badge--sale {
+  background: #e8f9d9;
+  color: #79c25e;
+}
+
+.plennia-best-seller-card__media {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 35rem;
+  padding: 2rem;
+  text-decoration: none;
+}
+
+.plennia-best-seller-card__image {
+  display: block;
+  width: 100%;
+  max-width: 27rem;
+  max-height: 31rem;
+  height: auto;
+  object-fit: contain;
+}
+
+.plennia-best-seller-card__body {
+  display: grid;
+  gap: 0.8rem;
+}
+
+.plennia-best-seller-card__meta,
+.plennia-best-seller-card__price {
+  margin: 0;
+}
+
+.plennia-best-seller-card__meta {
+  color: #7f7670;
+  font-size: 1.25rem;
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+.plennia-best-seller-card__meta span {
+  margin-inline: 0.25rem;
+}
+
+.plennia-best-seller-card__body h3 {
+  margin: 0;
+  color: #181412;
+  font-size: 2.15rem;
+  font-weight: 600;
+  line-height: 1.08;
+}
+
+.plennia-best-seller-card__body h3 a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.plennia-best-seller-card__footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.2rem;
+  margin-top: 0.4rem;
+}
+
+.plennia-best-seller-card__price {
+  color: #181412;
+}
+
+.plennia-best-seller-card__link {
+  color: #181412;
+  font-size: 1.4rem;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.plennia-best-seller-card__link:hover {
+  opacity: 0.72;
+}
+
+.plennia-featured-products__header,
+.plennia-recommendations__header,
+.plennia-account__hero,
+.plennia-pet-profile__hero {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 2rem;
+  margin-bottom: 2rem;
+}
+
+.plennia-grid {
+  display: grid;
+  gap: 1.6rem;
+}
+
+.plennia-grid--2 {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.plennia-grid--3 {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.plennia-grid--4 {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.plennia-card__media,
+.plennia-recommendation-card__media {
+  aspect-ratio: 4 / 4.5;
+}
+
+.plennia-quiz-teaser {
+  display: grid;
+  grid-template-columns: minmax(0, 1.06fr) minmax(26rem, 0.94fr);
+  gap: 2rem;
+  padding: 2rem;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.98), rgba(248, 248, 248, 0.94));
+}
+
+.plennia-quiz-teaser__copy {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 1.4rem;
+  padding: 2.2rem;
+}
+
+.plennia-quiz-teaser__panel {
+  display: grid;
+  gap: 1.6rem;
+  align-content: center;
+  padding: 2.2rem;
+  border: 1px solid rgba(24, 20, 18, 0.08);
+  border-radius: var(--plennia-radius-xl);
+  background: rgba(255, 255, 255, 0.82);
+}
+
+.plennia-quiz-teaser__steps {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+}
+
+.plennia-subscription-shell {
+  display: grid;
+  grid-template-columns: minmax(0, 0.95fr) minmax(28rem, 1.05fr);
+  gap: 2rem;
+  padding: 2rem;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.98), rgba(248, 248, 248, 0.94));
+}
+
+.plennia-subscription__copy {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 1.6rem;
+  padding: 2.8rem 2.4rem;
+}
+
+.plennia-subscription__actions {
+  margin-top: 0.8rem;
+}
+
+.plennia-subscription__visual {
+  min-height: 38rem;
+}
+
+.plennia-subscription__visual-frame {
+  position: relative;
+  height: 100%;
+  min-height: 38rem;
+  border-radius: 3rem;
+  overflow: hidden;
+  background: linear-gradient(145deg, rgba(213, 193, 163, 0.28), rgba(255, 255, 255, 0.88));
+}
+
+.plennia-quiz {
+  display: block;
+}
+
+.plennia-quiz__frame {
+  display: grid;
+  grid-template-columns: minmax(26rem, 0.9fr) minmax(0, 1.1fr);
+  gap: 2rem;
+}
+
+.plennia-quiz__aside,
+.plennia-quiz__panel {
+  padding: 3.2rem;
+  border: 1px solid var(--plennia-line);
+  border-radius: var(--plennia-radius-xl);
+  background: rgba(255, 255, 255, 0.82);
+  box-shadow: var(--plennia-shadow-soft);
+}
+
+.plennia-quiz__aside {
+  display: flex;
+  flex-direction: column;
+  gap: 1.6rem;
+}
+
+.plennia-quiz__progress {
+  margin-top: auto;
+  display: grid;
+  gap: 1rem;
+}
+
+.plennia-quiz__progress-track {
+  width: 100%;
+  height: 0.6rem;
+  border-radius: var(--plennia-radius-pill);
+  background: rgba(24, 20, 18, 0.08);
+  overflow: hidden;
+}
+
+.plennia-quiz__progress-bar {
+  display: block;
+  height: 100%;
+  width: 0;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #d4bf9f, #a9c3a7);
+  transition: width 0.25s ease;
+}
+
+.plennia-quiz__step {
+  display: none;
+  gap: 1.6rem;
+}
+
+.plennia-quiz__step.is-active {
+  display: grid;
+}
+
+.plennia-quiz__step-head {
+  display: grid;
+  gap: 0.8rem;
+}
+
+.plennia-quiz__step-fields,
+.plennia-quiz__option-grid {
+  display: grid;
+  gap: 1.2rem;
+}
+
+.plennia-quiz__option-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.plennia-quiz__option-grid--wide {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.plennia-option-card {
+  display: block;
+  cursor: pointer;
+}
+
+.plennia-option-card input:checked + .plennia-option-card__content {
+  background: rgba(213, 193, 163, 0.32);
+  border-color: rgba(24, 20, 18, 0.22);
+  transform: translateY(-2px);
+}
+
+.plennia-option-card__content {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  min-height: 100%;
+  padding: 1.6rem;
+  border: 1px solid var(--plennia-line);
+  border-radius: 2rem;
+  background: rgba(255, 255, 255, 0.72);
+  transition: border-color 0.2s ease, background-color 0.2s ease, transform 0.2s ease;
+}
+
+.plennia-option-card__icon {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 3.6rem;
+  height: 3.6rem;
+  border-radius: 50%;
+  background: rgba(24, 20, 18, 0.06);
+  font-size: 1.1rem;
+  font-weight: 700;
+  letter-spacing: 0.08rem;
+  text-transform: uppercase;
+}
+
+.plennia-option-card__label-group {
+  display: grid;
+  gap: 0.4rem;
+}
+
+.plennia-option-card__label {
+  color: var(--plennia-ink);
+  font-weight: 600;
+}
+
+.plennia-option-card__helper {
+  color: var(--plennia-muted);
+  font-size: 1.25rem;
+}
+
+.plennia-quiz__fields-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.2rem;
+}
+
+.plennia-quiz__field {
+  display: grid;
+  gap: 0.6rem;
+}
+
+.plennia-quiz__field--full {
+  grid-column: 1 / -1;
+}
+
+.plennia-quiz__field label {
+  color: var(--plennia-muted);
+  font-size: 1.2rem;
+  font-weight: 600;
+  letter-spacing: 0.08rem;
+  text-transform: uppercase;
+}
+
+.plennia-quiz__field input,
+.plennia-quiz__field select,
+.plennia-pet-form input,
+.plennia-pet-form select,
+.plennia-pet-form textarea {
+  min-height: 5.2rem;
+  padding: 1.2rem 1.4rem;
+  border: 1px solid rgba(24, 20, 18, 0.12);
+  border-radius: 1.6rem;
+  background: rgba(255, 255, 255, 0.96);
+  color: var(--plennia-ink);
+  font-size: 1.5rem;
+}
+
+.plennia-quiz__actions,
+.plennia-quiz__results-actions,
+.plennia-recommendations__actions,
+.plennia-pet-form__actions,
+.plennia-pet-card__actions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.plennia-quiz__results {
+  display: grid;
+  gap: 1.6rem;
+}
+
+.plennia-quiz__summary,
+.plennia-recommendations__summary,
+.plennia-saved-plan {
+  display: flex;
+  gap: 0.8rem;
+  flex-wrap: wrap;
+}
+
+.plennia-recommendations__groups,
+.plennia-quiz__result-groups {
+  display: grid;
+  gap: 1.6rem;
+}
+
+.plennia-recommendations__group,
+.plennia-quiz__result-group {
+  display: grid;
+  gap: 1.2rem;
+}
+
+.plennia-recommendations__cards,
+.plennia-quiz__result-cards,
+.plennia-pet-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1.4rem;
+}
+
+.plennia-recommendation-card__reasons,
+.plennia-result-reasons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+}
+
+.plennia-account-shell,
+.plennia-pet-profile-shell {
+  display: grid;
+  gap: 2rem;
+}
+
+.plennia-account__dashboard,
+.plennia-pet-profile__panel {
+  display: grid;
+  gap: 2rem;
+}
+
+.plennia-account__hero-shell {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1.18fr) minmax(31rem, 0.82fr);
+  gap: 1.8rem;
+  padding: 3.2rem;
+  border-radius: 3.2rem;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at top right, rgba(97, 197, 255, 0.2), transparent 28%),
+    radial-gradient(circle at bottom left, rgba(213, 193, 163, 0.28), transparent 34%),
+    linear-gradient(135deg, #f8f3ea 0%, #fffdf8 58%, #eef8fb 100%);
+}
+
+.plennia-account__hero-shell::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0), rgba(24, 20, 18, 0.02));
+  pointer-events: none;
+}
+
+.plennia-account__hero {
+  position: relative;
+  z-index: 1;
+  align-items: stretch;
+  margin: 0;
+}
+
+.plennia-account__hero-copy {
+  display: grid;
+  gap: 2.2rem;
+  align-content: start;
+  max-width: 66rem;
+}
+
+.plennia-account__hero-copy .plennia-section__heading {
+  max-width: 11ch;
+  font-size: clamp(4.6rem, 7vw, 7.8rem);
+  line-height: 0.96;
+  letter-spacing: -0.22rem;
+}
+
+.plennia-account__hero-copy .plennia-section__body {
+  max-width: 54rem;
+  font-size: 1.9rem;
+  line-height: 1.5;
+}
+
+.plennia-account__hero-panel {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  gap: 1.8rem;
+  align-content: start;
+  padding: 2.4rem;
+  border-radius: 2.8rem;
+  background: #082c35;
+  color: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 2rem 4.4rem rgba(9, 28, 34, 0.18);
+}
+
+.plennia-account__hero-panel .plennia-section__eyebrow,
+.plennia-dashboard-card--subscriptions .plennia-section__eyebrow {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.plennia-account__hero-panel .plennia-note-list__item,
+.plennia-dashboard-card--subscriptions .plennia-note-list__item {
+  border-top-color: rgba(255, 255, 255, 0.12);
+}
+
+.plennia-account__hero-panel .plennia-note-list__item span:first-child,
+.plennia-dashboard-card--subscriptions .plennia-note-list__item span:first-child {
+  color: rgba(255, 255, 255, 0.66);
+}
+
+.plennia-account__hero-panel .plennia-note-list__item span:last-child,
+.plennia-dashboard-card--subscriptions .plennia-card__title,
+.plennia-dashboard-card--subscriptions .plennia-card__excerpt,
+.plennia-dashboard-card--subscriptions .plennia-note {
+  color: #fff;
+}
+
+.plennia-account__hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.plennia-account__hero-panel .button:not(.plennia-button-secondary) {
+  background: #fff7ef;
+  color: #082c35;
+}
+
+.plennia-account__hero-panel .button:not(.plennia-button-secondary):hover {
+  background: #ffffff;
+}
+
+.plennia-account__hero-panel .plennia-button-secondary {
+  border-color: rgba(255, 255, 255, 0.18);
+  background: rgba(255, 255, 255, 0.08);
+  color: #fff;
+}
+
+.plennia-account__hero-panel .plennia-button-secondary:hover {
+  background: rgba(255, 255, 255, 0.14);
+}
+
+.plennia-account__banner {
+  padding: 1.8rem 2rem;
+  border-radius: 2rem;
+  background: linear-gradient(135deg, rgba(97, 197, 255, 0.2), rgba(255, 255, 255, 0.92));
+  color: var(--plennia-ink);
+  box-shadow: 0 1rem 2.6rem rgba(24, 20, 18, 0.05);
+}
+
+.plennia-account__banner p {
+  margin: 0;
+  font-size: 1.5rem;
+  line-height: 1.45;
+}
+
+.plennia-account__grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.8rem;
+}
+
+.plennia-pet-switcher {
+  display: grid;
+  grid-template-columns: minmax(0, 0.92fr) minmax(0, 1fr) auto;
+  gap: 1.6rem;
+  align-items: center;
+  padding: 2.2rem;
+  border-radius: 2.8rem;
+  background: #f6f0e5;
+  box-shadow: 0 1rem 2.6rem rgba(24, 20, 18, 0.04);
+}
+
+.plennia-pet-switcher__controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+  justify-content: flex-start;
+}
+
+.plennia-pet-switcher__button {
+  min-height: 4.4rem;
+  padding: 0.95rem 1.45rem;
+  border: 1px solid rgba(24, 20, 18, 0.1);
+  border-radius: var(--plennia-radius-pill);
+  background: rgba(255, 255, 255, 0.92);
+  color: var(--plennia-ink);
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.plennia-pet-switcher__button.is-active {
+  background: #fff;
+  border-color: rgba(24, 20, 18, 0.16);
+  box-shadow: 0 1rem 2.2rem rgba(24, 20, 18, 0.08);
+}
+
+.plennia-pet-form {
+  display: none;
+  gap: 1.2rem;
+  padding: 2.4rem;
+  border: 1px solid rgba(24, 20, 18, 0.08);
+  border-radius: 2.8rem;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.94), rgba(248, 244, 238, 0.94));
+  box-shadow: 0 1.4rem 3rem rgba(24, 20, 18, 0.06);
+}
+
+.plennia-pet-form.is-visible {
+  display: grid;
+}
+
+.plennia-pet-form__grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.2rem;
+}
+
+.plennia-pet-form textarea {
+  min-height: 10.8rem;
+  resize: vertical;
+}
+
+.plennia-pet-grid {
+  grid-template-columns: repeat(auto-fit, minmax(28rem, 1fr));
+  gap: 1.8rem;
+}
+
+.plennia-pet-card {
+  display: grid;
+  gap: 1.4rem;
+  padding: 2.2rem;
+  border-radius: 2.8rem;
+  background:
+    radial-gradient(circle at top right, rgba(97, 197, 255, 0.12), transparent 28%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(251, 248, 243, 0.96));
+}
+
+.plennia-pet-card__head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1.4rem;
+}
+
+.plennia-pet-card__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 5.6rem;
+  height: 5.6rem;
+  border-radius: 1.8rem;
+  background: linear-gradient(180deg, rgba(97, 197, 255, 0.26), rgba(213, 193, 163, 0.26));
+  font-size: 1.1rem;
+  font-weight: 700;
+  letter-spacing: 0.1rem;
+  text-transform: uppercase;
+}
+
+.plennia-pet-card.is-active {
+  border-color: rgba(24, 20, 18, 0.16);
+  box-shadow: 0 2rem 4rem rgba(24, 20, 18, 0.09);
+  transform: translateY(-0.2rem);
+}
+
+.plennia-order-list,
+.plennia-note-list {
+  display: grid;
+  gap: 1rem;
+}
+
+.plennia-order-list__item,
+.plennia-note-list__item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1.2rem 0;
+  border-top: 1px solid var(--plennia-soft-line);
+}
+
+.plennia-note {
+  color: var(--plennia-muted);
+  font-size: 1.3rem;
+}
+
+.plennia-pet-card__plan {
+  display: grid;
+  gap: 1rem;
+}
+
+.plennia-saved-plan__list {
+  margin-top: 0.6rem;
+}
+
+.plennia-dashboard-card--orders {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(246, 241, 232, 0.94));
+}
+
+.plennia-dashboard-card--subscriptions {
+  background:
+    radial-gradient(circle at top right, rgba(97, 197, 255, 0.18), transparent 34%),
+    linear-gradient(135deg, #0a2d36, #133f4d);
+  color: #fff;
+}
+
+.plennia-dashboard-card--subscriptions .plennia-link {
+  color: #fff;
+  text-decoration-color: rgba(255, 255, 255, 0.22);
+}
+
+.plennia-dashboard-card--plans {
+  background:
+    radial-gradient(circle at top right, rgba(255, 127, 115, 0.16), transparent 30%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(255, 246, 241, 0.95));
+}
+
+.plennia-dashboard-card--settings {
+  background:
+    radial-gradient(circle at bottom left, rgba(213, 193, 163, 0.2), transparent 34%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(249, 246, 241, 0.95));
+}
+
+.template-product .product__info-container,
+.template-product .product__media-wrapper,
+.template-collection .collection,
+.template-collection .facets-wrapper,
+.template-page .shopify-section .page-width > .title-wrapper-with-link {
+  border-radius: var(--plennia-radius-lg);
+}
+
+.template-product .product__info-container {
+  padding: 2rem;
+  background: rgba(255, 255, 255, 0.76);
+  border: 1px solid var(--plennia-line);
+  box-shadow: var(--plennia-shadow-soft);
+}
+
+.template-product .product__media-wrapper {
+  background: rgba(255, 255, 255, 0.72);
+  border: 1px solid var(--plennia-line);
+  box-shadow: var(--plennia-shadow-soft);
+}
+
+.template-collection .facets-wrapper,
+.template-collection .collection {
+  padding: 2rem;
+  background: rgba(255, 255, 255, 0.78);
+  border: 1px solid var(--plennia-line);
+  box-shadow: var(--plennia-shadow-soft);
+}
+
+.template-collection .collection {
+  margin-top: 1.6rem;
+}
+
+.footer {
+  background: rgba(24, 20, 18, 0.98);
+  color: rgba(255, 255, 255, 0.78);
+}
+
+.footer a,
+.footer .footer-block__heading {
+  color: #fff;
+}
+
+.footer .newsletter-form__field-wrapper .field__input {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.16);
+  color: #fff;
+}
+
+@media screen and (max-width: 1199px) {
+  .plennia-grid--4,
+  .plennia-brand-story__points,
+  .plennia-subscription__benefits {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .plennia-best-sellers__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .plennia-hero__detail-list {
+    grid-template-columns: 1fr;
+  }
+
+  .plennia-account__hero-shell {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media screen and (max-width: 989px) {
+  .plennia-header {
+    grid-template-columns: auto 1fr auto;
+  }
+
+  .plennia-header__desktop-nav,
+  .plennia-header__actions .small-hide {
+    display: none;
+  }
+
+  .plennia-header__mobile-drawer {
+    display: block;
+  }
+
+  .plennia-header__mobile-drawer summary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 4.4rem;
+    height: 4.4rem;
+    border: 1px solid rgba(24, 20, 18, 0.08);
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.7);
+    cursor: pointer;
+    list-style: none;
+  }
+
+  .plennia-header__mobile-drawer summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .plennia-header__mobile-panel {
+    position: absolute;
+    inset: calc(100% + 1rem) 0 auto;
+    display: grid;
+    gap: 1.6rem;
+    padding: 2rem;
+    border: 1px solid var(--plennia-line);
+    border-radius: var(--plennia-radius-lg);
+    background: rgba(255, 255, 255, 0.98);
+    box-shadow: var(--plennia-shadow);
+  }
+
+  .plennia-header__mobile-panel ul {
+    display: grid;
+    gap: 0.2rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .plennia-header__mobile-panel a {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 1.1rem 0;
+    border-bottom: 1px solid var(--plennia-soft-line);
+    color: var(--plennia-ink);
+    text-decoration: none;
+  }
+
+  .plennia-header__mobile-actions {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+
+  .plennia-hero,
+  .plennia-brand-story-shell,
+  .plennia-subscription-shell,
+  .plennia-quiz__frame,
+  .plennia-best-sellers__grid,
+  .plennia-grid--4,
+  .plennia-grid--3,
+  .plennia-recommendations__cards,
+  .plennia-quiz__result-cards,
+  .plennia-pet-grid,
+  .plennia-account__grid,
+  .plennia-pet-switcher,
+  .plennia-quiz-teaser,
+  .plennia-featured-products__header,
+  .plennia-recommendations__header,
+  .plennia-account__hero,
+  .plennia-pet-profile__hero,
+  .plennia-shop-by-pet__grid,
+  .plennia-shop-by-pet__intro {
+    grid-template-columns: 1fr;
+  }
+
+  .plennia-brand-story__points,
+  .plennia-subscription__benefits,
+  .plennia-quiz__option-grid--wide {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .plennia-hero__visual,
+  .plennia-subscription__visual,
+  .plennia-brand-story__visual {
+    min-height: auto;
+  }
+
+  .plennia-hero__visual {
+    padding: 0;
+  }
+
+  .plennia-hero__image-frame {
+    min-height: 42rem;
+  }
+
+  .plennia-hero__floating-card {
+    top: 2rem;
+    left: 2rem;
+  }
+
+  .plennia-hero__secondary-media {
+    left: auto;
+    right: 2rem;
+    bottom: 2rem;
+    width: 18rem;
+  }
+
+  .plennia-mega-menu__panel {
+    width: 100%;
+    grid-template-columns: 1fr;
+  }
+
+  .plennia-pet-switcher {
+    align-items: start;
+  }
+
+  .plennia-account__hero-shell {
+    padding: 2.4rem;
+  }
+}
+
+@media screen and (max-width: 749px) {
+  .content-for-layout,
+  .template-index .content-for-layout {
+    padding-bottom: 6.4rem;
+    padding-top: 2rem;
+  }
+
+  .plennia-section + .plennia-section {
+    margin-top: 2rem;
+  }
+
+  .plennia-section__content,
+  .plennia-hero,
+  .plennia-quiz__aside,
+  .plennia-quiz__panel,
+  .plennia-card__body,
+  .plennia-recommendation-card__body,
+  .plennia-pet-card,
+  .plennia-brand-story-shell,
+  .plennia-shop-by-pet-shell,
+  .plennia-featured-products-shell,
+  .plennia-subscription-shell,
+  .plennia-quiz-teaser {
+    padding: 2rem;
+  }
+
+  .plennia-account__hero-shell,
+  .plennia-account__hero-panel,
+  .plennia-pet-switcher,
+  .plennia-pet-form {
+    padding: 2rem;
+  }
+
+  .plennia-hero__copy,
+  .plennia-brand-story__intro,
+  .plennia-quiz-teaser__copy,
+  .plennia-quiz-teaser__panel,
+  .plennia-subscription__copy {
+    padding: 0;
+  }
+
+  .plennia-best-sellers {
+    padding-top: 5rem;
+  }
+
+  .plennia-best-sellers__header {
+    gap: 2rem;
+    margin-bottom: 2.2rem;
+  }
+
+  .plennia-best-sellers__heading {
+    font-size: 4.2rem;
+    letter-spacing: -0.12rem;
+  }
+
+  .plennia-best-sellers__tabs {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .plennia-best-sellers__tab {
+    flex: 1 1 0;
+    justify-content: center;
+  }
+
+  .plennia-best-seller-card {
+    min-height: auto;
+    padding: 1.8rem;
+    border-radius: 2.4rem;
+  }
+
+  .plennia-best-seller-card__media {
+    min-height: 26rem;
+    padding: 1.2rem;
+  }
+
+  .plennia-best-seller-card__image {
+    max-height: 24rem;
+  }
+
+  .plennia-best-seller-card__body h3 {
+    font-size: 1.9rem;
+  }
+
+  .plennia-best-seller-card__footer {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .plennia-card__title,
+  .plennia-mega-menu__link {
+    font-size: 1.8rem;
+  }
+
+  .plennia-header__brand-mark {
+    font-size: 1.55rem;
+    letter-spacing: 0.16rem;
+  }
+
+  .plennia-brand-story__points,
+  .plennia-subscription__benefits,
+  .plennia-quiz__option-grid,
+  .plennia-quiz__option-grid--wide,
+  .plennia-quiz__fields-grid,
+  .plennia-pet-form__grid,
+  .plennia-grid--2 {
+    grid-template-columns: 1fr;
+  }
+
+  .plennia-hero__copy .plennia-section__body {
+    font-size: 1.6rem;
+  }
+
+  .plennia-hero__detail-list {
+    grid-template-columns: 1fr;
+  }
+
+  .plennia-hero__image-frame,
+  .plennia-brand-story__visual-frame,
+  .plennia-subscription__visual-frame,
+  .plennia-category-card__overlay {
+    min-height: 32rem;
+  }
+
+  .plennia-hero__floating-card {
+    position: static;
+    max-width: none;
+    margin-top: 1.2rem;
+  }
+
+  .plennia-hero__secondary-media {
+    position: static;
+    width: 100%;
+    margin-top: 1.2rem;
+    aspect-ratio: 4 / 3;
+  }
+
+  .plennia-card--compact {
+    grid-template-columns: 7.8rem minmax(0, 1fr);
+  }
+
+  .plennia-featured-products__header,
+  .plennia-account__hero,
+  .plennia-pet-profile__hero {
+    align-items: flex-start;
+  }
+
+  .plennia-account__hero-copy .plennia-section__heading {
+    font-size: 4.4rem;
+    letter-spacing: -0.14rem;
+  }
+}
+
+/* Homepage reference pass */
+
+body {
+  background: #fff;
+}
+
+.template-index .content-for-layout {
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+.template-index .shopify-section-group-header-group {
+  position: relative;
+  z-index: 50;
+}
+
+.plennia-announcement-bar {
+  position: relative;
+  z-index: 55;
+  border: 0;
+  background: #0d3340;
+  color: #e7f8ff;
+  backdrop-filter: none;
+}
+
+.plennia-announcement-bar__inner {
+  min-height: 4.4rem;
+}
+
+.plennia-announcement-bar__item {
+  min-height: 4.4rem;
+  padding: 0.8rem 0;
+  color: inherit;
+  font-size: 1.2rem;
+  font-weight: 500;
+  letter-spacing: 0.02rem;
+}
+
+.plennia-announcement-bar__item:hover {
+  color: inherit;
+  opacity: 0.85;
+}
+
+.plennia-header-wrapper {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  width: 100%;
+  border: 0;
+  background: transparent;
+  backdrop-filter: none;
+  box-shadow: none;
+  transition:
+    background-color 0.3s ease,
+    box-shadow 0.3s ease,
+    border-color 0.3s ease,
+    backdrop-filter 0.3s ease;
+}
+
+.template-index .plennia-header-wrapper {
+  margin-bottom: -8.8rem;
+}
+
+.plennia-header-wrapper.is-scrolled,
+.plennia-header-wrapper.scrolled {
+  background: transparent;
+  box-shadow: none;
+}
+
+.plennia-header-wrapper.is-scrolled .plennia-header,
+.plennia-header-wrapper.scrolled .plennia-header {
+  width: min(100%, 132rem);
+  min-height: 0;
+  padding: 0 2.4rem;
+  border: 1px solid rgba(17, 20, 22, 0.08);
+  border-radius: 2.4rem;
+  background: rgba(255, 251, 244, 0.82);
+  backdrop-filter: blur(24px);
+  box-shadow: 0 1.6rem 3.8rem rgba(31, 24, 21, 0.08);
+}
+
+.plennia-header-wrapper.is-scrolled .plennia-header__menu-link,
+.plennia-header-wrapper.scrolled .plennia-header__menu-link,
+.plennia-header-wrapper.is-scrolled .plennia-header__summary,
+.plennia-header-wrapper.scrolled .plennia-header__summary,
+.plennia-header-wrapper.is-scrolled .plennia-header__brand-link,
+.plennia-header-wrapper.scrolled .plennia-header__brand-link,
+.plennia-header-wrapper.is-scrolled .plennia-header__brand-mark,
+.plennia-header-wrapper.scrolled .plennia-header__brand-mark,
+.plennia-header-wrapper.is-scrolled .plennia-header__locale,
+.plennia-header-wrapper.scrolled .plennia-header__locale,
+.plennia-header-wrapper.is-scrolled .plennia-header__icon-link,
+.plennia-header-wrapper.scrolled .plennia-header__icon-link {
+  color: var(--plennia-ink);
+}
+
+.plennia-header-wrapper.is-scrolled .plennia-header__brand-logo,
+.plennia-header-wrapper.scrolled .plennia-header__brand-logo {
+  filter: none;
+}
+
+.plennia-header-wrapper.is-scrolled .plennia-header__menu-link,
+.plennia-header-wrapper.scrolled .plennia-header__menu-link,
+.plennia-header-wrapper.is-scrolled .plennia-header__summary,
+.plennia-header-wrapper.scrolled .plennia-header__summary {
+  font-weight: 600;
+}
+
+.plennia-header-wrapper.is-scrolled .plennia-header__locale,
+.plennia-header-wrapper.scrolled .plennia-header__locale,
+.plennia-header-wrapper.is-scrolled .plennia-header__icon-link,
+.plennia-header-wrapper.scrolled .plennia-header__icon-link {
+  border-left-color: rgba(17, 20, 22, 0.1);
+}
+
+.plennia-header-wrapper.is-scrolled .plennia-header__icon-link:hover,
+.plennia-header-wrapper.scrolled .plennia-header__icon-link:hover {
+  border-color: rgba(17, 20, 22, 0.18);
+}
+
+.plennia-header-wrapper.is-scrolled .plennia-header__cart-count,
+.plennia-header-wrapper.scrolled .plennia-header__cart-count {
+  background: var(--plennia-ink);
+  color: #fff;
+}
+
+.plennia-header {
+  width: min(100%, 136rem);
+  min-height: 8rem;
+  margin: 0 auto;
+  padding: 0 3.2rem;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  backdrop-filter: none;
+  box-shadow: none;
+}
+
+.plennia-header__desktop-nav {
+  min-width: 0;
+}
+
+.plennia-header__tabs {
+  display: flex;
+  align-items: center;
+  gap: 2.6rem;
+}
+
+.plennia-header__nav,
+.plennia-header__actions {
+  gap: 0;
+}
+
+.plennia-header__menu-link,
+.plennia-header__summary {
+  gap: 0.6rem;
+  min-height: 4.8rem;
+  padding: 0;
+  background: transparent;
+  border-radius: 0;
+  color: rgba(255, 255, 255, 0.96);
+  font-size: 1.5rem;
+  font-weight: 500;
+}
+
+.plennia-header__menu-link:hover,
+.plennia-header__summary:hover,
+.plennia-header__desktop-details[open] > .plennia-header__summary {
+  background: transparent;
+  color: #fff;
+  opacity: 0.85;
+}
+
+.plennia-header__brand {
+  align-self: center;
+}
+
+.plennia-header__brand-link {
+  min-height: 4.8rem;
+  color: #fff;
+}
+
+.plennia-header__brand-logo {
+  max-width: 11.8rem;
+  filter: brightness(0) invert(1);
+}
+
+.plennia-header__brand-mark {
+  color: #fff;
+  font-size: 2rem;
+  font-weight: 700;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+.plennia-header__actions {
+  justify-self: end;
+  align-items: center;
+}
+
+.plennia-header__cta {
+  min-height: 4.4rem;
+  padding-inline: 1.8rem;
+  margin-right: 1rem;
+  border-radius: 999px;
+  background: #1d1a18;
+  color: #fff;
+  font-size: 1.35rem;
+  font-weight: 600;
+}
+
+.plennia-header__cta:hover {
+  background: #2b2725;
+}
+
+.plennia-header__locale {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  min-height: 4.8rem;
+  padding: 0 1.2rem;
+  border: 0;
+  border-left: 1px solid rgba(255, 255, 255, 0.24);
+  background: transparent;
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 1.35rem;
+  cursor: pointer;
+}
+
+.plennia-header__locale-caret,
+.plennia-header__summary .plennia-header__caret {
+  width: 1rem;
+  height: 1rem;
+}
+
+.plennia-header__icon-link {
+  width: 4.4rem;
+  height: 4.8rem;
+  border: 0;
+  border-left: 1px solid rgba(255, 255, 255, 0.24);
+  border-radius: 0;
+  background: transparent;
+  color: #fff;
+}
+
+.plennia-header__icon-link:hover {
+  transform: none;
+  border-color: rgba(255, 255, 255, 0.38);
+  background: transparent;
+}
+
+.plennia-header__icon-link .svg-wrapper {
+  width: 1.7rem;
+  height: 1.7rem;
+}
+
+.plennia-header__icon-link--cart .svg-wrapper {
+  width: 3.43rem;
+  height: 3.43rem;
+}
+
+.plennia-header__cart-count {
+  top: 0.5rem;
+  right: 0.8rem;
+  min-width: 1.8rem;
+  min-height: 1.8rem;
+  background: #fff;
+  color: #111;
+  font-size: 0.95rem;
+}
+
+.plennia-header__mega {
+  top: calc(100% + 1rem);
+  left: 0;
+}
+
+.plennia-mega-menu__panel {
+  width: min(72rem, calc(100vw - 5.6rem));
+  grid-template-columns: minmax(0, 1.08fr) minmax(26rem, 0.92fr);
+  gap: 2.4rem;
+  padding: 2.6rem;
+  border-radius: 2.2rem;
+  box-shadow: 0 2rem 4.4rem rgba(31, 24, 21, 0.16);
+}
+
+.plennia-mega-menu__lead {
+  gap: 0.5rem;
+  padding-bottom: 0;
+}
+
+.plennia-mega-menu__links {
+  gap: 0;
+}
+
+.plennia-mega-menu__link {
+  padding: 1.25rem 0;
+  font-size: 1.85rem;
+  line-height: 1.02;
+}
+
+.plennia-mega-menu__cta {
+  align-self: flex-start;
+  min-height: 4.6rem;
+  padding: 0 2rem;
+  border-radius: 999px;
+}
+
+.plennia-header__mobile-drawer summary {
+  width: auto;
+  height: 5.2rem;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+}
+
+.plennia-header__mobile-panel {
+  inset: calc(100% + 1rem) auto auto 0;
+  width: min(30rem, calc(100vw - 3.2rem));
+  padding: 2rem;
+  border-radius: 2rem;
+}
+
+.plennia-home-hero {
+  position: relative;
+  min-height: 90rem;
+  overflow: hidden;
+  background: #10100f;
+}
+
+.plennia-home-hero__media,
+.plennia-home-hero__media::after {
+  position: absolute;
+  inset: 0;
+}
+
+.plennia-home-hero__media::after {
+  content: '';
+  background: linear-gradient(180deg, rgba(8, 12, 12, 0.5) 0%, rgba(8, 12, 12, 0.28) 28%, rgba(8, 12, 12, 0.5) 100%);
+}
+
+.plennia-home-hero__media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.plennia-home-hero > .page-width {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: stretch;
+  min-height: 90rem;
+}
+
+.plennia-home-hero__content {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 62rem) minmax(25rem, 29rem);
+  align-items: end;
+  justify-content: space-between;
+  justify-items: start;
+  column-gap: clamp(3rem, 6vw, 11rem);
+  width: 100%;
+  padding: 17rem 0 5.8rem;
+  text-align: left;
+  color: #fff;
+}
+
+.plennia-home-hero__copy {
+  max-width: 62rem;
+  align-self: end;
+}
+
+.plennia-home-hero__heading {
+  max-width: 9ch;
+  margin: 0;
+  font-size: clamp(4.8rem, 8vw, 8.8rem);
+  font-weight: 700;
+  line-height: 0.98;
+  letter-spacing: -0.28rem;
+}
+
+.plennia-home-hero__heading p {
+  margin: 0;
+}
+
+.plennia-home-hero__heading em,
+.plennia-loved-gallery__heading em {
+  font-family: Georgia, 'Times New Roman', serif;
+  font-style: italic;
+  font-weight: 400;
+}
+
+.plennia-home-hero__body {
+  max-width: 50rem;
+  margin: 2.2rem 0 0;
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 2.1rem;
+  line-height: 1.35;
+}
+
+.plennia-home-hero__actions,
+.plennia-benefits__content,
+.plennia-plan-cta__content,
+.plennia-split-promo__inner,
+.plennia-footer__newsletter {
+  display: flex;
+  flex-direction: column;
+}
+
+.plennia-home-hero__actions {
+  flex-direction: row;
+  justify-content: flex-start;
+  gap: 1rem;
+  margin-top: 3.2rem;
+}
+
+.plennia-home-hero .button,
+.plennia-benefits .button,
+.plennia-split-promo .button,
+.plennia-plan-cta .button,
+.plennia-footer__field-row button,
+.plennia-mega-menu__cta {
+  min-height: 5.1rem;
+  padding: 0 2.35rem;
+  border-radius: 999px;
+  border: 0;
+  background: #191817;
+  color: #fff;
+  font-size: 1.45rem;
+  font-weight: 600;
+  line-height: 1;
+  box-shadow: none;
+}
+
+.plennia-home-hero .button:hover,
+.plennia-benefits .button:hover,
+.plennia-split-promo .button:hover,
+.plennia-plan-cta .button:hover,
+.plennia-footer__field-row button:hover,
+.plennia-mega-menu__cta:hover {
+  background: #2b2927;
+}
+
+.plennia-home-hero .plennia-button-ghost {
+  background: rgba(22, 20, 18, 0.76);
+  color: #fff;
+}
+
+.plennia-home-hero .button:not(.plennia-button-ghost) {
+  background: rgba(255, 255, 255, 0.94);
+  color: #171513;
+}
+
+.plennia-home-hero .button:not(.plennia-button-ghost):hover {
+  background: #fff;
+}
+
+.plennia-home-hero__product-card {
+  position: relative;
+  right: auto;
+  bottom: auto;
+  display: grid;
+  gap: 1rem;
+  width: min(100%, 29rem);
+  justify-self: end;
+  align-self: end;
+  padding: 1.5rem;
+  border-radius: 1.8rem;
+  background: rgba(118, 109, 80, 0.68);
+  backdrop-filter: blur(16px);
+  box-shadow: 0 2rem 4.4rem rgba(14, 12, 11, 0.18);
+}
+
+.plennia-home-hero__product-meta,
+.plennia-home-hero__price {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  flex-wrap: wrap;
+}
+
+.plennia-home-hero__product-meta {
+  color: rgba(255, 255, 255, 0.88);
+  font-size: 1.15rem;
+}
+
+.plennia-home-hero__discount {
+  margin-left: auto;
+  padding: 0.25rem 0.7rem;
+  border-radius: 999px;
+  background: #c6f0ae;
+  color: #254300;
+  font-weight: 700;
+}
+
+.plennia-home-hero__product-card h3 {
+  margin: 0;
+  color: #fff;
+  font-size: 2rem;
+  line-height: 1.1;
+}
+
+.plennia-home-hero__price {
+  justify-content: flex-end;
+  color: #fff;
+  font-size: 1.8rem;
+  font-weight: 700;
+}
+
+.plennia-home-hero__price-compare {
+  color: rgba(255, 255, 255, 0.56);
+  font-size: 1.35rem;
+  text-decoration: line-through;
+}
+
+.plennia-home-hero__product-footer {
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+}
+
+.plennia-home-hero__product-thumb {
+  width: 5.6rem;
+  height: 5.6rem;
+  flex-shrink: 0;
+  overflow: hidden;
+  border-radius: 1.4rem;
+  background: rgba(255, 255, 255, 0.88);
+}
+
+.plennia-home-hero__product-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.plennia-home-hero__product-footer .button {
+  flex: 1 1 auto;
+  min-height: 4.7rem;
+}
+
+.plennia-benefits,
+.plennia-testimonials,
+.plennia-loved-gallery,
+.plennia-plan-cta {
+  position: relative;
+  background: #fcfaf4;
+}
+
+.plennia-benefits {
+  padding: 11rem 0 9rem;
+}
+
+.plennia-benefits__header {
+  display: grid;
+  gap: 2.8rem;
+}
+
+.plennia-benefits__eyebrow {
+  margin: 0;
+  font-size: 1.35rem;
+  font-weight: 600;
+  text-align: center;
+}
+
+.plennia-benefits__list {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.6rem;
+  flex-wrap: wrap;
+}
+
+.plennia-benefits__item {
+  display: inline-flex;
+  align-items: center;
+  gap: 1.2rem;
+  color: #121212;
+  font-size: 1.5rem;
+}
+
+.plennia-benefits__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 4.8rem;
+  height: 4.8rem;
+  border-radius: 50%;
+  background: var(--plennia-benefit-color, #ff7f73);
+}
+
+.plennia-benefits__icon svg {
+  width: 1.8rem;
+  height: 1.8rem;
+}
+
+.plennia-benefits__body {
+  display: grid;
+  grid-template-columns: minmax(0, 0.98fr) minmax(32rem, 0.62fr);
+  gap: 3.6rem;
+  align-items: end;
+  margin-top: 7rem;
+}
+
+.plennia-benefits__headline-wrap {
+  position: relative;
+}
+
+.plennia-benefits__headline {
+  max-width: 7ch;
+  margin: 0;
+  color: #121212;
+  font-size: clamp(6rem, 9vw, 10rem);
+  font-weight: 700;
+  line-height: 0.94;
+  letter-spacing: -0.34rem;
+}
+
+.plennia-benefits__headline p,
+.plennia-loved-gallery__heading p,
+.plennia-plan-cta__heading p,
+.plennia-footer__heading p,
+.plennia-split-promo__heading p,
+.plennia-split-promo__body p {
+  margin: 0;
+}
+
+.plennia-benefits__sticker {
+  position: absolute;
+}
+
+.plennia-benefits__sticker svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.plennia-benefits__sticker--dog {
+  top: 3rem;
+  left: 14.2rem;
+  width: 12rem;
+}
+
+.plennia-benefits__sticker--cat {
+  left: 0;
+  bottom: 0.6rem;
+  width: 12rem;
+}
+
+.plennia-benefits__content {
+  align-items: flex-start;
+  gap: 2.4rem;
+  padding-bottom: 0.8rem;
+}
+
+.plennia-benefits__content p {
+  margin: 0;
+  color: #373533;
+  font-size: 2rem;
+  line-height: 1.4;
+}
+
+.plennia-split-promo {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  min-height: 72rem;
+  background: var(--plennia-promo-background, #63c4ff);
+  color: var(--plennia-promo-text, #181412);
+}
+
+.plennia-split-promo.is-reversed .plennia-split-promo__media {
+  order: 2;
+}
+
+.plennia-split-promo.is-reversed .plennia-split-promo__content {
+  order: 1;
+}
+
+.plennia-split-promo__media {
+  min-height: 100%;
+}
+
+.plennia-split-promo__media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.plennia-split-promo__content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100%;
+  padding: 6rem 6.4rem;
+}
+
+.plennia-split-promo__inner {
+  width: min(48rem, 100%);
+  gap: 2.2rem;
+}
+
+.plennia-split-promo__heading {
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: clamp(5.2rem, 8vw, 8.8rem);
+  font-weight: 400;
+  line-height: 0.9;
+  letter-spacing: -0.22rem;
+}
+
+.plennia-split-promo__body {
+  max-width: 40rem;
+  color: rgba(24, 20, 18, 0.82);
+  font-size: 1.95rem;
+  line-height: 1.45;
+}
+
+.plennia-split-promo__cards {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.plennia-split-promo__card {
+  display: grid;
+  grid-template-columns: 6.6rem minmax(0, 1fr);
+  gap: 1rem;
+  align-items: center;
+  padding: 1rem 1.2rem;
+  border-radius: 1.8rem;
+  background: rgba(255, 255, 255, 0.34);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.2);
+}
+
+.plennia-split-promo__card-thumb {
+  width: 6.6rem;
+  height: 6.6rem;
+  overflow: hidden;
+  border-radius: 1.4rem;
+  background: rgba(255, 255, 255, 0.86);
+}
+
+.plennia-split-promo__card-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.plennia-split-promo__card p,
+.plennia-split-promo__card h3 {
+  margin: 0;
+}
+
+.plennia-split-promo__card p {
+  color: rgba(24, 20, 18, 0.56);
+  font-size: 1.15rem;
+}
+
+.plennia-split-promo__card h3 {
+  font-size: 2rem;
+  line-height: 1.05;
+}
+
+.plennia-testimonials {
+  padding: 8rem 0 9rem;
+}
+
+.plennia-testimonials .page-width {
+  overflow: hidden;
+}
+
+.plennia-testimonials__controls {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  margin-bottom: 3.4rem;
+}
+
+.plennia-testimonials__arrow {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 5rem;
+  height: 5rem;
+  border: 1px solid rgba(24, 20, 18, 0.14);
+  border-radius: 1.6rem;
+  background: #fff;
+  color: #1b1918;
+  font-size: 2rem;
+  cursor: pointer;
+}
+
+.plennia-testimonials__arrow.is-dark {
+  background: #191817;
+  color: #fff;
+  border-color: #191817;
+}
+
+.plennia-testimonials__track {
+  display: flex;
+  gap: 1.6rem;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  scrollbar-width: none;
+  padding-bottom: 0.6rem;
+}
+
+.plennia-testimonials__track::-webkit-scrollbar {
+  display: none;
+}
+
+.plennia-testimonials__card {
+  flex: 0 0 min(36rem, calc(100vw - 5.4rem));
+  display: flex;
+  flex-direction: column;
+  min-height: 35rem;
+  padding: 2.4rem;
+  border-radius: 2.4rem;
+  background: #fff;
+  box-shadow: 0 1rem 3rem rgba(32, 25, 21, 0.08);
+  scroll-snap-align: start;
+}
+
+.plennia-testimonials__meta {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.plennia-testimonials__meta h3 {
+  margin: 0;
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 2rem;
+  font-weight: 400;
+}
+
+.plennia-testimonials__meta span {
+  color: #6d6864;
+  font-size: 1.35rem;
+}
+
+.plennia-testimonials__stars {
+  margin-top: 1.6rem;
+  color: #63aefb;
+  letter-spacing: 0.25rem;
+}
+
+.plennia-testimonials__quote {
+  margin: 1.8rem 0 0;
+  color: #2a2826;
+  font-size: 1.8rem;
+  line-height: 1.45;
+}
+
+.plennia-testimonials__product {
+  display: grid;
+  grid-template-columns: 6.2rem minmax(0, 1fr);
+  gap: 1rem;
+  align-items: center;
+  margin-top: auto;
+  padding-top: 2rem;
+  border-top: 1px solid rgba(24, 20, 18, 0.08);
+}
+
+.plennia-testimonials__product-thumb {
+  width: 6.2rem;
+  height: 6.2rem;
+  overflow: hidden;
+  border-radius: 1.3rem;
+  background: #f5f1e8;
+}
+
+.plennia-testimonials__product-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.plennia-testimonials__product strong {
+  color: #1d1a18;
+  font-size: 1.55rem;
+}
+
+.plennia-loved-gallery {
+  padding: 8.4rem 0 9.8rem;
+}
+
+.plennia-loved-gallery__heading {
+  margin: 0 0 3.4rem;
+  color: #121212;
+  font-size: clamp(4.4rem, 7vw, 6.8rem);
+  font-weight: 700;
+  line-height: 0.98;
+  letter-spacing: -0.22rem;
+  text-align: center;
+}
+
+.plennia-loved-gallery__grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1.6rem;
+}
+
+.plennia-loved-gallery__card {
+  overflow: hidden;
+  border-radius: 3.2rem;
+  aspect-ratio: 0.68;
+  background: #f2eee8;
+}
+
+.plennia-loved-gallery__card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.plennia-plan-cta {
+  padding: 9.6rem 0 6rem;
+  background: #fcfaf4;
+  border-top: 1px solid rgba(24, 20, 18, 0.08);
+}
+
+.plennia-plan-cta__shell {
+  position: relative;
+  min-height: 39rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.plennia-plan-cta__content {
+  align-items: center;
+  gap: 1.8rem;
+  text-align: center;
+}
+
+.plennia-plan-cta__heading {
+  max-width: 10ch;
+  color: #191817;
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: clamp(5rem, 7vw, 7rem);
+  font-weight: 400;
+  line-height: 0.92;
+  letter-spacing: -0.2rem;
+}
+
+.plennia-plan-cta__body {
+  margin: 0;
+  color: #3d3937;
+  font-size: 2rem;
+}
+
+.plennia-plan-cta__graphic {
+  position: absolute;
+  color: rgba(108, 204, 255, 0.72);
+}
+
+.plennia-plan-cta__graphic svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.plennia-plan-cta__graphic--left {
+  top: 2rem;
+  left: -2rem;
+  width: 17rem;
+}
+
+.plennia-plan-cta__graphic--right {
+  top: 1rem;
+  right: -2rem;
+  width: 16rem;
+  color: rgba(255, 127, 115, 0.78);
+}
+
+.plennia-footer {
+  position: relative;
+  padding-top: 7rem;
+  background: #082c35;
+}
+
+.plennia-footer__curve {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: min(170rem, 130vw);
+  height: 26rem;
+  border-radius: 50%;
+  background: #082c35;
+  transform: translate(-50%, -58%);
+  filter: blur(10px);
+}
+
+.plennia-footer__shell {
+  position: relative;
+  z-index: 1;
+  padding: 10rem 0 3.6rem;
+  border-radius: 0;
+  background: transparent;
+  color: rgba(255, 255, 255, 0.88);
+}
+
+.plennia-footer__top {
+  display: grid;
+  grid-template-columns: minmax(0, 0.88fr) minmax(40rem, 1.12fr);
+  gap: clamp(4rem, 7vw, 11rem);
+  align-items: start;
+}
+
+.plennia-footer__title-wrap {
+  position: relative;
+  max-width: 34rem;
+}
+
+.plennia-footer__heading {
+  color: #fff8f2;
+  font-size: clamp(6rem, 10vw, 9.6rem);
+  font-weight: 700;
+  line-height: 0.92;
+  letter-spacing: -0.34rem;
+}
+
+.plennia-footer__sticker {
+  position: absolute;
+}
+
+.plennia-footer__sticker svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.plennia-footer__sticker--cat {
+  top: 3rem;
+  left: 10.2rem;
+  width: 8.2rem;
+}
+
+.plennia-footer__sticker--dog {
+  bottom: 0.6rem;
+  left: 18.8rem;
+  width: 8.4rem;
+}
+
+.plennia-footer__newsletter {
+  gap: 2.2rem;
+  padding-top: 1.6rem;
+}
+
+.plennia-footer__intro {
+  max-width: 54rem;
+  margin: 0;
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 2rem;
+  line-height: 1.45;
+}
+
+.plennia-footer__form {
+  display: grid;
+  gap: 1.6rem;
+}
+
+.plennia-footer__field-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.9rem;
+  border-radius: 1.8rem;
+  background: rgba(17, 73, 89, 0.88);
+}
+
+.plennia-footer__field-row input {
+  min-height: 5.4rem;
+  border: 0;
+  background: transparent;
+  color: #fff;
+  font-size: 2rem;
+}
+
+.plennia-footer__field-row input::placeholder {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.plennia-footer__field-row button {
+  min-width: 14rem;
+  background: transparent;
+  color: #fff;
+}
+
+.plennia-footer__field-row button:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.plennia-footer__consent {
+  display: inline-flex;
+  align-items: center;
+  gap: 1rem;
+  color: rgba(255, 255, 255, 0.72);
+  font-size: 1.35rem;
+}
+
+.plennia-footer__consent input {
+  width: 1.6rem;
+  height: 1.6rem;
+  margin: 0;
+}
+
+.plennia-footer__form-message {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.92);
+  font-size: 1.3rem;
+}
+
+.plennia-footer__form-message--error {
+  color: #ffc2ba;
+}
+
+.plennia-footer__links {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+  gap: 2.4rem;
+  margin-top: 5rem;
+}
+
+.plennia-footer__column h2 {
+  margin: 0 0 1.6rem;
+  color: #fff;
+  font-size: 1.45rem;
+  font-weight: 600;
+}
+
+.plennia-footer__column ul {
+  display: grid;
+  gap: 1.2rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.plennia-footer__column a {
+  color: rgba(255, 255, 255, 0.72);
+  font-size: 1.7rem;
+  line-height: 1.35;
+  text-decoration: none;
+}
+
+.plennia-footer__column a:hover,
+.plennia-footer__legal a:hover {
+  color: #fff;
+}
+
+.plennia-footer__bottom {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 3rem;
+  align-items: center;
+  margin-top: 5.6rem;
+}
+
+@media screen and (min-width: 990px) {
+  .template-index .plennia-home-hero > .page-width,
+  .template-index .plennia-benefits > .page-width,
+  .template-index .plennia-footer > .page-width {
+    width: auto;
+    max-width: none;
+    margin: 0;
+    padding-inline: clamp(3.2rem, 5vw, 6rem);
+  }
+
+  .template-index .plennia-home-hero__content {
+    grid-template-columns: minmax(0, 68rem) minmax(28rem, 32rem);
+    column-gap: clamp(5rem, 9vw, 16rem);
+    padding-top: 18rem;
+    padding-bottom: 6.4rem;
+  }
+
+  .template-index .plennia-home-hero__copy {
+    max-width: 68rem;
+  }
+
+  .template-index .plennia-home-hero__body {
+    max-width: 54rem;
+  }
+
+  .template-index .plennia-benefits {
+    padding-top: 12rem;
+    padding-bottom: 10rem;
+  }
+
+  .template-index .plennia-benefits__body {
+    grid-template-columns: minmax(0, 1.08fr) minmax(38rem, 0.78fr);
+    gap: clamp(4rem, 7vw, 12rem);
+  }
+
+  .template-index .plennia-benefits__content p {
+    max-width: 48rem;
+  }
+
+  .template-index .plennia-footer {
+    padding-top: 9rem;
+  }
+
+  .template-index .plennia-footer__curve {
+    width: 120vw;
+    height: 28rem;
+    left: 50%;
+    transform: translate(-50%, -60%);
+  }
+}
+
+.plennia-footer__payments {
+  display: flex;
+  align-items: center;
+  gap: 1.6rem;
+  flex-wrap: wrap;
+}
+
+.plennia-footer__payments span,
+.plennia-footer__locale span,
+.plennia-footer__legal a {
+  color: rgba(255, 255, 255, 0.66);
+  font-size: 1.35rem;
+  text-decoration: none;
+}
+
+.plennia-footer__payments .list-payment {
+  display: flex;
+  gap: 1rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.plennia-footer__payments .icon {
+  width: 3rem;
+  height: 2rem;
+}
+
+.plennia-footer__legal {
+  display: flex;
+  justify-content: center;
+  gap: 2.4rem;
+  flex-wrap: wrap;
+}
+
+.plennia-footer__locale {
+  justify-self: end;
+}
+
+@media screen and (max-width: 1199px) {
+  .plennia-benefits__body {
+    grid-template-columns: 1fr;
+  }
+
+  .plennia-footer__top {
+    grid-template-columns: 1fr;
+    gap: 4rem;
+  }
+
+  .plennia-footer__links {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media screen and (max-width: 989px) {
+  .plennia-header-wrapper {
+    top: 1rem;
+  }
+
+  .template-index .plennia-header-wrapper {
+    margin-bottom: -6.6rem;
+  }
+
+  .plennia-header {
+    width: min(100%, calc(100vw - 2.4rem));
+    padding: 0 1.4rem;
+  }
+
+  .plennia-header__brand-logo {
+    max-width: 10.8rem;
+  }
+
+  .plennia-home-hero {
+    min-height: 78rem;
+  }
+
+  .plennia-home-hero > .page-width {
+    min-height: 78rem;
+  }
+
+  .plennia-home-hero__content {
+    padding-top: 15rem;
+    padding-bottom: 4rem;
+  }
+
+  .plennia-home-hero__product-card {
+    position: static;
+    width: min(100%, 32rem);
+    margin-top: 4rem;
+  }
+
+  .plennia-benefits__list {
+    justify-content: center;
+  }
+
+  .plennia-benefits__headline {
+    max-width: 8ch;
+  }
+
+  .plennia-benefits__sticker--dog {
+    left: 11rem;
+    width: 10rem;
+  }
+
+  .plennia-benefits__sticker--cat {
+    width: 10rem;
+  }
+
+  .plennia-split-promo {
+    grid-template-columns: 1fr;
+  }
+
+  .plennia-split-promo.is-reversed .plennia-split-promo__media,
+  .plennia-split-promo.is-reversed .plennia-split-promo__content {
+    order: initial;
+  }
+
+  .plennia-split-promo__media {
+    min-height: 42rem;
+  }
+
+  .plennia-split-promo__content {
+    padding: 4.4rem 2.4rem;
+  }
+
+  .plennia-loved-gallery__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .plennia-plan-cta__graphic--left {
+    left: -6rem;
+  }
+
+  .plennia-plan-cta__graphic--right {
+    right: -5rem;
+  }
+
+  .plennia-footer__shell {
+    padding: 8rem 2.8rem 3.2rem;
+  }
+
+  .plennia-footer__links {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .plennia-footer__bottom {
+    grid-template-columns: 1fr;
+    justify-items: start;
+  }
+
+  .plennia-footer__legal {
+    justify-content: flex-start;
+  }
+
+  .plennia-footer__locale {
+    justify-self: start;
+  }
+}
+
+@media screen and (max-width: 749px) {
+  .plennia-announcement-bar__item {
+    text-align: center;
+  }
+
+  .plennia-header {
+    grid-template-columns: auto 1fr auto;
+  }
+
+  .plennia-header__brand-link {
+    min-height: 4.8rem;
+  }
+
+  .plennia-header__brand-logo {
+    max-width: 9.2rem;
+  }
+
+  .plennia-home-hero {
+    min-height: 70rem;
+  }
+
+  .plennia-home-hero > .page-width {
+    min-height: 70rem;
+  }
+
+  .plennia-home-hero__content {
+    padding-top: 13rem;
+  }
+
+  .plennia-home-hero__heading {
+    max-width: 10ch;
+    font-size: 5rem;
+    letter-spacing: -0.18rem;
+  }
+
+  .plennia-home-hero__body {
+    font-size: 1.7rem;
+  }
+
+  .plennia-home-hero__actions {
+    flex-direction: column;
+  }
+
+  .plennia-home-hero__actions .button {
+    width: 100%;
+  }
+
+  .plennia-benefits,
+  .plennia-testimonials,
+  .plennia-loved-gallery,
+  .plennia-plan-cta {
+    padding-top: 6.4rem;
+    padding-bottom: 6.4rem;
+  }
+
+  .plennia-benefits__list {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    justify-content: initial;
+  }
+
+  .plennia-benefits__item {
+    font-size: 1.35rem;
+  }
+
+  .plennia-benefits__headline {
+    font-size: 5.8rem;
+    letter-spacing: -0.18rem;
+  }
+
+  .plennia-benefits__sticker--dog {
+    top: 2.4rem;
+    left: 8rem;
+    width: 8rem;
+  }
+
+  .plennia-benefits__sticker--cat {
+    width: 8rem;
+  }
+
+  .plennia-benefits__content p,
+  .plennia-split-promo__body,
+  .plennia-footer__intro {
+    font-size: 1.7rem;
+  }
+
+  .plennia-split-promo {
+    min-height: auto;
+  }
+
+  .plennia-split-promo__media {
+    min-height: 32rem;
+  }
+
+  .plennia-split-promo__heading,
+  .plennia-plan-cta__heading {
+    font-size: 4.8rem;
+    letter-spacing: -0.14rem;
+  }
+
+  .plennia-split-promo__cards {
+    grid-template-columns: 1fr;
+  }
+
+  .plennia-testimonials__controls {
+    margin-bottom: 2.2rem;
+  }
+
+  .plennia-loved-gallery__grid {
+    grid-template-columns: 1fr;
+  }
+
+  .plennia-loved-gallery__card {
+    aspect-ratio: 0.82;
+  }
+
+  .plennia-plan-cta__shell {
+    min-height: 30rem;
+  }
+
+  .plennia-plan-cta__graphic {
+    display: none;
+  }
+
+  .plennia-footer {
+    padding-top: 5rem;
+  }
+
+  .plennia-footer__curve {
+    height: 18rem;
+  }
+
+  .plennia-footer__shell {
+    padding: 6rem 2rem 2.8rem;
+  }
+
+  .plennia-footer__heading {
+    font-size: 5.4rem;
+    letter-spacing: -0.18rem;
+  }
+
+  .plennia-footer__sticker--cat {
+    top: 1.4rem;
+    left: 6.8rem;
+    width: 6.8rem;
+  }
+
+  .plennia-footer__sticker--dog {
+    left: 12.4rem;
+    width: 7rem;
+  }
+
+  .plennia-footer__field-row {
+    grid-template-columns: 1fr;
+  }
+
+  .plennia-footer__field-row input {
+    min-height: 4.8rem;
+    font-size: 1.8rem;
+  }
+
+  .plennia-footer__field-row button {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .plennia-footer__links {
+    grid-template-columns: 1fr 1fr;
+    gap: 2.4rem 1.6rem;
+  }
+
+  .plennia-footer__column a {
+    font-size: 1.45rem;
+  }
+}
+
+.plennia-our-story-hero {
+  position: relative;
+  overflow: hidden;
+  padding: 4.8rem 0 0;
+  background: #faf6ef;
+}
+
+.plennia-our-story-hero::after {
+  content: '';
+  position: absolute;
+  left: -8%;
+  right: -8%;
+  bottom: -20rem;
+  height: 44rem;
+  border-radius: 50% 50% 0 0 / 24rem 24rem 0 0;
+  background: #ffffff;
+}
+
+.plennia-our-story-hero__title {
+  position: relative;
+  z-index: 1;
+  margin: 0;
+  text-align: center;
+  color: #191817;
+  font-family: var(--font-heading-family);
+  font-size: clamp(8.6rem, 14vw, 14.6rem);
+  font-weight: var(--font-heading-weight);
+  line-height: 0.86;
+  letter-spacing: -0.18rem;
+}
+
+.plennia-our-story-hero__statement-wrap {
+  position: relative;
+  z-index: 1;
+  min-height: 54rem;
+  padding: 15rem 0 8.4rem;
+}
+
+.plennia-our-story-hero__statement {
+  max-width: 74rem;
+  color: #171513;
+  font-family: var(--font-body-family);
+  font-size: clamp(5.8rem, 8.5vw, 9rem);
+  font-weight: var(--font-body-weight-bold);
+  line-height: 0.9;
+  letter-spacing: -0.26rem;
+}
+
+.plennia-our-story-hero__statement p {
+  margin: 0;
+}
+
+.plennia-our-story-hero__sticker {
+  position: absolute;
+}
+
+.plennia-our-story-hero__sticker svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.plennia-our-story-hero__sticker--cat {
+  top: 17.2rem;
+  left: clamp(24rem, 25vw, 34rem);
+  width: 7.8rem;
+}
+
+.plennia-our-story-hero__sticker--dog {
+  top: 37rem;
+  left: clamp(43rem, 45vw, 58rem);
+  width: 8.6rem;
+}
+
+.plennia-our-story-content {
+  padding: 0 0 7rem;
+  background: #fff;
+}
+
+.plennia-our-story-content__shell {
+  display: grid;
+  grid-template-columns: minmax(0, 0.54fr) minmax(0, 0.46fr);
+  gap: 3rem;
+}
+
+.plennia-our-story-content__copy {
+  grid-column: 2;
+  max-width: 58rem;
+  color: #262321;
+}
+
+.plennia-our-story-content__copy > p {
+  margin: 0;
+  font-size: 1.92rem;
+  line-height: 1.5;
+}
+
+.plennia-our-story-content__copy > p + p {
+  margin-top: 2.4rem;
+}
+
+.plennia-our-story-content__copy > p:first-child {
+  color: inherit;
+  font-family: var(--font-body-family);
+  font-size: 1.92rem;
+  font-weight: var(--font-body-weight);
+  line-height: 1.5;
+  letter-spacing: 0;
+}
+
+.plennia-our-story-values {
+  padding: 3rem 0 0;
+  background: #fff;
+}
+
+.plennia-our-story-values__heading {
+  max-width: 16ch;
+  margin: 0 auto 4rem;
+  text-align: center;
+  color: #151311;
+  font-family: var(--font-body-family);
+  font-size: clamp(4.8rem, 6.5vw, 7.4rem);
+  font-weight: var(--font-body-weight-bold);
+  line-height: 0.96;
+  letter-spacing: -0.18rem;
+}
+
+.plennia-our-story-values__heading p {
+  margin: 0;
+}
+
+.plennia-our-story-values__heading em {
+  font-family: var(--font-heading-family);
+  font-style: italic;
+  font-weight: var(--font-heading-weight);
+}
+
+.plennia-our-story-values__panels {
+  display: grid;
+  gap: 0;
+}
+
+.plennia-our-story-values__panel {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  min-height: clamp(36rem, 48vw, 58rem);
+  overflow: hidden;
+  background: var(--plennia-story-panel-bg, #63c4ff);
+  color: var(--plennia-story-panel-text, #181412);
+}
+
+.plennia-our-story-values__panel-media,
+.plennia-our-story-values__panel-media img {
+  width: 100%;
+  height: 100%;
+}
+
+.plennia-our-story-values__panel-media img {
+  object-fit: cover;
+  opacity: 1;
+  mix-blend-mode: normal;
+}
+
+.plennia-our-story-values__panel-copy {
+  display: grid;
+  align-content: center;
+  gap: 1.4rem;
+  padding: clamp(3rem, 5vw, 7rem);
+  max-width: 44rem;
+}
+
+.plennia-our-story-values__panel-copy p,
+.plennia-our-story-values__panel-copy h3 {
+  margin: 0;
+}
+
+.plennia-our-story-values__panel-copy p {
+  font-size: clamp(1.9rem, 2vw, 2.6rem);
+  font-weight: var(--font-body-weight-bold);
+}
+
+.plennia-our-story-values__panel-copy h3 {
+  font-family: var(--font-heading-family);
+  font-size: clamp(6rem, 8vw, 9.4rem);
+  font-weight: var(--font-heading-weight);
+  line-height: 0.9;
+  letter-spacing: -0.12rem;
+}
+
+.plennia-our-story-faq {
+  padding: 8rem 0 0;
+  background: #fff;
+  border-top: 1px solid rgba(24, 20, 18, 0.08);
+}
+
+.plennia-our-story-faq__shell {
+  display: grid;
+  grid-template-columns: minmax(0, 0.85fr) minmax(24rem, 0.8fr) minmax(0, 1.1fr);
+  gap: 3rem;
+  align-items: start;
+  padding: 0 0 5rem;
+  border-radius: 0;
+  background: transparent;
+}
+
+.plennia-our-story-faq__intro {
+  display: grid;
+  gap: 1.8rem;
+  align-content: start;
+}
+
+.plennia-our-story-faq__intro h2,
+.plennia-our-story-faq__intro p {
+  margin: 0;
+}
+
+.plennia-our-story-faq__intro h2 {
+  color: #151311;
+  font-family: var(--font-body-family);
+  font-size: clamp(4.4rem, 6vw, 6.2rem);
+  font-weight: var(--font-body-weight-bold);
+  line-height: 0.96;
+  letter-spacing: -0.18rem;
+}
+
+.plennia-our-story-faq__intro p {
+  color: #4f4944;
+  font-size: 1.7rem;
+  line-height: 1.45;
+}
+
+.plennia-our-story-faq__image {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100%;
+  padding: 0;
+  border-radius: 0;
+  background: transparent;
+}
+
+.plennia-our-story-faq__image img {
+  display: block;
+  width: 100%;
+  max-width: 35rem;
+  height: auto;
+}
+
+.plennia-our-story-faq__items {
+  display: grid;
+  gap: 1rem;
+}
+
+.plennia-our-story-faq__item {
+  border: 1px solid rgba(24, 20, 18, 0.08);
+  border-radius: 2rem;
+  background: #fff;
+  box-shadow: none;
+  overflow: hidden;
+}
+
+.plennia-our-story-faq__item summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.2rem;
+  padding: 1.8rem 2rem;
+  color: #1a1715;
+  font-size: 1.65rem;
+  font-weight: 600;
+  cursor: pointer;
+  list-style: none;
+}
+
+.plennia-our-story-faq__item summary::-webkit-details-marker {
+  display: none;
+}
+
+.plennia-our-story-faq__item[open] summary span:last-child {
+  transform: rotate(45deg);
+}
+
+.plennia-our-story-faq__item summary span:last-child {
+  display: inline-flex;
+  justify-content: center;
+  width: 2.4rem;
+  font-size: 2rem;
+  line-height: 1;
+  transition: transform 0.2s ease;
+}
+
+.plennia-our-story-faq__answer {
+  padding: 0 2rem 2rem;
+  color: #4f4944;
+  font-size: 1.55rem;
+  line-height: 1.55;
+}
+
+.plennia-our-story-faq__answer > *:first-child {
+  margin-top: 0;
+}
+
+.plennia-our-story-faq__answer > *:last-child {
+  margin-bottom: 0;
+}
+
+.plennia-plan-results-hero {
+  position: relative;
+  padding: 3rem 0 0;
+  background: #fbf8f1;
+  overflow: hidden;
+}
+
+.plennia-plan-results-hero__topbar {
+  position: relative;
+  z-index: 3;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  min-height: 5rem;
+  margin-bottom: 2rem;
+}
+
+.plennia-plan-results-hero__exit,
+.plennia-plan-results-hero__brand {
+  color: #161413;
+  text-decoration: none;
+}
+
+.plennia-plan-results-hero__exit {
+  justify-self: start;
+  font-size: 1.45rem;
+  font-weight: 500;
+}
+
+.plennia-plan-results-hero__brand {
+  justify-self: center;
+  font-size: 2.2rem;
+  font-weight: 700;
+  letter-spacing: -0.05rem;
+}
+
+.plennia-plan-results-hero__topbar-spacer {
+  justify-self: end;
+  width: 4rem;
+}
+
+.plennia-plan-results-hero__curve {
+  position: absolute;
+  top: 9rem;
+  left: 50%;
+  width: min(182rem, 130vw);
+  height: 42rem;
+  border-radius: 50%;
+  background: #082c35;
+  transform: translateX(-50%);
+  filter: blur(12px);
+}
+
+.plennia-plan-results-hero__shell {
+  position: relative;
+  z-index: 2;
+  display: block;
+  overflow: hidden;
+  padding: 10rem 8rem 9rem;
+  border-radius: 28rem 28rem 0 0;
+  background: #082c35;
+  color: #fff;
+  text-align: center;
+}
+
+.plennia-plan-results-hero__inner {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2.2rem;
+  max-width: 74rem;
+  margin: 0 auto;
+}
+
+.plennia-plan-results-hero__heading {
+  max-width: 12ch;
+  color: #fff7ef;
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: clamp(5rem, 7vw, 7.8rem);
+  font-style: italic;
+  font-weight: 400;
+  line-height: 0.98;
+  letter-spacing: -0.14rem;
+}
+
+.plennia-plan-results-hero__heading p,
+.plennia-plan-results-hero__body,
+.plennia-plan-results-hero__gift p,
+.plennia-plan-results-summary__body,
+.plennia-plan-results-summary__note p,
+.plennia-plan-results-products__empty p {
+  margin: 0;
+}
+
+.plennia-plan-results-hero__name {
+  color: #61c5ff;
+  font-style: normal;
+  font-weight: 700;
+}
+
+.plennia-plan-results-hero__body {
+  max-width: 42rem;
+  color: rgba(255, 255, 255, 0.82);
+  font-size: 2rem;
+  line-height: 1.42;
+}
+
+.plennia-plan-results-hero__gift {
+  display: grid;
+  gap: 0.6rem;
+  min-width: 24rem;
+  max-width: 29rem;
+  padding: 1.4rem 1.6rem;
+  border-radius: 1.8rem;
+  background: #164c60;
+  color: #fff;
+  text-align: left;
+  box-shadow: 0 1.2rem 2.8rem rgba(4, 20, 26, 0.26);
+}
+
+.plennia-plan-results-hero__gift strong {
+  font-size: 1.7rem;
+}
+
+.plennia-plan-results-hero__gift p {
+  color: rgba(255, 255, 255, 0.84);
+  font-size: 1.35rem;
+  line-height: 1.35;
+}
+
+.plennia-plan-results-hero__form {
+  width: min(53rem, 100%);
+}
+
+.plennia-plan-results-hero__field {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 2rem;
+  padding-top: 2rem;
+}
+
+.plennia-plan-results-hero__field input {
+  min-height: 7.4rem;
+  border: 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.42);
+  border-radius: 0;
+  background: transparent;
+  color: #fff7ef;
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: clamp(3.2rem, 5vw, 4.8rem);
+  font-weight: 400;
+  line-height: 1;
+  text-align: center;
+  box-shadow: none;
+}
+
+.plennia-plan-results-hero__field input::placeholder {
+  color: rgba(255, 247, 239, 0.72);
+}
+
+.plennia-plan-results-hero__field button {
+  justify-self: center;
+  min-height: 5.2rem;
+  padding: 0 2.8rem;
+  border: 0;
+  border-radius: 999px;
+  background: #f8f5ef;
+  color: #0b2630;
+  font-size: 1.5rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.plennia-plan-results-hero__message {
+  margin: 1.4rem 0 0;
+  color: rgba(255, 255, 255, 0.88);
+  font-size: 1.4rem;
+  text-align: center;
+}
+
+.plennia-plan-results-hero__graphics {
+  position: absolute;
+  color: rgba(96, 171, 230, 0.6);
+}
+
+.plennia-plan-results-hero__graphics svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.plennia-plan-results-hero__graphics--left {
+  left: -1rem;
+  bottom: -1rem;
+  width: 20rem;
+}
+
+.plennia-plan-results-hero__graphics--right {
+  right: -2rem;
+  bottom: 2rem;
+  width: 26rem;
+}
+
+.plennia-plan-results-summary {
+  padding: 4rem 0 0;
+  background: #fbf8f1;
+}
+
+.plennia-plan-results-summary__shell {
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(26rem, 0.8fr);
+  gap: 2rem;
+  padding: 3rem;
+  border-radius: 3rem;
+  background: #fff;
+  box-shadow: 0 2rem 4rem rgba(24, 20, 18, 0.06);
+}
+
+.plennia-plan-results-summary__intro,
+.plennia-plan-results-summary__aside {
+  display: grid;
+  align-content: start;
+  gap: 1.6rem;
+}
+
+.plennia-plan-results-summary__eyebrow,
+.plennia-plan-results-products__eyebrow {
+  margin: 0;
+  color: #7a726c;
+  font-size: 1.2rem;
+  font-weight: 700;
+  letter-spacing: 0.22rem;
+  text-transform: uppercase;
+}
+
+.plennia-plan-results-summary__title,
+.plennia-plan-results-products__header h2 {
+  margin: 0;
+  color: #161412;
+  font-size: clamp(3.6rem, 5vw, 5rem);
+  font-weight: 700;
+  line-height: 0.98;
+  letter-spacing: -0.16rem;
+}
+
+.plennia-plan-results-summary__body {
+  max-width: 50rem;
+  color: #4e4944;
+  font-size: 1.8rem;
+  line-height: 1.48;
+}
+
+.plennia-plan-results-summary__chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+}
+
+.plennia-plan-results-summary__save-card {
+  display: grid;
+  gap: 1.2rem;
+  padding: 2rem;
+  border-radius: 2.2rem;
+  background: #edf7fb;
+}
+
+.plennia-plan-results-summary__save-card strong {
+  color: #161412;
+  font-size: 1.6rem;
+}
+
+.plennia-plan-results-summary__save-card p,
+.plennia-plan-results-summary__save-message {
+  margin: 0;
+  color: #4f4944;
+  font-size: 1.55rem;
+  line-height: 1.45;
+}
+
+.plennia-plan-results-summary__save-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.plennia-plan-results-summary__save-message {
+  color: #0f4f66;
+}
+
+.plennia-plan-results-summary__note {
+  display: grid;
+  gap: 0.8rem;
+  padding: 2rem;
+  border-radius: 2.2rem;
+  background: #f7f1e7;
+}
+
+.plennia-plan-results-summary__note strong {
+  color: #171513;
+  font-size: 1.6rem;
+}
+
+.plennia-plan-results-summary__note p {
+  color: #514b46;
+  font-size: 1.6rem;
+  line-height: 1.45;
+}
+
+.plennia-plan-results-products {
+  padding: 3.2rem 0 8rem;
+  background: #fbf8f1;
+}
+
+.plennia-plan-results-products__shell {
+  display: block;
+}
+
+.plennia-plan-results-products__header {
+  margin-bottom: 2.2rem;
+}
+
+.plennia-plan-results-products__group + .plennia-plan-results-products__group {
+  margin-top: 3rem;
+}
+
+.plennia-plan-results-products__group-head {
+  display: grid;
+  gap: 0.6rem;
+  margin-bottom: 1.4rem;
+}
+
+.plennia-plan-results-products__group-head p,
+.plennia-plan-results-products__group-head h3,
+.plennia-plan-product-card__meta,
+.plennia-plan-product-card__price,
+.plennia-plan-product-card__body h3 {
+  margin: 0;
+}
+
+.plennia-plan-results-products__group-head p {
+  color: #7a726c;
+  font-size: 1.2rem;
+  font-weight: 700;
+  letter-spacing: 0.22rem;
+  text-transform: uppercase;
+}
+
+.plennia-plan-results-products__group-head h3 {
+  color: #181412;
+  font-size: 2.4rem;
+  font-weight: 600;
+  line-height: 1.1;
+}
+
+.plennia-plan-results-products__grid,
+.plennia-plan-results-products__fallback {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.2rem;
+}
+
+.plennia-plan-product-card {
+  display: grid;
+  grid-template-columns: 11rem minmax(0, 1fr);
+  gap: 1.4rem;
+  align-items: center;
+  padding: 1rem;
+  border-radius: 2.4rem;
+  background: #fff;
+  box-shadow: 0 1rem 2.6rem rgba(24, 20, 18, 0.06);
+}
+
+.plennia-plan-product-card__tile {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  aspect-ratio: 1;
+  overflow: hidden;
+  border-radius: 1.8rem;
+  background: linear-gradient(180deg, #b5e1fa, #8fcaf6);
+}
+
+.plennia-plan-product-card__tile img,
+.plennia-plan-product-card__placeholder {
+  width: 100%;
+  height: 100%;
+}
+
+.plennia-plan-product-card__tile img {
+  object-fit: cover;
+}
+
+.plennia-plan-product-card__placeholder {
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.56), rgba(255, 255, 255, 0.24));
+}
+
+.plennia-plan-product-card__body {
+  display: grid;
+  gap: 0.8rem;
+}
+
+.plennia-plan-product-card__meta {
+  color: #7e746d;
+  font-size: 1.25rem;
+  line-height: 1.2;
+}
+
+.plennia-plan-product-card__meta span {
+  margin-inline: 0.2rem;
+}
+
+.plennia-plan-product-card__body h3 {
+  color: #161412;
+  font-size: 2.1rem;
+  font-weight: 500;
+  line-height: 1.08;
+}
+
+.plennia-plan-product-card__price {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  color: #1a1715;
+  font-size: 2rem;
+  font-weight: 500;
+}
+
+.plennia-plan-product-card__compare {
+  color: #91867f;
+  font-size: 1.45rem;
+  text-decoration: line-through;
+}
+
+.plennia-plan-product-card__actions {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  flex-wrap: wrap;
+}
+
+.plennia-plan-product-card__actions .button {
+  min-height: 4.6rem;
+  padding: 0 1.8rem;
+  border-radius: 999px;
+}
+
+.plennia-plan-results-products__empty {
+  display: grid;
+  gap: 1.2rem;
+  justify-items: start;
+  padding: 2.4rem;
+  border-radius: 2.6rem;
+  background: #fff;
+  box-shadow: 0 1rem 2.6rem rgba(24, 20, 18, 0.05);
+}
+
+.plennia-plan-results-products__empty h3 {
+  margin: 0;
+  color: #181412;
+  font-size: 2.4rem;
+  line-height: 1.08;
+}
+
+.plennia-plan-results-products__empty p {
+  color: #59534d;
+  font-size: 1.7rem;
+  line-height: 1.45;
+}
+
+@media screen and (max-width: 989px) {
+  .plennia-our-story-hero {
+    padding-top: 3.6rem;
+  }
+
+  .plennia-our-story-hero__statement-wrap {
+    min-height: auto;
+    padding-top: 11rem;
+    padding-bottom: 8rem;
+  }
+
+  .plennia-our-story-hero__sticker--cat {
+    left: auto;
+    right: 8rem;
+    top: 13rem;
+  }
+
+  .plennia-our-story-hero__sticker--dog {
+    left: auto;
+    right: 1rem;
+    top: 28rem;
+  }
+
+  .plennia-our-story-content__shell,
+  .plennia-plan-results-summary__shell,
+  .plennia-our-story-faq__shell {
+    grid-template-columns: 1fr;
+  }
+
+  .plennia-our-story-content__copy {
+    grid-column: auto;
+    max-width: none;
+  }
+
+  .plennia-our-story-values__panel {
+    grid-template-columns: 1fr;
+  }
+
+  .plennia-plan-results-hero__shell {
+    padding: 8rem 3rem 7rem;
+    border-radius: 18rem 18rem 0 0;
+  }
+
+  .plennia-plan-results-hero__graphics--left {
+    width: 16rem;
+  }
+
+  .plennia-plan-results-hero__graphics--right {
+    width: 20rem;
+  }
+
+  .plennia-plan-results-products__grid,
+  .plennia-plan-results-products__fallback {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media screen and (max-width: 749px) {
+  .plennia-our-story-hero__title {
+    font-size: 6.8rem;
+    letter-spacing: -0.08rem;
+  }
+
+  .plennia-our-story-hero__statement {
+    font-size: 4.8rem;
+    letter-spacing: -0.14rem;
+  }
+
+  .plennia-our-story-hero__sticker--cat {
+    right: 2rem;
+    top: 11rem;
+    width: 6.6rem;
+  }
+
+  .plennia-our-story-hero__sticker--dog {
+    top: 23rem;
+    width: 7.2rem;
+  }
+
+  .plennia-our-story-content {
+    padding-bottom: 5rem;
+  }
+
+  .plennia-our-story-content__copy > p {
+    font-size: 1.7rem;
+  }
+
+  .plennia-our-story-content__copy > p:first-child,
+  .plennia-our-story-values__heading,
+  .plennia-our-story-faq__intro h2,
+  .plennia-plan-results-summary__title,
+  .plennia-plan-results-products__header h2 {
+    font-size: 4.2rem;
+    letter-spacing: -0.12rem;
+  }
+
+  .plennia-our-story-values__panel {
+    min-height: 0;
+  }
+
+  .plennia-our-story-values__panel-copy h3 {
+    font-size: 5rem;
+    letter-spacing: -0.1rem;
+  }
+
+  .plennia-our-story-faq__shell {
+    padding: 0 0 4rem;
+  }
+
+  .plennia-plan-results-hero {
+    padding-top: 2rem;
+  }
+
+  .plennia-plan-results-hero__topbar {
+    min-height: 4rem;
+  }
+
+  .plennia-plan-results-hero__brand {
+    font-size: 1.9rem;
+  }
+
+  .plennia-plan-results-hero__curve {
+    top: 8rem;
+    height: 30rem;
+  }
+
+  .plennia-plan-results-hero__shell {
+    padding: 6.8rem 2rem 5.4rem;
+    border-radius: 10rem 10rem 0 0;
+  }
+
+  .plennia-plan-results-hero__heading {
+    font-size: 4.4rem;
+    letter-spacing: -0.1rem;
+  }
+
+  .plennia-plan-results-hero__body {
+    font-size: 1.7rem;
+  }
+
+  .plennia-plan-results-hero__field input {
+    min-height: 6.2rem;
+    font-size: 3.2rem;
+  }
+
+  .plennia-plan-results-summary__shell {
+    padding: 2.2rem;
+  }
+
+  .plennia-plan-results-summary__body,
+  .plennia-plan-results-summary__note p,
+  .plennia-plan-results-products__empty p {
+    font-size: 1.6rem;
+  }
+
+  .plennia-plan-product-card {
+    grid-template-columns: 1fr;
+  }
+
+  .plennia-plan-product-card__tile {
+    width: 12rem;
+    margin-inline: auto;
+  }
+}
+
+.plennia-page-hero {
+  padding: 6rem 0 2.4rem;
+  background: #fbf8f1;
+}
+
+.plennia-page-hero__shell {
+  display: grid;
+  justify-items: start;
+  gap: 1.8rem;
+  max-width: 74rem;
+}
+
+.plennia-page-hero__eyebrow {
+  margin: 0;
+  color: #7b726c;
+  font-size: 1.2rem;
+  font-weight: 700;
+  letter-spacing: 0.22rem;
+  text-transform: uppercase;
+}
+
+.plennia-page-hero__heading,
+.plennia-page-hero__body {
+  margin: 0;
+}
+
+.plennia-page-hero__heading {
+  color: #161412;
+  font-size: clamp(4.8rem, 7vw, 7rem);
+  font-weight: 700;
+  line-height: 0.94;
+  letter-spacing: -0.22rem;
+}
+
+.plennia-page-hero__heading p,
+.plennia-page-content__shell p {
+  margin: 0;
+}
+
+.plennia-page-hero__heading em {
+  font-family: Georgia, 'Times New Roman', serif;
+  font-style: italic;
+  font-weight: 400;
+}
+
+.plennia-page-hero__body {
+  max-width: 58rem;
+  color: #4f4944;
+  font-size: 1.9rem;
+  line-height: 1.48;
+}
+
+.plennia-page-hero__actions {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.plennia-page-hero__actions .button {
+  min-height: 4.8rem;
+  padding-inline: 2rem;
+  border-radius: 999px;
+}
+
+.plennia-page-content {
+  padding: 0 0 5.6rem;
+  background: #fbf8f1;
+}
+
+.plennia-page-content__shell {
+  max-width: 82rem;
+  padding: 3rem;
+  border-radius: 3rem;
+  background: #fff;
+  color: #302b28;
+  font-size: 1.8rem;
+  line-height: 1.65;
+  box-shadow: 0 1.4rem 3rem rgba(24, 20, 18, 0.05);
+}
+
+.plennia-page-content__shell > * + * {
+  margin-top: 1.8rem;
+}
+
+.plennia-page-content__shell h2,
+.plennia-page-content__shell h3 {
+  color: #171513;
+  line-height: 1.1;
+}
+
+@media screen and (max-width: 749px) {
+  .plennia-page-hero {
+    padding-top: 4.8rem;
+  }
+
+  .plennia-page-hero__heading {
+    font-size: 4.2rem;
+    letter-spacing: -0.12rem;
+  }
+
+  .plennia-page-hero__body,
+  .plennia-page-content__shell {
+    font-size: 1.65rem;
+  }
+
+  .plennia-page-content__shell {
+    padding: 2rem;
+    border-radius: 2.2rem;
+  }
+}
+
+.plennia-mega-menu__panel--menu {
+  grid-template-columns: minmax(0, 1.05fr) minmax(25rem, 0.95fr);
+  gap: 3rem;
+  width: min(64rem, calc(100vw - 4rem));
+  min-height: 34rem;
+  padding: 2.2rem 2.4rem;
+  border-radius: 2.8rem;
+}
+
+.plennia-mega-menu__panel--menu .plennia-mega-menu__lead {
+  display: none;
+}
+
+.plennia-mega-menu__panel--menu .plennia-mega-menu__column--primary {
+  min-height: 29rem;
+}
+
+.plennia-mega-menu__panel--menu .plennia-mega-menu__column--featured {
+  gap: 1.4rem;
+}
+
+.plennia-mega-menu__panel--menu .plennia-mega-menu__links {
+  gap: 0.2rem;
+}
+
+.plennia-mega-menu__panel--menu .plennia-mega-menu__link {
+  padding: 0.95rem 0;
+  border-bottom: 0;
+  font-size: 2.05rem;
+  font-weight: 600;
+  letter-spacing: -0.04rem;
+}
+
+.plennia-mega-menu__panel--menu .plennia-mega-menu__link--simple {
+  justify-content: flex-start;
+}
+
+.plennia-mega-menu__panel--menu .plennia-mega-menu__footer {
+  margin-top: auto;
+  padding-top: 3rem;
+}
+
+.plennia-mega-menu__panel--menu .plennia-mega-menu__account {
+  padding-top: 0;
+  color: #5b5650;
+  font-size: 1.4rem;
+  text-decoration: none;
+}
+
+.plennia-mega-menu__panel--menu .plennia-mega-menu__featured-head {
+  margin-bottom: 0.6rem;
+}
+
+.plennia-mega-menu__panel--menu .plennia-mega-menu__featured-grid {
+  gap: 1rem;
+}
+
+.plennia-mega-menu__panel--menu .plennia-card__excerpt {
+  font-size: 1.25rem;
+}
+
+.plennia-mega-menu__panel--menu .plennia-shop-card {
+  min-height: 0;
+  padding: 1.2rem;
+  border-radius: 2rem;
+  box-shadow: 0 1rem 2.4rem rgba(24, 20, 18, 0.05);
+}
+
+.plennia-mega-menu__panel--menu .plennia-shop-card__media {
+  min-height: 7.2rem;
+  padding: 0.6rem;
+}
+
+.plennia-mega-menu__panel--menu .plennia-shop-card__image {
+  max-width: 7.4rem;
+  max-height: 7.4rem;
+}
+
+.plennia-mega-menu__panel--menu .plennia-shop-card__title {
+  font-size: 1.45rem;
+}
+
+.plennia-mega-menu__panel--menu .plennia-shop-card__meta,
+.plennia-mega-menu__panel--menu .plennia-shop-card__link,
+.plennia-mega-menu__panel--menu .plennia-shop-card__badge {
+  font-size: 1.1rem;
+}
+
+.plennia-mega-menu__placeholder {
+  display: grid;
+  gap: 1.2rem;
+  padding: 1.6rem;
+  border-radius: 2.2rem;
+  background: #f7f4ef;
+}
+
+.plennia-shop-card {
+  display: grid;
+  align-content: space-between;
+  min-height: 47rem;
+  padding: 2rem;
+  border-radius: 3rem;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.98), #fbfaf7);
+  box-shadow: 0 1.8rem 3.8rem rgba(24, 20, 18, 0.05);
+}
+
+.plennia-shop-card__badges {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  flex-wrap: wrap;
+}
+
+.plennia-shop-card__badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 3rem;
+  padding: 0.45rem 1rem;
+  border-radius: 999px;
+  background: rgba(24, 20, 18, 0.05);
+  color: #4c4540;
+  font-size: 1.15rem;
+  font-weight: 700;
+}
+
+.plennia-shop-card__badge--sale {
+  background: #e6f9db;
+  color: #78c65f;
+}
+
+.plennia-shop-card__media {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 31rem;
+  padding: 1.6rem;
+  text-decoration: none;
+}
+
+.plennia-shop-card__image {
+  display: block;
+  width: 100%;
+  max-width: 25rem;
+  max-height: 28rem;
+  height: auto;
+  object-fit: contain;
+}
+
+.plennia-shop-card__body {
+  display: grid;
+  gap: 0.8rem;
+}
+
+.plennia-shop-card__meta,
+.plennia-shop-card__title,
+.plennia-shop-card__price {
+  margin: 0;
+}
+
+.plennia-shop-card__meta {
+  color: #7c746d;
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+.plennia-shop-card__title {
+  font-size: 2rem;
+  line-height: 1.08;
+}
+
+.plennia-shop-card__title a {
+  color: #181412;
+  text-decoration: none;
+}
+
+.plennia-shop-card__footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.plennia-shop-card__link {
+  color: #181412;
+  font-size: 1.35rem;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.plennia-shop-card__link:hover {
+  opacity: 0.72;
+}
+
+.plennia-collection-showcase {
+  display: block;
+  background: #fff;
+}
+
+.plennia-collection-showcase--all {
+  --plennia-collection-accent: #fbf8f1;
+}
+
+.plennia-collection-showcase--dogs {
+  --plennia-collection-accent: #ff7f73;
+}
+
+.plennia-collection-showcase--cats {
+  --plennia-collection-accent: #60c3fb;
+}
+
+.plennia-collection-showcase--accessories {
+  --plennia-collection-accent: #f3efe7;
+}
+
+.plennia-collection-showcase--packs {
+  --plennia-collection-accent: #efe6ff;
+}
+
+.plennia-collection-showcase__hero {
+  position: relative;
+  overflow: hidden;
+  padding: 8.4rem 0 20rem;
+  background: var(--plennia-collection-accent, #fbf8f1);
+}
+
+.plennia-collection-showcase__hero::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  bottom: -17rem;
+  width: min(180rem, 134vw);
+  height: 34rem;
+  border-radius: 50%;
+  background: #fff;
+  transform: translateX(-50%);
+  filter: blur(14px);
+}
+
+.plennia-collection-showcase__hero-inner {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  justify-items: center;
+}
+
+.plennia-collection-showcase__title {
+  margin: 0;
+  color: #171412;
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: clamp(7rem, 12vw, 14rem);
+  font-weight: 700;
+  line-height: 0.92;
+  letter-spacing: -0.34rem;
+  text-align: center;
+}
+
+.plennia-collection-showcase__content {
+  position: relative;
+  margin-top: -11rem;
+  padding: 0 0 7rem;
+  z-index: 2;
+}
+
+.plennia-collection-showcase__nav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 3.8rem;
+  flex-wrap: wrap;
+  margin-bottom: 3rem;
+}
+
+.plennia-collection-showcase__nav-link {
+  color: #aaa29b;
+  font-size: clamp(2rem, 2.6vw, 2.8rem);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.plennia-collection-showcase__nav-link.is-active {
+  color: #181412;
+}
+
+.plennia-collection-showcase__toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.6rem;
+  margin-bottom: 3.8rem;
+}
+
+.plennia-collection-showcase__formats {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.55rem;
+  border-radius: 2rem;
+  background: rgba(255, 255, 255, 0.96);
+  box-shadow: 0 1.2rem 3rem rgba(24, 20, 18, 0.05);
+}
+
+.plennia-collection-showcase__format-tab,
+.plennia-collection-showcase__filters-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.9rem;
+  min-height: 4.8rem;
+  padding: 0 1.8rem;
+  border: 0;
+  border-radius: 1.55rem;
+  background: transparent;
+  color: #777068;
+  font-size: 1.45rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.plennia-collection-showcase__format-tab[disabled] {
+  opacity: 0.36;
+  cursor: not-allowed;
+}
+
+.plennia-collection-showcase__format-tab.is-active,
+.plennia-collection-showcase__filters[open] .plennia-collection-showcase__filters-button {
+  background: #e8e5e0;
+  color: #181412;
+}
+
+.plennia-collection-showcase__format-icon {
+  display: inline-flex;
+  width: 1.9rem;
+  height: 1.9rem;
+  color: #c1b8ae;
+}
+
+.plennia-collection-showcase__format-icon svg {
+  width: 100%;
+  height: 100%;
+}
+
+.plennia-collection-showcase__filters {
+  position: relative;
+}
+
+.plennia-collection-showcase__filters-button {
+  list-style: none;
+  background: #ebe7e1;
+}
+
+.plennia-collection-showcase__filters-button::-webkit-details-marker {
+  display: none;
+}
+
+.plennia-collection-showcase__filters-panel {
+  position: absolute;
+  top: calc(100% + 1rem);
+  right: 0;
+  display: grid;
+  gap: 0.8rem;
+  min-width: 19rem;
+  padding: 1.6rem;
+  border-radius: 2rem;
+  background: rgba(255, 255, 255, 0.98);
+  box-shadow: 0 1.2rem 3rem rgba(24, 20, 18, 0.08);
+}
+
+.plennia-collection-showcase__filters-panel p {
+  margin: 0 0 0.2rem;
+  color: #7c746d;
+  font-size: 1.15rem;
+  font-weight: 700;
+  letter-spacing: 0.16rem;
+  text-transform: uppercase;
+}
+
+.plennia-collection-showcase__filters-panel a {
+  color: #181412;
+  font-size: 1.45rem;
+  text-decoration: none;
+}
+
+.plennia-collection-showcase__panel[hidden] {
+  display: none;
+}
+
+.plennia-collection-showcase__grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1.2rem;
+}
+
+.plennia-collection-showcase__empty {
+  display: grid;
+  gap: 1.4rem;
+  justify-items: center;
+  padding: 4rem;
+  border-radius: 3rem;
+  background: #f8f4ee;
+  text-align: center;
+}
+
+.plennia-collection-showcase__empty--panel {
+  margin-top: 1.6rem;
+  padding: 3rem;
+}
+
+.plennia-collection-showcase__empty h2,
+.plennia-collection-showcase__empty p {
+  margin: 0;
+}
+
+.plennia-product-detail {
+  display: block;
+  padding: 3.2rem 0 7rem;
+  background: #fff;
+}
+
+.plennia-product-detail__breadcrumbs {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-bottom: 2rem;
+  color: #8a827b;
+  font-size: 1.3rem;
+}
+
+.plennia-product-detail__breadcrumbs a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.plennia-product-detail__layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.08fr) minmax(34rem, 0.92fr);
+  gap: 3rem;
+  align-items: start;
+}
+
+.plennia-product-detail__stage {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 59rem;
+  padding: 4rem;
+  border-radius: 3.4rem;
+  background: #f3efe7;
+}
+
+.plennia-product-detail--dog .plennia-product-detail__stage {
+  background: #f4c9c6;
+}
+
+.plennia-product-detail--cat .plennia-product-detail__stage {
+  background: #b9e8ff;
+}
+
+.plennia-product-detail__main-image {
+  display: block;
+  width: 100%;
+  max-width: 40rem;
+  height: auto;
+  object-fit: contain;
+}
+
+.plennia-product-detail__tiles {
+  display: grid;
+  grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
+  gap: 1.2rem;
+  margin-top: 1.2rem;
+}
+
+.plennia-product-detail__tile {
+  overflow: hidden;
+  border-radius: 2.8rem;
+}
+
+.plennia-product-detail__tile--benefits {
+  display: grid;
+  align-content: start;
+  gap: 1.6rem;
+  padding: 2.6rem;
+  background: #9d2217;
+  color: #fff7ef;
+}
+
+.plennia-product-detail__tile--benefits h2,
+.plennia-product-detail__tile--benefits ul {
+  margin: 0;
+}
+
+.plennia-product-detail__tile--benefits h2 {
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 3rem;
+  font-weight: 400;
+}
+
+.plennia-product-detail__tile--benefits ul {
+  display: grid;
+  gap: 1rem;
+  padding: 0;
+  list-style: none;
+}
+
+.plennia-product-detail__tile--benefits li {
+  font-size: 1.55rem;
+  line-height: 1.4;
+}
+
+.plennia-product-detail__tile--image {
+  min-height: 22rem;
+  background: #f3efe7;
+}
+
+.plennia-product-detail__secondary-image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.plennia-product-detail__info-column {
+  display: grid;
+  gap: 2rem;
+}
+
+.plennia-product-detail__mini-card {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 1.6rem;
+  align-items: center;
+  padding: 1.6rem 1.8rem;
+  border-radius: 2.2rem;
+  background: #fff;
+  box-shadow: 0 1.4rem 3rem rgba(24, 20, 18, 0.06);
+}
+
+.plennia-product-detail__mini-meta p,
+.plennia-product-detail__mini-title,
+.plennia-product-detail__mini-price strong,
+.plennia-product-detail__header h1,
+.plennia-product-detail__description > *:first-child,
+.plennia-product-detail__description > *:last-child {
+  margin: 0;
+}
+
+.plennia-product-detail__mini-meta p {
+  color: #8b827a;
+  font-size: 1.15rem;
+  font-weight: 600;
+}
+
+.plennia-product-detail__mini-title {
+  color: #181412;
+  font-size: 1.8rem;
+  font-weight: 600;
+  line-height: 1.08;
+}
+
+.plennia-product-detail__mini-price {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+}
+
+.plennia-product-detail__mini-discount {
+  padding: 0.2rem 0.7rem;
+  border-radius: 999px;
+  background: #e6f9db;
+  color: #74bf59;
+  font-size: 1.15rem;
+  font-weight: 700;
+}
+
+.plennia-product-detail__mini-compare {
+  color: #8f877f;
+  font-size: 1.5rem;
+  text-decoration: line-through;
+}
+
+.plennia-product-detail__mini-compare.is-hidden {
+  display: none;
+}
+
+.plennia-product-detail__mini-price strong {
+  font-size: 2.2rem;
+}
+
+.plennia-product-detail__mini-cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 4.8rem;
+  padding: 0 2rem;
+  border-radius: 999px;
+  background: #1c1917;
+  color: #fff;
+  font-size: 1.45rem;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.plennia-product-detail__header {
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+  gap: 1.6rem;
+}
+
+.plennia-product-detail__header h1 {
+  max-width: 11ch;
+  color: #181412;
+  font-size: clamp(4.2rem, 4.6vw, 5.8rem);
+  line-height: 0.96;
+  letter-spacing: -0.18rem;
+}
+
+.plennia-product-detail__rating {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.8rem;
+  padding-top: 0.8rem;
+  color: #75706b;
+  font-size: 1.35rem;
+  white-space: nowrap;
+}
+
+.plennia-product-detail__description {
+  color: #6f6963;
+  font-size: 1.75rem;
+  line-height: 1.42;
+}
+
+.plennia-product-detail__benefit-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.2rem 2rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.plennia-product-detail__benefit-list li {
+  position: relative;
+  padding-left: 2.2rem;
+  color: #302b28;
+  font-size: 1.55rem;
+  line-height: 1.45;
+}
+
+.plennia-product-detail__benefit-list li::before {
+  content: '';
+  position: absolute;
+  top: 0.65rem;
+  left: 0;
+  width: 1.2rem;
+  height: 1.2rem;
+  border-radius: 50%;
+  background: #181412;
+}
+
+.plennia-product-detail__step {
+  display: grid;
+  gap: 1.4rem;
+}
+
+.plennia-product-detail__step-label {
+  margin: 0;
+  color: #181412;
+  font-size: 2.2rem;
+  font-weight: 600;
+}
+
+.plennia-product-detail__variant-grid,
+.plennia-product-detail__plan-grid {
+  display: grid;
+  gap: 1rem;
+}
+
+.plennia-product-detail__variant-grid {
+  grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
+}
+
+.plennia-product-detail__variant-option,
+.plennia-product-detail__plan-card {
+  display: grid;
+  gap: 0.5rem;
+  padding: 1.4rem 1.6rem;
+  border: 1px solid rgba(24, 20, 18, 0.08);
+  border-radius: 1.8rem;
+  background: #fff;
+  color: #181412;
+  text-align: left;
+}
+
+.plennia-product-detail__variant-option {
+  cursor: pointer;
+}
+
+.plennia-product-detail__variant-option.is-active {
+  border-color: #181412;
+  box-shadow: 0 0 0 0.1rem #181412 inset;
+}
+
+.plennia-product-detail__variant-option[disabled] {
+  opacity: 0.48;
+  cursor: not-allowed;
+}
+
+.plennia-product-detail__variant-title,
+.plennia-product-detail__plan-card p {
+  margin: 0;
+  font-size: 1.65rem;
+  font-weight: 600;
+}
+
+.plennia-product-detail__variant-meta,
+.plennia-product-detail__plan-card span {
+  color: #78c65f;
+  font-size: 1.2rem;
+  font-weight: 700;
+}
+
+.plennia-product-detail__variant-price,
+.plennia-product-detail__plan-card strong {
+  color: #181412;
+  font-size: 1.75rem;
+  font-weight: 600;
+}
+
+.plennia-product-detail__plan-card--disabled {
+  opacity: 0.58;
+}
+
+.plennia-product-detail__plan-card--active {
+  border-color: #8ed0ff;
+  background: #f1f9ff;
+}
+
+.plennia-product-detail__form .form {
+  display: block;
+}
+
+.plennia-product-detail__form .product-form__submit {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  width: 100%;
+  min-height: 6rem;
+  border-radius: 1.8rem;
+  background: #1c1917;
+  color: #fff;
+  font-size: 1.7rem;
+}
+
+.plennia-product-detail__button-price {
+  font-weight: 600;
+}
+
+.plennia-product-detail__quiz-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 5.6rem;
+  border-radius: 1.8rem;
+  background: #f4efe6;
+  color: #181412;
+  font-size: 1.55rem;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+@media screen and (max-width: 1199px) {
+  .plennia-collection-showcase__grid,
+  .plennia-product-detail__layout {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media screen and (max-width: 989px) {
+  .plennia-mega-menu__panel--menu {
+    grid-template-columns: 1fr;
+  }
+
+  .plennia-collection-showcase__content {
+    margin-top: -8rem;
+  }
+
+  .plennia-collection-showcase__toolbar {
+    flex-direction: column;
+  }
+
+  .plennia-collection-showcase__grid,
+  .plennia-product-detail__layout,
+  .plennia-product-detail__tiles {
+    grid-template-columns: 1fr;
+  }
+
+  .plennia-product-detail__benefit-list {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media screen and (max-width: 749px) {
+  .plennia-shop-card {
+    min-height: 0;
+    padding: 1.6rem;
+    border-radius: 2.3rem;
+  }
+
+  .plennia-shop-card__media {
+    min-height: 22rem;
+    padding: 0.8rem;
+  }
+
+  .plennia-collection-showcase__hero {
+    padding: 6rem 0 14rem;
+  }
+
+  .plennia-collection-showcase__hero::after {
+    bottom: -10rem;
+    height: 20rem;
+  }
+
+  .plennia-collection-showcase__title {
+    font-size: 6rem;
+    letter-spacing: -0.18rem;
+  }
+
+  .plennia-collection-showcase__content {
+    margin-top: -6rem;
+    padding-bottom: 5rem;
+  }
+
+  .plennia-collection-showcase__nav {
+    gap: 1.8rem;
+    margin-bottom: 2rem;
+  }
+
+  .plennia-collection-showcase__nav-link {
+    font-size: 1.8rem;
+  }
+
+  .plennia-collection-showcase__formats {
+    width: 100%;
+    overflow-x: auto;
+    justify-content: flex-start;
+  }
+
+  .plennia-collection-showcase__format-tab,
+  .plennia-collection-showcase__filters-button {
+    min-height: 4.4rem;
+    padding: 0 1.4rem;
+    font-size: 1.3rem;
+    white-space: nowrap;
+  }
+
+  .plennia-product-detail {
+    padding-top: 2.2rem;
+  }
+
+  .plennia-product-detail__stage {
+    min-height: 38rem;
+    padding: 2.4rem;
+    border-radius: 2.6rem;
+  }
+
+  .plennia-product-detail__mini-card,
+  .plennia-product-detail__header {
+    grid-template-columns: 1fr;
+  }
+
+  .plennia-product-detail__header {
+    display: grid;
+  }
+
+  .plennia-product-detail__header h1 {
+    font-size: 3.8rem;
+    letter-spacing: -0.12rem;
+  }
+
+  .plennia-product-detail__step-label {
+    font-size: 1.9rem;
+  }
+}
+
+/* Sticky header reliability overrides */
+.plennia-announcement-bar {
+  position: relative;
+  z-index: 1001;
+}
+
+.plennia-header-wrapper {
+  position: fixed;
+  top: var(--plennia-header-top, var(--plennia-announcement-height, 0px));
+  left: 0;
+  right: 0;
+  width: 100%;
+  z-index: 1000;
+}
+
+.template-index .plennia-header-wrapper {
+  margin-bottom: 0;
+}
+
+#MainContent {
+  padding-top: var(--plennia-header-offset, 8rem);
+}
+
+.template-index #MainContent {
+  padding-top: 0;
+}
+
+.content-for-layout[data-template='page.plan'] {
+  padding-bottom: 0;
+}
+
+.plennia-plan-intro {
+  min-height: 100svh;
+  background: #f8f5ee;
+  color: #161311;
+}
+
+.plennia-plan-intro__shell {
+  min-height: 100svh;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+}
+
+.plennia-plan-intro__topbar,
+.plennia-plan-intro__main,
+.plennia-plan-intro__footer-inner {
+  width: min(124rem, calc(100vw - 4rem));
+  margin: 0 auto;
+}
+
+.plennia-plan-intro__topbar {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  padding-top: 2rem;
+}
+
+.plennia-plan-intro__exit,
+.plennia-plan-intro__brand {
+  color: #161311;
+  text-decoration: none;
+}
+
+.plennia-plan-intro__exit {
+  justify-self: start;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 1.55rem;
+  line-height: 1;
+}
+
+.plennia-plan-intro__exit:hover,
+.plennia-plan-intro__brand:hover {
+  opacity: 0.7;
+}
+
+.plennia-plan-intro__brand {
+  justify-self: center;
+}
+
+.plennia-plan-intro__brand-logo {
+  width: clamp(12rem, 12vw, 16rem);
+  height: auto;
+}
+
+.plennia-plan-intro__brand-text {
+  display: inline-block;
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: clamp(3.8rem, 4.2vw, 5rem);
+  font-style: italic;
+  font-weight: 700;
+  letter-spacing: -0.12rem;
+  transform: rotate(-4deg);
+}
+
+.plennia-plan-intro__topbar-spacer {
+  justify-self: end;
+  width: 5.4rem;
+  height: 1px;
+}
+
+.plennia-plan-intro__main {
+  display: grid;
+  grid-template-columns: minmax(16rem, 18rem) minmax(0, 1fr);
+  align-items: center;
+  gap: clamp(4rem, 9vw, 14rem);
+  padding: clamp(4rem, 9vh, 8rem) 0 5rem;
+}
+
+.plennia-plan-intro__note {
+  max-width: 18rem;
+  padding: 1.85rem 1.65rem;
+  border-radius: 1.8rem;
+  background: #d4f1ff;
+  box-shadow: 0 1.1rem 2.8rem rgba(34, 54, 70, 0.08);
+}
+
+.plennia-plan-intro__note h2,
+.plennia-plan-intro__note p,
+.plennia-plan-intro__heading {
+  margin: 0;
+}
+
+.plennia-plan-intro__note h2 {
+  font-size: 1.85rem;
+  line-height: 1.2;
+  font-weight: 700;
+}
+
+.plennia-plan-intro__note p {
+  margin-top: 1.35rem;
+  font-size: 1.6rem;
+  line-height: 1.45;
+}
+
+.plennia-plan-intro__content {
+  display: grid;
+  justify-items: center;
+  gap: clamp(4rem, 5vw, 5.8rem);
+}
+
+.plennia-plan-intro__heading {
+  text-align: center;
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: clamp(5.2rem, 6vw, 7.6rem);
+  font-style: italic;
+  font-weight: 400;
+  line-height: 0.94;
+  letter-spacing: -0.22rem;
+}
+
+.plennia-plan-intro__choices {
+  display: flex;
+  align-items: end;
+  justify-content: center;
+  gap: clamp(3.2rem, 6vw, 8rem);
+}
+
+.plennia-plan-intro__choice-group {
+  position: relative;
+}
+
+.plennia-plan-intro__choice-control {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.plennia-plan-intro__choice {
+  display: grid;
+  justify-items: center;
+  align-content: end;
+  gap: 1.4rem;
+  min-width: 15rem;
+  min-height: 17rem;
+  padding: 1rem 1.4rem 0.5rem;
+  border: 1px solid transparent;
+  border-radius: 3rem;
+  color: #161311;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease, background-color 0.2s ease;
+}
+
+.plennia-plan-intro__choice-title {
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: clamp(3.6rem, 3.5vw, 4.8rem);
+  line-height: 1;
+}
+
+.plennia-plan-intro__choice-icon {
+  display: flex;
+  align-items: end;
+  justify-content: center;
+  width: 100%;
+  min-height: 8.8rem;
+}
+
+.plennia-plan-intro__choice--dog .plennia-plan-intro__choice-icon {
+  color: #0b2931;
+}
+
+.plennia-plan-intro__choice--cat .plennia-plan-intro__choice-icon {
+  color: #4b151a;
+}
+
+.plennia-plan-intro__choice--dog svg {
+  width: 7.4rem;
+  height: auto;
+}
+
+.plennia-plan-intro__choice--cat svg {
+  width: 6rem;
+  height: auto;
+}
+
+.plennia-plan-intro__choice-control:checked + .plennia-plan-intro__choice {
+  min-width: 21rem;
+  min-height: 21rem;
+  padding: 2.6rem 2.6rem 1.4rem;
+  border-color: rgba(22, 19, 17, 0.08);
+  background: rgba(255, 255, 255, 0.96);
+  box-shadow: 0 1.2rem 3rem rgba(24, 20, 18, 0.08);
+  transform: translateY(-0.2rem);
+}
+
+.plennia-plan-intro__choice-control:checked + .plennia-plan-intro__choice .plennia-plan-intro__choice-icon {
+  min-height: 10rem;
+}
+
+.plennia-plan-intro__footer {
+  background: #e2dfd8;
+}
+
+.plennia-plan-intro__footer-inner {
+  display: flex;
+  justify-content: flex-end;
+  padding: 2rem 0;
+}
+
+.plennia-plan-intro__continue {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.9rem;
+  min-width: 17.2rem;
+  min-height: 5.5rem;
+  padding: 0 2.4rem;
+  border: 0;
+  border-radius: 999px;
+  background: #171614;
+  color: #fff;
+  font-size: 1.55rem;
+  font-weight: 600;
+  cursor: default;
+}
+
+.plennia-plan-intro__continue-icon {
+  display: inline-flex;
+  width: 1.4rem;
+  height: 1.4rem;
+}
+
+.plennia-plan-intro__continue-icon svg {
+  width: 100%;
+  height: 100%;
+}
+
+@media screen and (max-width: 990px) {
+  .plennia-plan-intro__main {
+    grid-template-columns: 1fr;
+    justify-items: center;
+    gap: 3rem;
+    padding-bottom: 4rem;
+  }
+
+  .plennia-plan-intro__note {
+    max-width: 28rem;
+  }
+}
+
+@media screen and (max-width: 749px) {
+  .plennia-plan-intro__topbar,
+  .plennia-plan-intro__main,
+  .plennia-plan-intro__footer-inner {
+    width: min(100%, calc(100vw - 2.4rem));
+  }
+
+  .plennia-plan-intro__topbar {
+    padding-top: 1.6rem;
+  }
+
+  .plennia-plan-intro__brand-logo {
+    width: clamp(10rem, 24vw, 13rem);
+  }
+
+  .plennia-plan-intro__brand-text {
+    font-size: clamp(3rem, 9vw, 4rem);
+  }
+
+  .plennia-plan-intro__main {
+    gap: 2.6rem;
+    padding-top: 3rem;
+  }
+
+  .plennia-plan-intro__heading {
+    font-size: clamp(4.6rem, 12vw, 6rem);
+    letter-spacing: -0.14rem;
+  }
+
+  .plennia-plan-intro__choices {
+    gap: 1.8rem;
+  }
+
+  .plennia-plan-intro__choice {
+    min-width: 12.8rem;
+    min-height: 15rem;
+    padding-inline: 1rem;
+  }
+
+  .plennia-plan-intro__choice-control:checked + .plennia-plan-intro__choice {
+    min-width: 15.4rem;
+    min-height: 18.4rem;
+    padding: 2rem 1.5rem 1.2rem;
+  }
+
+  .plennia-plan-intro__choice-title {
+    font-size: clamp(3.1rem, 9vw, 4rem);
+  }
+
+  .plennia-plan-intro__choice--dog svg {
+    width: 6.4rem;
+  }
+
+  .plennia-plan-intro__choice--cat svg {
+    width: 5.1rem;
+  }
+
+  .plennia-plan-intro__footer-inner {
+    justify-content: stretch;
+  }
+
+  .plennia-plan-intro__continue {
+    width: 100%;
+  }
+}
