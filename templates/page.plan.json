@@ -10,7 +10,7 @@
 {
   "sections": {
     "main": {
-      "type": "plennia-plan-intro",
+      "type": "plennia-plan-step-one",
       "settings": {
         "exit_label": "Exit",
         "heading": "I'm creating a\nplan for my...",

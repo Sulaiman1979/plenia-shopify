@@ -1,0 +1,182 @@
+{%- assign plan_intro_form_id = 'PlenniaPlanIntroForm-' | append: section.id -%}
+
+<section class="plennia-plan-intro">
+  <div class="plennia-plan-intro__shell">
+    <div class="plennia-plan-intro__topbar">
+      <a class="plennia-plan-intro__exit" href="{{ section.settings.exit_link | default: routes.root_url }}">
+        <span aria-hidden="true">x</span>
+        <span>{{ section.settings.exit_label }}</span>
+      </a>
+
+      <a class="plennia-plan-intro__brand" href="{{ routes.root_url }}" aria-label="{{ shop.name }}">
+        {%- if settings.logo != blank -%}
+          {{
+            settings.logo
+            | image_url: width: 220
+            | image_tag:
+              class: 'plennia-plan-intro__brand-logo',
+              widths: '140, 180, 220',
+              loading: 'eager',
+              alt: shop.name
+          }}
+        {%- else -%}
+          <span class="plennia-plan-intro__brand-text">{{ shop.name }}</span>
+        {%- endif -%}
+      </a>
+
+      <span class="plennia-plan-intro__topbar-spacer" aria-hidden="true"></span>
+    </div>
+
+    <div class="plennia-plan-intro__main">
+      <aside class="plennia-plan-intro__note">
+        <h2>{{ section.settings.note_title }}</h2>
+        <p>{{ section.settings.note_body }}</p>
+      </aside>
+
+      <form
+        id="{{ plan_intro_form_id }}"
+        class="plennia-plan-intro__form"
+        action="{{ request.path }}"
+        method="get"
+        novalidate
+        data-plan-intro-form
+      >
+        <input type="hidden" name="step" value="2">
+        <input type="hidden" name="petType" value="" data-plan-intro-value>
+
+        <div class="plennia-plan-intro__content">
+          <h1 class="plennia-plan-intro__heading">{{ section.settings.heading | newline_to_br }}</h1>
+
+          <fieldset class="plennia-plan-intro__choices" data-plan-intro-choices>
+            <legend class="visually-hidden">Choose a pet type</legend>
+
+            <div class="plennia-plan-intro__choice-group">
+              <input
+                class="plennia-plan-intro__choice-control"
+                type="radio"
+                name="pet_type_choice_{{ section.id }}"
+                id="PlenniaPlanStepOne-Dog-{{ section.id }}"
+                value="dog"
+                data-plan-intro-choice
+              >
+              <label class="plennia-plan-intro__choice plennia-plan-intro__choice--dog" for="PlenniaPlanStepOne-Dog-{{ section.id }}">
+                <span class="plennia-plan-intro__choice-title">{{ section.settings.dog_label }}</span>
+                <span class="plennia-plan-intro__choice-icon" aria-hidden="true">
+                  <svg viewBox="0 0 138 140" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M67.54 41.528C75.342 41.528 81.667 35.202 81.667 27.401C81.667 19.599 75.342 13.273 67.54 13.273C59.739 13.273 53.413 19.599 53.413 27.401C53.413 35.202 59.739 41.528 67.54 41.528Z" fill="#FEFAF2"/>
+                    <path d="M46.886 0C35.73 4.415 27.639 15.261 27.639 28.001V51.505H29.688C31.919 43.676 38.634 37.728 46.886 36.531V0Z" fill="currentColor"/>
+                    <path d="M53.965 34.462H68.092C82.454 34.462 94.101 46.109 94.101 60.471V93.826H27.956V60.471C27.956 46.109 39.603 34.462 53.965 34.462Z" fill="currentColor"/>
+                    <path d="M46.383 68.625C50.281 68.625 53.441 65.466 53.441 61.568C53.441 57.67 50.281 54.51 46.383 54.51C42.485 54.51 39.326 57.67 39.326 61.568C39.326 65.466 42.485 68.625 46.383 68.625Z" fill="#FEFAF2"/>
+                    <path d="M76.089 68.625C79.987 68.625 83.146 65.466 83.146 61.568C83.146 57.67 79.987 54.51 76.089 54.51C72.191 54.51 69.031 57.67 69.031 61.568C69.031 65.466 72.191 68.625 76.089 68.625Z" fill="#FEFAF2"/>
+                    <path d="M94.101 95.038H27.956V140H55.602V111.991H66.456V140H94.101V95.038Z" fill="currentColor"/>
+                    <path d="M82.204 55.847C91.315 55.847 98.702 63.234 98.702 72.346C98.702 81.457 91.315 88.845 82.204 88.845H68.013V55.847H82.204Z" fill="#FEFAF2"/>
+                    <path d="M84.098 69.842C86.872 69.842 89.12 67.594 89.12 64.82C89.12 62.047 86.872 59.799 84.098 59.799C81.325 59.799 79.077 62.047 79.077 64.82C79.077 67.594 81.325 69.842 84.098 69.842Z" fill="currentColor"/>
+                  </svg>
+                </span>
+              </label>
+            </div>
+
+            <div class="plennia-plan-intro__choice-group">
+              <input
+                class="plennia-plan-intro__choice-control"
+                type="radio"
+                name="pet_type_choice_{{ section.id }}"
+                id="PlenniaPlanStepOne-Cat-{{ section.id }}"
+                value="cat"
+                data-plan-intro-choice
+              >
+              <label class="plennia-plan-intro__choice plennia-plan-intro__choice--cat" for="PlenniaPlanStepOne-Cat-{{ section.id }}">
+                <span class="plennia-plan-intro__choice-title">{{ section.settings.cat_label }}</span>
+                <span class="plennia-plan-intro__choice-icon" aria-hidden="true">
+                  <svg viewBox="0 0 118 132" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M31.228 31.326L43.182 7.525L57.442 24.336C62.821 22.022 68.931 22.022 74.31 24.336L88.57 7.525L100.524 31.326V79.569C100.524 96.844 86.521 110.847 69.247 110.847H62.505C45.23 110.847 31.228 96.844 31.228 79.569V31.326Z" fill="currentColor"/>
+                    <path d="M28.456 72.314C16.103 67.941 11.474 51.877 18.393 40.788L27.032 58.416L28.456 72.314Z" fill="currentColor"/>
+                    <path d="M35.077 132C36.298 116.281 42.181 103.607 52.727 93.788L56.122 104.99C50.958 112.519 47.883 121.433 46.987 132H35.077Z" fill="currentColor"/>
+                    <path d="M56.017 54.944C58.801 54.944 61.058 52.687 61.058 49.904C61.058 47.12 58.801 44.863 56.017 44.863C53.234 44.863 50.977 47.12 50.977 49.904C50.977 52.687 53.234 54.944 56.017 54.944Z" fill="#FEFAF2"/>
+                    <path d="M77.426 54.944C80.21 54.944 82.467 52.687 82.467 49.904C82.467 47.12 80.21 44.863 77.426 44.863C74.643 44.863 72.386 47.12 72.386 49.904C72.386 52.687 74.643 54.944 77.426 54.944Z" fill="#FEFAF2"/>
+                    <path d="M77.926 88.267C84.624 88.267 90.054 82.837 90.054 76.139C90.054 69.442 84.624 64.012 77.926 64.012C71.228 64.012 65.798 69.442 65.798 76.139C65.798 82.837 71.228 88.267 77.926 88.267Z" fill="currentColor"/>
+                  </svg>
+                </span>
+              </label>
+            </div>
+          </fieldset>
+        </div>
+      </form>
+    </div>
+
+    <div class="plennia-plan-intro__footer">
+      <div class="plennia-plan-intro__footer-inner">
+        <button
+          class="plennia-plan-intro__continue"
+          type="submit"
+          form="{{ plan_intro_form_id }}"
+          disabled
+          aria-disabled="true"
+          data-plan-intro-continue
+        >
+          <span>{{ section.settings.continue_label }}</span>
+          <span class="plennia-plan-intro__continue-icon" aria-hidden="true">
+            <svg viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M5.5 3L10.5 8L5.5 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </span>
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Plennia Plan Step 1",
+  "settings": [
+    {
+      "type": "text",
+      "id": "exit_label",
+      "label": "Exit label",
+      "default": "Exit"
+    },
+    {
+      "type": "url",
+      "id": "exit_link",
+      "label": "Exit link"
+    },
+    {
+      "type": "textarea",
+      "id": "heading",
+      "label": "Heading",
+      "default": "I'm creating a\nplan for my..."
+    },
+    {
+      "type": "text",
+      "id": "note_title",
+      "label": "Note title",
+      "default": "Do you have more than one animal?"
+    },
+    {
+      "type": "textarea",
+      "id": "note_body",
+      "label": "Note body",
+      "default": "If you have a tribe, don't worry, you'll be able to add more animals during the summary."
+    },
+    {
+      "type": "text",
+      "id": "dog_label",
+      "label": "Dog label",
+      "default": "Dog"
+    },
+    {
+      "type": "text",
+      "id": "cat_label",
+      "label": "Cat label",
+      "default": "Cat"
+    },
+    {
+      "type": "text",
+      "id": "continue_label",
+      "label": "Continue label",
+      "default": "Continue"
+    }
+  ]
+}
+{% endschema %}
