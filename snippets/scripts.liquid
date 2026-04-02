@@ -5,7 +5,11 @@
 {% enddoc %}
 {% liquid
   assign enable_plennia_plan_assets = false
+  assign enable_plennia_plan_intro = false
   if template.name == 'page'
+    if template.suffix == 'plan'
+      assign enable_plennia_plan_intro = true
+    endif
     if template.suffix == 'plan-results' or template.suffix == 'pet' or template.suffix == 'account'
       assign enable_plennia_plan_assets = true
     endif
@@ -51,6 +55,9 @@
     blocking="render"
   {% endif %}
 ></script>
+{% if enable_plennia_plan_intro %}
+  <script src="{{ 'plennia-plan-intro.js' | asset_url }}" defer="defer"></script>
+{% endif %}
 {% if enable_plennia_plan_assets %}
   <script src="{{ 'plennia-theme.js' | asset_url }}" defer="defer"></script>
 {% endif %}
