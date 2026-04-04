@@ -1373,6 +1373,27 @@ button.shopify-payment-button__button--unbranded:hover:not([disabled]) {
   --button-border-color: var(--color-secondary-button-hover-border);
 }
 
+a.button[href*='/pages/plan'],
+a.button-secondary[href*='/pages/plan'] {
+  position: relative;
+  border-radius: 999px;
+}
+
+a.button[href*='/pages/plan']:focus-visible,
+a.button-secondary[href*='/pages/plan']:focus-visible {
+  outline: none;
+}
+
+a.button[href*='/pages/plan']:focus-visible::after,
+a.button-secondary[href*='/pages/plan']:focus-visible::after {
+  content: '';
+  position: absolute;
+  inset: calc(-1 * var(--focus-outline-offset));
+  border: var(--focus-outline-width) solid currentcolor;
+  border-radius: inherit;
+  pointer-events: none;
+}
+
 /* Needed to override the default Shopify styles */
 button.shopify-payment-button__button--unbranded:hover:not([disabled]) {
   background-color: var(--button-background-color);

@@ -869,6 +869,23 @@
   }
 
   /* Header action button styles */
+  header-actions {
+    gap: 0;
+  }
+
+  header-actions > * + * {
+    border-inline-start: 0 !important;
+    margin-inline-start: 0;
+    padding-inline-start: 0;
+  }
+
+  header-actions > *::before,
+  header-actions > *::after,
+  header-actions .header-actions__action::before,
+  header-actions .header-actions__action::after {
+    display: none !important;
+  }
+
   .header-actions__action {
     --button-color: var(--color-foreground);
     color: var(--button-color);
