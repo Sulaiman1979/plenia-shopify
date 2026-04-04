@@ -2227,8 +2227,14 @@ body {
   background: #2b2725;
 }
 
+.plennia-header__cta::before,
+.plennia-header__cta::after {
+  content: none;
+}
+
 .plennia-header__cta:focus-visible {
   outline: none;
+  box-shadow: none;
 }
 
 .plennia-header__cta:focus-visible::after {
