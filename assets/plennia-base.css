@@ -137,6 +137,33 @@ body {
   background: rgba(24, 20, 18, 0.04);
 }
 
+/* Keep rounded custom controls aligned with their focus outline. */
+.plennia-collection-showcase__format-tab,
+.plennia-collection-showcase__filters-button,
+.plennia-plan-results-hero__field button,
+.plennia-product-detail__quiz-link {
+  position: relative;
+}
+
+.plennia-collection-showcase__format-tab:focus-visible,
+.plennia-collection-showcase__filters-button:focus-visible,
+.plennia-plan-results-hero__field button:focus-visible,
+.plennia-product-detail__quiz-link:focus-visible {
+  outline: none;
+}
+
+.plennia-collection-showcase__format-tab:focus-visible::after,
+.plennia-collection-showcase__filters-button:focus-visible::after,
+.plennia-plan-results-hero__field button:focus-visible::after,
+.plennia-product-detail__quiz-link:focus-visible::after {
+  content: '';
+  position: absolute;
+  inset: calc(-1 * var(--focus-outline-offset));
+  border: var(--focus-outline-width) solid currentcolor;
+  border-radius: inherit;
+  pointer-events: none;
+}
+
 .plennia-announcement-bar {
   border-bottom: 1px solid var(--plennia-soft-line);
   background: rgba(255, 255, 255, 0.94);

@@ -1302,6 +1302,13 @@ button.shopify-payment-button__button--unbranded {
   border-radius: var(--style-border-radius-buttons-primary);
 }
 
+.button,
+.button-secondary,
+.button.button--secondary,
+button.shopify-payment-button__button--unbranded {
+  position: relative;
+}
+
 .button:not(.button-secondary, .button-unstyled) {
   outline-color: var(--button-background-color);
 }
@@ -1377,19 +1384,17 @@ button.shopify-payment-button__button--unbranded:hover:not([disabled]) {
   --button-border-color: var(--color-secondary-button-hover-border);
 }
 
-a.button[href*='/pages/plan'],
-a.button-secondary[href*='/pages/plan'] {
-  position: relative;
-  border-radius: 999px;
-}
-
-a.button[href*='/pages/plan']:focus-visible,
-a.button-secondary[href*='/pages/plan']:focus-visible {
+.button:focus-visible,
+.button-secondary:focus-visible,
+.button.button--secondary:focus-visible,
+button.shopify-payment-button__button--unbranded:focus-visible {
   outline: none;
 }
 
-a.button[href*='/pages/plan']:focus-visible::after,
-a.button-secondary[href*='/pages/plan']:focus-visible::after {
+.button:focus-visible::after,
+.button-secondary:focus-visible::after,
+.button.button--secondary:focus-visible::after,
+button.shopify-payment-button__button--unbranded:focus-visible::after {
   content: '';
   position: absolute;
   inset: calc(-1 * var(--focus-outline-offset));
