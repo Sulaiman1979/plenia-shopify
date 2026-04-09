@@ -156,10 +156,10 @@ body {
 .plennia-collection-showcase__filters-button:focus-visible::after,
 .plennia-plan-results-hero__field button:focus-visible::after,
 .plennia-product-detail__quiz-link:focus-visible::after {
-  content: '';
+  content: none;
   position: absolute;
   inset: calc(-1 * var(--focus-outline-offset));
-  border: var(--focus-outline-width) solid currentcolor;
+  border: 0;
   border-radius: inherit;
   pointer-events: none;
 }
@@ -904,8 +904,7 @@ body {
 }
 
 .plennia-best-sellers__tab:focus-visible {
-  outline: 0.2rem solid rgba(24, 20, 18, 0.18);
-  outline-offset: 0.2rem;
+  outline: none;
 }
 
 .plennia-best-sellers__tab[disabled] {
@@ -2265,10 +2264,10 @@ body {
 }
 
 .plennia-header__cta:focus-visible::after {
-  content: '';
+  content: none;
   position: absolute;
   inset: calc(-1 * var(--focus-outline-offset));
-  border: var(--focus-outline-width) solid currentcolor;
+  border: 0;
   border-radius: inherit;
   pointer-events: none;
 }
@@ -5802,8 +5801,7 @@ body {
 }
 
 .plennia-plan-intro__choice-control:focus-visible + .plennia-plan-intro__choice {
-  outline: 0.2rem solid rgba(0, 0, 0, 0.55);
-  outline-offset: 0.25rem;
+  outline: none;
 }
 
 .plennia-plan-intro__footer {

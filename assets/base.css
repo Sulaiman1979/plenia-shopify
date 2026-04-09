@@ -1291,7 +1291,7 @@ button.shopify-payment-button__button--unbranded {
     background-color var(--animation-speed) var(--animation-easing);
   cursor: pointer;
   width: fit-content;
-  box-shadow: inset 0 0 0 var(--button-border-width) var(--button-border-color);
+  box-shadow: none;
   padding-block: var(--button-padding-block);
   padding-inline: var(--button-padding-inline);
 }
@@ -1389,16 +1389,17 @@ button.shopify-payment-button__button--unbranded:hover:not([disabled]) {
 .button.button--secondary:focus-visible,
 button.shopify-payment-button__button--unbranded:focus-visible {
   outline: none;
+  box-shadow: none;
 }
 
 .button:focus-visible::after,
 .button-secondary:focus-visible::after,
 .button.button--secondary:focus-visible::after,
 button.shopify-payment-button__button--unbranded:focus-visible::after {
-  content: '';
+  content: none;
   position: absolute;
   inset: calc(-1 * var(--focus-outline-offset));
-  border: var(--focus-outline-width) solid currentcolor;
+  border: 0;
   border-radius: inherit;
   pointer-events: none;
 }
@@ -1685,13 +1686,14 @@ zoom-dialog dialog {
   .close-button:focus-visible {
     outline: none;
     overflow: visible;
+    box-shadow: none;
   }
 
   .close-button:focus-visible::after {
-    content: '';
+    content: none;
     position: absolute;
     inset: calc(-1 * var(--focus-outline-offset));
-    border: var(--focus-outline-width) solid currentColor;
+    border: 0;
     border-radius: 50%;
     display: inherit;
   }
