@@ -18,7 +18,7 @@
   --plennia-radius-md: 1.8rem;
   --plennia-radius-sm: 1.2rem;
   --plennia-radius-pill: 999px;
-  --plennia-page-width: min(136rem, calc(100vw - 3.2rem));
+  --plennia-page-width: min(112rem, calc(100vw - 3.2rem));
 }
 
 body {
@@ -3228,25 +3228,25 @@ body {
   .template-index .plennia-home-hero > .page-width,
   .template-index .plennia-benefits > .page-width,
   .template-index .plennia-footer > .page-width {
-    width: auto;
-    max-width: none;
-    margin: 0;
-    padding-inline: clamp(3.2rem, 5vw, 6rem);
+    width: 100%;
+    max-width: var(--plennia-page-width);
+    margin: 0 auto;
+    padding-inline: clamp(2.4rem, 3vw, 4.8rem);
   }
 
   .template-index .plennia-home-hero__content {
-    grid-template-columns: minmax(0, 68rem) minmax(28rem, 32rem);
-    column-gap: clamp(5rem, 9vw, 16rem);
-    padding-top: 18rem;
-    padding-bottom: 6.4rem;
+    grid-template-columns: minmax(0, 62rem) minmax(25rem, 29rem);
+    column-gap: clamp(3rem, 4.5vw, 7rem);
+    padding-top: 17rem;
+    padding-bottom: 5.8rem;
   }
 
   .template-index .plennia-home-hero__copy {
-    max-width: 68rem;
+    max-width: 62rem;
   }
 
   .template-index .plennia-home-hero__body {
-    max-width: 54rem;
+    max-width: 50rem;
   }
 
   .template-index .plennia-benefits {
@@ -3255,12 +3255,12 @@ body {
   }
 
   .template-index .plennia-benefits__body {
-    grid-template-columns: minmax(0, 1.08fr) minmax(38rem, 0.78fr);
-    gap: clamp(4rem, 7vw, 12rem);
+    grid-template-columns: minmax(0, 0.98fr) minmax(32rem, 0.62fr);
+    gap: 3.6rem;
   }
 
   .template-index .plennia-benefits__content p {
-    max-width: 48rem;
+    max-width: 42rem;
   }
 
   .template-index .plennia-footer {
