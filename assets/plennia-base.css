@@ -3039,21 +3039,62 @@ body {
 }
 
 .plennia-footer {
+  --plennia-footer-bg: #082c35;
+  --plennia-footer-curve-offset: clamp(8rem, 8vw, 12rem);
+  --plennia-footer-curve-width: min(240rem, 175vw);
+  --plennia-footer-curve-height: clamp(30rem, 27vw, 42rem);
   position: relative;
+  overflow: visible;
+  isolation: isolate;
   padding-top: 7rem;
-  background: #082c35;
+  background: transparent;
+}
+
+.plennia-footer::before {
+  content: '';
+  position: absolute;
+  inset: var(--plennia-footer-curve-offset) 0 0;
+  z-index: 0;
+  background: var(--plennia-footer-bg);
 }
 
 .plennia-footer__curve {
   position: absolute;
-  top: 0;
+  top: var(--plennia-footer-curve-offset);
   left: 50%;
-  width: min(170rem, 130vw);
-  height: 26rem;
+  z-index: 0;
+  width: var(--plennia-footer-curve-width);
+  height: var(--plennia-footer-curve-height);
+  transform: translate(-50%, -74%);
+  pointer-events: none;
+}
+
+.plennia-footer__curve::before,
+.plennia-footer__curve::after {
+  content: '';
+  position: absolute;
+  inset: 0;
   border-radius: 50%;
-  background: #082c35;
-  transform: translate(-50%, -58%);
-  filter: blur(10px);
+}
+
+.plennia-footer__curve::before {
+  background: radial-gradient(
+    ellipse at center,
+    rgba(8, 44, 53, 1) 0%,
+    rgba(8, 44, 53, 1) 55%,
+    rgba(8, 44, 53, 0.98) 67%,
+    rgba(8, 44, 53, 0.78) 80%,
+    rgba(8, 44, 53, 0.3) 90%,
+    rgba(8, 44, 53, 0) 100%
+  );
+  filter: blur(8px);
+}
+
+.plennia-footer__curve::after {
+  inset: 18% 7% -12%;
+  background: var(--plennia-footer-bg);
+  filter: blur(22px);
+  opacity: 0.56;
 }
 
 .plennia-footer__shell {
@@ -3264,13 +3305,14 @@ body {
 
   .template-index .plennia-footer {
     padding-top: 9rem;
+    --plennia-footer-curve-offset: clamp(9rem, 7vw, 13rem);
+    --plennia-footer-curve-width: min(260rem, 185vw);
+    --plennia-footer-curve-height: clamp(34rem, 30vw, 48rem);
   }
 
   .template-index .plennia-footer__curve {
-    width: 120vw;
-    height: 28rem;
     left: 50%;
-    transform: translate(-50%, -60%);
+    transform: translate(-50%, -76%);
   }
 }
 
@@ -3559,10 +3601,13 @@ body {
 
   .plennia-footer {
     padding-top: 5rem;
+    --plennia-footer-curve-offset: 6rem;
+    --plennia-footer-curve-width: 175vw;
+    --plennia-footer-curve-height: 20rem;
   }
 
   .plennia-footer__curve {
-    height: 18rem;
+    transform: translate(-50%, -70%);
   }
 
   .plennia-footer__shell {
