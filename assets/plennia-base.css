@@ -2048,6 +2048,11 @@ body {
   z-index: 50;
 }
 
+.shopify-section-group-footer-group {
+  position: relative;
+  z-index: 5;
+}
+
 .plennia-announcement-bar {
   position: relative;
   z-index: 55;
@@ -3044,6 +3049,7 @@ body {
   --plennia-footer-curve-width: min(240rem, 175vw);
   --plennia-footer-curve-height: clamp(30rem, 27vw, 42rem);
   position: relative;
+  z-index: 1;
   overflow: visible;
   isolation: isolate;
   padding-top: 7rem;
