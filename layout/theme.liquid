@@ -18,11 +18,18 @@
   lang="{{ request.locale.iso_code }}"
 >
   <head>
-    {%- if settings.favicon != blank -%}
+    {%- liquid
+      assign favicon_image = settings.logo
+      if favicon_image == blank
+        assign favicon_image = settings.favicon
+      endif
+    -%}
+
+    {%- if favicon_image != blank -%}
       <link
         rel="icon"
         type="image/png"
-        href="{{ settings.favicon | image_url: width: 32, height: 32 }}"
+        href="{{ favicon_image | image_url: width: 32, height: 32 }}"
       >
     {%- endif -%}
 
