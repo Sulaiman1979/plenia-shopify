@@ -354,6 +354,29 @@
     const disclosures = Array.from(
       header.querySelectorAll('.plennia-header__desktop-details, .plennia-header__mobile-drawer')
     );
+    const desktopDisclosureQuery = window.matchMedia('(min-width: 750px)');
+
+    const syncBodyScrollLock = () => {
+      const existingScrollbarWidth =
+        Number.parseInt(
+          getComputedStyle(document.documentElement).getPropertyValue('--plennia-scrollbar-compensation'),
+          10
+        ) || 0;
+      const hasOpenDesktopDisclosure =
+        desktopDisclosureQuery.matches &&
+        disclosures.some(
+          (details) =>
+            details.classList.contains('plennia-header__desktop-details') && details.hasAttribute('open')
+        );
+      const measuredScrollbarWidth = Math.max(window.innerWidth - document.documentElement.clientWidth, 0);
+      const scrollbarWidth = hasOpenDesktopDisclosure
+        ? measuredScrollbarWidth || existingScrollbarWidth
+        : 0;
+
+      document.documentElement.classList.toggle('plennia-header-menu-lock', hasOpenDesktopDisclosure);
+      document.body.classList.toggle('plennia-header-menu-lock', hasOpenDesktopDisclosure);
+      document.documentElement.style.setProperty('--plennia-scrollbar-compensation', `${scrollbarWidth}px`);
+    };
 
     const closeDisclosures = (activeDisclosure) => {
       disclosures.forEach((details) => {
@@ -363,6 +386,7 @@
         }
         setDisclosureState(details);
       });
+      syncBodyScrollLock();
     };
 
     disclosures.forEach((details) => {
@@ -372,6 +396,7 @@
         if (details.hasAttribute('open')) {
           closeDisclosures(details);
         }
+        syncBodyScrollLock();
       });
     });
 
@@ -386,6 +411,12 @@
         closeDisclosures();
       }
     });
+
+    window.addEventListener('resize', syncBodyScrollLock, { passive: true });
+    if (typeof desktopDisclosureQuery.addEventListener === 'function') {
+      desktopDisclosureQuery.addEventListener('change', syncBodyScrollLock);
+    }
+    syncBodyScrollLock();
 
     if (wrapper) {
       const updateScrollState = () => {
