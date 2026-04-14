@@ -4726,7 +4726,7 @@ body {
   gap: 3rem;
   width: min(64rem, calc(100vw - 4rem));
   min-height: 0;
-  max-height: min(18rem, calc(100vh - var(--plennia-header-height, 0px) - 4rem));
+  max-height: min(30rem, calc(100vh - var(--plennia-header-height, 0px) - 4rem));
   padding: 2.2rem 2.4rem;
   border-radius: 2.8rem;
   overflow-y: auto;
@@ -4768,10 +4768,27 @@ body {
 }
 
 .plennia-mega-menu__panel--menu .plennia-mega-menu__account {
-  padding-top: 0;
-  color: #5b5650;
-  font-size: 1.4rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 3.6rem;
+  width: fit-content;
+  padding: 0 1.4rem;
+  border: 0.1rem solid rgba(24, 20, 18, 0.12);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.94);
+  color: #181412;
+  font-size: 1.25rem;
+  font-weight: 600;
+  letter-spacing: 0.01rem;
   text-decoration: none;
+  transition: background-color 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+}
+
+.plennia-mega-menu__panel--menu .plennia-mega-menu__account:hover {
+  background: #ffffff;
+  border-color: rgba(24, 20, 18, 0.22);
+  transform: translateY(-1px);
 }
 
 .plennia-mega-menu__panel--menu .plennia-mega-menu__featured-head {
