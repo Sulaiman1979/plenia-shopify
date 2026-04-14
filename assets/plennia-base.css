@@ -19,6 +19,7 @@
   --plennia-radius-sm: 1.2rem;
   --plennia-radius-pill: 999px;
   --plennia-page-width: min(136rem, calc(100vw - 3.2rem));
+  --plennia-storefront-desktop-scale: 1.1;
 }
 
 body {
@@ -27,6 +28,13 @@ body {
     radial-gradient(circle at top right, rgba(24, 20, 18, 0.03), transparent 32%),
     var(--plennia-cream);
   color: var(--plennia-ink);
+}
+
+@media screen and (min-width: 990px) {
+  /* Match storefront proportions more closely to the Theme Editor viewport. */
+  html:not(.shopify-design-mode) {
+    font-size: calc(var(--font-body-scale) * 62.5% * var(--plennia-storefront-desktop-scale));
+  }
 }
 
 .page-width {
