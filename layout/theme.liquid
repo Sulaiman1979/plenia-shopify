@@ -18,20 +18,7 @@
   lang="{{ request.locale.iso_code }}"
 >
   <head>
-    {%- liquid
-      assign favicon_image = settings.logo
-      if favicon_image == blank
-        assign favicon_image = settings.favicon
-      endif
-    -%}
-
-    {%- if favicon_image != blank -%}
-      <link
-        rel="icon"
-        type="image/png"
-        href="{{ favicon_image | image_url: width: 32, height: 32 }}"
-      >
-    {%- endif -%}
+    <link rel="icon" type="image/gif" href="{{ 'Avatar-Animated.gif' | file_url }}">
 
     {% comment %} This a way to wait for main content to load when navigating to a new page so that the view transitions can work consistently {% endcomment %}
     {% if settings.transition_to_main_product or settings.page_transition_enabled %}
