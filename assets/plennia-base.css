@@ -3064,9 +3064,13 @@ body {
 
 .plennia-footer {
   --plennia-footer-bg: #082c35;
+  --plennia-footer-arc-width: min(230rem, 172vw);
+  --plennia-footer-arc-height: clamp(22rem, 22vw, 32rem);
+  --plennia-footer-arc-lift: clamp(8rem, 8vw, 12rem);
+  --plennia-footer-arc-blur: 0.9rem;
   position: relative;
   z-index: 1;
-  overflow: hidden;
+  overflow: visible;
   isolation: isolate;
   padding-top: 0;
   background: var(--plennia-footer-bg);
@@ -3075,7 +3079,35 @@ body {
 
 .plennia-footer::before,
 .plennia-footer::after {
-  content: none;
+  content: '';
+  position: absolute;
+  pointer-events: none;
+}
+
+.plennia-footer::before {
+  top: 0;
+  left: 50%;
+  z-index: 0;
+  width: var(--plennia-footer-arc-width);
+  height: var(--plennia-footer-arc-height);
+  border-radius: 50%;
+  transform: translate(-50%, calc(-1 * var(--plennia-footer-arc-lift)));
+  background: radial-gradient(
+    ellipse at center,
+    rgba(8, 44, 53, 1) 0%,
+    rgba(8, 44, 53, 1) 56%,
+    rgba(8, 44, 53, 0.98) 66%,
+    rgba(8, 44, 53, 0.82) 79%,
+    rgba(8, 44, 53, 0.32) 91%,
+    rgba(8, 44, 53, 0) 100%
+  );
+  filter: blur(var(--plennia-footer-arc-blur));
+}
+
+.plennia-footer::after {
+  inset: 0;
+  z-index: 0;
+  background: var(--plennia-footer-bg);
 }
 
 .plennia-footer__curve {
@@ -3578,6 +3610,9 @@ body {
 
   .plennia-footer {
     padding-top: 0;
+    --plennia-footer-arc-width: 180vw;
+    --plennia-footer-arc-height: 20rem;
+    --plennia-footer-arc-lift: 6.8rem;
   }
 
   .plennia-footer__shell {
