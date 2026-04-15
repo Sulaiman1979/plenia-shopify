@@ -1288,6 +1288,18 @@ body {
   text-transform: uppercase;
 }
 
+.plennia-option-card__icon--image {
+  background: transparent;
+  border-radius: 0;
+}
+
+.plennia-option-card__icon img {
+  display: block;
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+}
+
 .plennia-option-card__label-group {
   display: grid;
   gap: 0.4rem;
@@ -5881,6 +5893,13 @@ body {
   justify-content: center;
   width: 100%;
   min-height: 7rem;
+}
+
+.plennia-plan-intro__choice-icon img {
+  display: block;
+  width: 100%;
+  height: auto;
+  object-fit: contain;
 }
 
 .plennia-plan-intro__choice--dog .plennia-plan-intro__choice-icon {

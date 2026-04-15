@@ -3,6 +3,8 @@
   assign helper = helper | default: ''
   assign icon = icon | default: ''
   assign checked = checked | default: false
+  assign dog_icon_url = 'Dog.png' | file_url
+  assign cat_icon_url = 'Cat.png' | file_url
 -%}
 
 <label class="plennia-option-card" data-plennia-option-card>
@@ -17,7 +19,15 @@
   >
   <span class="plennia-option-card__content">
     {%- if icon != blank -%}
-      <span class="plennia-option-card__icon">{{ icon }}</span>
+      <span class="plennia-option-card__icon{% if icon == 'DOG' or icon == 'CAT' %} plennia-option-card__icon--image{% endif %}">
+        {%- if icon == 'DOG' -%}
+          <img src="{{ dog_icon_url }}" alt="" loading="lazy">
+        {%- elsif icon == 'CAT' -%}
+          <img src="{{ cat_icon_url }}" alt="" loading="lazy">
+        {%- else -%}
+          {{ icon }}
+        {%- endif -%}
+      </span>
     {%- endif -%}
     <span class="plennia-option-card__label-group">
       <span class="plennia-option-card__label">{{ label }}</span>
