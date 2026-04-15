@@ -3064,9 +3064,9 @@ body {
 
 .plennia-footer {
   --plennia-footer-bg: #082c35;
-  --plennia-footer-arc-width: min(208rem, 156vw);
-  --plennia-footer-arc-height: clamp(26rem, 26vw, 36rem);
-  --plennia-footer-arc-lift: clamp(4.8rem, 5vw, 8rem);
+  --plennia-footer-arc-width: min(182rem, 136vw);
+  --plennia-footer-arc-height: clamp(38rem, 38vw, 52rem);
+  --plennia-footer-arc-lift: clamp(4.2rem, 4.4vw, 7.2rem);
   --plennia-footer-arc-blur: 0.9rem;
   position: relative;
   z-index: 1;
@@ -3610,9 +3610,9 @@ body {
 
   .plennia-footer {
     padding-top: 0;
-    --plennia-footer-arc-width: 164vw;
-    --plennia-footer-arc-height: 22rem;
-    --plennia-footer-arc-lift: 3.8rem;
+    --plennia-footer-arc-width: 146vw;
+    --plennia-footer-arc-height: 30rem;
+    --plennia-footer-arc-lift: 3.2rem;
   }
 
   .plennia-footer__shell {
