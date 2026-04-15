@@ -3070,6 +3070,7 @@ body {
   isolation: isolate;
   padding-top: 0;
   background: var(--plennia-footer-bg);
+  border-top: 1px solid rgba(255, 255, 255, 0.14);
 }
 
 .plennia-footer::before,
@@ -3084,7 +3085,7 @@ body {
 .plennia-footer__shell {
   position: relative;
   z-index: 1;
-  padding: 10rem 0 3.6rem;
+  padding: 8.2rem 0 3.6rem;
   border-radius: 0;
   background: transparent;
   color: rgba(255, 255, 255, 0.88);
@@ -3093,13 +3094,13 @@ body {
 .plennia-footer__top {
   display: grid;
   grid-template-columns: minmax(0, 0.88fr) minmax(40rem, 1.12fr);
-  gap: clamp(4rem, 7vw, 11rem);
+  gap: clamp(3.6rem, 6vw, 9.6rem);
   align-items: start;
 }
 
 .plennia-footer__title-wrap {
   position: relative;
-  max-width: 34rem;
+  max-width: 40rem;
 }
 
 .plennia-footer__heading {
@@ -3210,7 +3211,7 @@ body {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
   gap: 2.4rem;
-  margin-top: 5rem;
+  margin-top: 4.2rem;
 }
 
 .plennia-footer__column h2 {
@@ -3580,7 +3581,7 @@ body {
   }
 
   .plennia-footer__shell {
-    padding: 6rem 2rem 2.8rem;
+    padding: 5.4rem 2rem 2.8rem;
   }
 
   .plennia-footer__heading {
