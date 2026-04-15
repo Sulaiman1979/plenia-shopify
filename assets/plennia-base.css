@@ -3066,7 +3066,7 @@ body {
   --plennia-footer-bg: #082c35;
   --plennia-footer-arc-width: min(230rem, 172vw);
   --plennia-footer-arc-height: clamp(22rem, 22vw, 32rem);
-  --plennia-footer-arc-lift: clamp(6.8rem, 7vw, 10.6rem);
+  --plennia-footer-arc-lift: clamp(6.1rem, 6.35vw, 9.8rem);
   --plennia-footer-arc-blur: 0.9rem;
   position: relative;
   z-index: 1;
@@ -3612,7 +3612,7 @@ body {
     padding-top: 0;
     --plennia-footer-arc-width: 180vw;
     --plennia-footer-arc-height: 20rem;
-    --plennia-footer-arc-lift: 5.6rem;
+    --plennia-footer-arc-lift: 5rem;
   }
 
   .plennia-footer__shell {
