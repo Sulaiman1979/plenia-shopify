@@ -3067,14 +3067,15 @@ body {
   --plennia-footer-arc-width: min(182rem, 136vw);
   --plennia-footer-arc-height: clamp(38rem, 38vw, 52rem);
   --plennia-footer-arc-lift: clamp(4.2rem, 4.4vw, 7.2rem);
+  --plennia-footer-body-start: clamp(8.2rem, 8.8vw, 12.4rem);
   --plennia-footer-arc-blur: 0.9rem;
   position: relative;
   z-index: 1;
   overflow: visible;
   isolation: isolate;
   padding-top: 0;
-  background: var(--plennia-footer-bg);
-  border-top: 1px solid rgba(255, 255, 255, 0.14);
+  background: transparent;
+  border-top: 0;
 }
 
 .plennia-footer::before,
@@ -3105,7 +3106,10 @@ body {
 }
 
 .plennia-footer::after {
-  inset: 0;
+  top: var(--plennia-footer-body-start);
+  right: 0;
+  bottom: 0;
+  left: 0;
   z-index: 0;
   background: var(--plennia-footer-bg);
 }
@@ -3117,7 +3121,7 @@ body {
 .plennia-footer__shell {
   position: relative;
   z-index: 1;
-  padding: 8.2rem 0 3.6rem;
+  padding: 10.8rem 0 3.4rem;
   border-radius: 0;
   background: transparent;
   color: rgba(255, 255, 255, 0.88);
@@ -3126,7 +3130,7 @@ body {
 .plennia-footer__top {
   display: grid;
   grid-template-columns: minmax(0, 0.88fr) minmax(40rem, 1.12fr);
-  gap: clamp(3.6rem, 6vw, 9.6rem);
+  gap: clamp(3.2rem, 5.4vw, 8.4rem);
   align-items: start;
 }
 
@@ -3166,15 +3170,15 @@ body {
 }
 
 .plennia-footer__newsletter {
-  gap: 2.2rem;
-  padding-top: 1.6rem;
+  gap: 1.8rem;
+  padding-top: 1.2rem;
 }
 
 .plennia-footer__intro {
   max-width: 54rem;
   margin: 0;
   color: rgba(255, 255, 255, 0.9);
-  font-size: 2rem;
+  font-size: 1.8rem;
   line-height: 1.45;
 }
 
@@ -3198,7 +3202,7 @@ body {
   border: 0;
   background: transparent;
   color: #fff;
-  font-size: 2rem;
+  font-size: 1.8rem;
 }
 
 .plennia-footer__field-row input::placeholder {
@@ -3243,13 +3247,13 @@ body {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
   gap: 2.4rem;
-  margin-top: 4.2rem;
+  margin-top: 3.4rem;
 }
 
 .plennia-footer__column h2 {
-  margin: 0 0 1.6rem;
+  margin: 0 0 1.3rem;
   color: #fff;
-  font-size: 1.45rem;
+  font-size: 1.3rem;
   font-weight: 600;
 }
 
@@ -3263,7 +3267,7 @@ body {
 
 .plennia-footer__column a {
   color: rgba(255, 255, 255, 0.72);
-  font-size: 1.7rem;
+  font-size: 1.5rem;
   line-height: 1.35;
   text-decoration: none;
 }
@@ -3278,7 +3282,7 @@ body {
   grid-template-columns: auto 1fr auto;
   gap: 3rem;
   align-items: center;
-  margin-top: 5.6rem;
+  margin-top: 4.8rem;
 }
 
 @media screen and (min-width: 990px) {
@@ -3336,7 +3340,7 @@ body {
 .plennia-footer__locale span,
 .plennia-footer__legal a {
   color: rgba(255, 255, 255, 0.66);
-  font-size: 1.35rem;
+  font-size: 1.25rem;
   text-decoration: none;
 }
 
@@ -3613,10 +3617,11 @@ body {
     --plennia-footer-arc-width: 146vw;
     --plennia-footer-arc-height: 30rem;
     --plennia-footer-arc-lift: 3.2rem;
+    --plennia-footer-body-start: 6.8rem;
   }
 
   .plennia-footer__shell {
-    padding: 5.4rem 2rem 2.8rem;
+    padding: 7.4rem 2rem 2.8rem;
   }
 
   .plennia-footer__heading {
@@ -3641,7 +3646,7 @@ body {
 
   .plennia-footer__field-row input {
     min-height: 4.8rem;
-    font-size: 1.8rem;
+    font-size: 1.65rem;
   }
 
   .plennia-footer__field-row button {
@@ -3655,7 +3660,7 @@ body {
   }
 
   .plennia-footer__column a {
-    font-size: 1.45rem;
+    font-size: 1.35rem;
   }
 }
 
